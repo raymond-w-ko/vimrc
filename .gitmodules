@@ -7,3 +7,6 @@
 [submodule "vimfiles/bundle/netrw"]
 	path = vimfiles/bundle/netrw
 	url = git://github.com/vim-scripts/netrw.vim.git
+[submodule "vimfiles/bundle/command-t"]
+	path = vimfiles/bundle/command-t
+	url = git://github.com/wincent/Command-T.git
