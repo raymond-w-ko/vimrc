@@ -1,3 +1,6 @@
 [submodule "vimfiles/autoload"]
 	path = vimfiles/autoload
 	url = git://github.com/paulnicholson/vim-pathogen.git
+[submodule "vimfiles/bundle/autocomplpop"]
+	path = vimfiles/bundle/autocomplpop
+	url = git://github.com/vim-scripts/AutoComplPop.git
