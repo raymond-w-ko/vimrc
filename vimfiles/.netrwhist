@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Build/Content'
+let g:netrw_dirhist_2='C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Build/Content/Specs'
+let g:netrw_dirhist_3='C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Build/Content/Specs/Resources'
+let g:netrw_dirhist_4='C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Build/Content/Specs'
+let g:netrw_dirhist_5='C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Build/Content/Specs/Panels'
+let g:netrw_dirhist_6='C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Build/Content/Specs/Panels/Core'

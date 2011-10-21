@@ -1,0 +1,158 @@
+" Basic {
+set nocompatible        " newer more awesome options
+" }
+" Pathogen {
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+" }
+
+" Mouse & Selection Behavior {
+behave xterm                " of course xterm is better
+set selectmode=""           " never want SELECT mode
+set mousemodel=popup
+"set mousemodel=extend       " right click extend selection
+set keymodel=""
+set selection=inclusive
+"}
+
+" File Options {
+set nobomb              " as a programmer, want plain ASCII files
+syntax on               " syntax is good
+filetype on             " detect filetype
+filetype plugin on      " load filetype plugin
+filetype indent off     " as a control freak, want to manually indent
+set ffs=dos,unix,mac    " order of support
+" }
+
+" General {
+set ruler
+set number
+set rnu
+set report=0
+set backspace=2
+set showtabline=2
+
+set cmdheight=1
+set laststatus=2        " always show the status line
+"set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%Y]\ [ascii=\%03.3b]\ [hex=\%02.2B]\ [pos=%04l,%04v][%p%%]\ [lines=%L]
+set statusline=%F%m%r%h%w\ [%{&ff}]%y\ [%p%%][%04l/%L,%04v]
+
+set lazyredraw
+
+set wrap
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+" don't want VIM to jump to matching braces, so commented
+"set showmatch
+"set mat=0
+set nocursorline
+
+set completeopt-=preview            "disable annoying window
+set completeopt+=menu
+set completeopt+=menuone
+
+set wildmenu
+set wildmode=list:longest
+
+" no audio or visual bell
+set noerrorbells
+set novb
+
+set autowriteall      " write buffer when switching
+set splitright        " vsplit splits right
+set autochdir
+
+set timeoutlen=100
+
+"}
+
+" Text Formatting (Indents and Tabs) {
+set ai
+set nocindent
+set nosmartindent
+
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set nosmarttab
+set expandtab           " tabs -> spaces
+set textwidth=0         " no automatic text wrapping
+" }
+
+" Custom Keybindings {
+" using leader creates awful visual distraction which I can't stand!
+"let mapleader = ","
+"let g:mapleader = ","
+
+" The holy ESC key
+imap jk <ESC>
+imap kj <ESC>
+
+nnoremap ,s :source $HOME/_vimrc<CR>
+"nmap <leader>v :e $HOME/_vimrc<CR>
+nnoremap ,v :e $HOME/Desktop/Dropbox/_vimrc<CR>
+nnoremap ,h :%!xxd<CR>
+nnoremap ,H :%!xxd -r<CR>
+nnoremap ,c :e C:/Users/root/vimfiles/colors/kokonut.vim<CR>
+nnoremap ,t :ToggleWord<CR>
+
+" Press Space to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+" CTRL-X and SHIFT-Del are Cut
+vnoremap <C-X> "+x
+" CTRL-C and CTRL-Insert are Copy
+vnoremap <C-C> "+y
+" CTRL-V and SHIFT-Insert are Paste
+inoremap <C-V> <ESC>"+pa
+
+"map <C-s> <ESC>:w<CR>
+"imap <C-s> <ESC>:w<CR>a
+
+"map <C-S-b> <ESC>:w<CR><ESC>:make<CR>
+"imap <C-S-b> <ESC>:w<CR><ESC>:make<CR>
+
+"iabbrev .. ->
+
+" Buffer Navigation
+nnoremap <silent> <C-N> :bnext<CR>
+nnoremap <silent> <C-P> :bprevious<CR>
+nnoremap <silent> <C-X> :bdelete!<CR>
+
+" Windows Resizing
+nnoremap <C-u> :resize +10<CR>
+nnoremap <C-d> :resize -10<CR>
+
+"toggle .{c|cpp}/.{h|hpp}
+"nnoremap <leader>a :A<CR>
+"nnoremap <C-a> :A<CR>
+
+" Tab Mappings {
+nmap <A-1> 1gt
+nmap <A-2> 2gt
+nmap <A-3> 3gt
+nmap <A-4> 4gt
+nmap <A-5> 5gt
+nmap <A-6> 6gt
+nmap <A-7> 7gt
+nmap <A-8> 8gt
+nmap <A-9> 9gt
+nmap <A-t> <ESC>:tabnew<CR>
+nmap <A-w> <ESC>:tabclose<CR>
+
+imap <A-1> <ESC>1gt
+imap <A-2> <ESC>2gt
+imap <A-3> <ESC>3gt
+imap <A-4> <ESC>4gt
+imap <A-5> <ESC>5gt
+imap <A-6> <ESC>6gt
+imap <A-7> <ESC>7gt
+imap <A-8> <ESC>8gt
+imap <A-9> <ESC>9gt
+imap <A-t> <ESC>:tabnew<CR>
+imap <A-w> <ESC>:tabclose<CR>
+" }
+
+" }

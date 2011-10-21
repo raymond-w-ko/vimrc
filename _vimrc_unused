@@ -1,0 +1,88 @@
+" neocomplcache {
+let g:neocomplcache_enable_at_startup = 1
+
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+
+let g:neocomplcache_auto_completion_start_length = 2
+let g:neocomplcache_manual_completion_start_length = 2
+
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_min_keyword_length = 3
+
+let g:neocomplcache_enable_caching_message = 1
+
+let g:neocomplcache_plugin_disable = { 'tags_complete': 1 }
+
+let g:neocomplcache_enable_auto_select = 1
+
+if !exists('g:neocomplcache_same_filetype_lists')
+ let g:neocomplcache_same_filetype_lists = {}
+endif
+call neocomplcache#set_dictionary_helper(g:neocomplcache_same_filetype_lists, 'cpp', 'syxml')
+call neocomplcache#set_dictionary_helper(g:neocomplcache_same_filetype_lists, 'syxml', 'cpp')
+
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+}
+	
+
+" MiniBufExpl {
+let g:miniBufExplorerMoreThanOne = 0
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplModSelTarget = 1
+" }
+
+" OmniCppComplete
+"let OmniCpp_ShowPrototypeInAbbr = 1 "show function parameters
+"let OmniCpp_MayCompleteScope = 1    "autocomplete after ::
+"let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+
+" clang-complete
+"let g:clang_exec='"C:\clang\bin\Release\clang.exe'
+"let g:clang_library_path='C:\clang\bin\Release'
+"let g:clang_library_path='C:\llvm\build\bin'
+"let g:clang_use_library=1
+"let g:clang_user_options='-fcxx-exceptions -fdelayed-template-parsing -fms-extensions -IC:\SVN\Syandus_ALIVE3\Platform\SDK\Include -IC:\SVN\Syandus_ALIVE3\Frameworks\Carbon\Source\Scripts 2> NUL || exit 0"'
+"let g:clang_user_options='-IC:\SVN\Syandus_ALIVE3\Platform\SDK\Include -IC:\SVN\Syandus_ALIVE3\Frameworks\Carbon\Source\Scripts'
+"let g:clang_periodic_quickfix=0
+"let g:clang_debug = 1
+"
+" Unused {
+" Java {
+"autocmd BufRead *.java abbr soup System.out.println
+
+"autocmd BufRead *.java set makeprg=ant\ -f\ /Users/wko/Programming/java/build.xml
+"autocmd BufRead *.java set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+"autocmd BufRead *.java set efm=%A:%f:%l:%m,%-Z%p^,%-C%.%#
+"autocmd BufRead *.java
+"set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+"set makeprg=ant\ -f\ C:\Users\root\Documents\UPenn\2009_Fall\CIS-400\veracity\src.new\build.xml
+" }
+" Latex-Suite {
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+" can be called correctly.
+
+" this breaks clang_complete :(
+"set shellslash
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+"let g:tex_flavor='latex'
+" }
+" }
+"
+" vim: fdl=0
