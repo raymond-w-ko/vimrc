@@ -10,3 +10,6 @@
 [submodule "vimfiles/bundle/command-t"]
 	path = vimfiles/bundle/command-t
 	url = git://github.com/wincent/Command-T.git
+[submodule "vimfiles/bundle/taglist"]
+	path = vimfiles/bundle/taglist
+	url = git://github.com/vim-scripts/taglist.vim.git
