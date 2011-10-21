@@ -315,4 +315,8 @@ let g:acp_ignorecaseOption = 0
 inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 "}
+
+" Command-T {
+let g:CommandTMatchWindowAtTop=1
+" }
 " vim: fdl=0
