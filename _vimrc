@@ -175,7 +175,7 @@ nnoremap ,b :FufBuffer<CR>
 
 
 " Press Space to turn off highlighting and clear any message already displayed.
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+nnoremap <silent> <Space> :let @/ = ""<CR>
 "nnoremap <silent> <Space> :nohlsearch<CR>:NeoComplCacheCachingBuffer<CR>:echo "Caching done."<CR>
 "nnoremap <C-Space> viw"zy<C-w><C-W>:Scratch<CR>ggVGD"zp:FufTagWithCursorWord<CR>
 nnoremap <C-Space> mzviw"zy<C-w><C-W>:Scratch<CR>ggVGD"zp/<C-r>z<CR><C-]><C-w><C-w>`z
@@ -345,4 +345,8 @@ let Tlist_Use_Right_Window = 1
 let Tlist_Ctags_Cmd = 'ctags --c++-kinds=-p --extra=-q'
 let Tlist_WinWidth = 40
 "}
+
+" CtrlP
+let g:loaded_ctrlp = 0
+" }
 " vim: fdl=0
