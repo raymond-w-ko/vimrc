@@ -13,3 +13,6 @@
 [submodule "vimfiles/bundle/taglist"]
 	path = vimfiles/bundle/taglist
 	url = git://github.com/vim-scripts/taglist.vim.git
+[submodule "vimfiles/bundle/ctrlp"]
+	path = vimfiles/bundle/ctrlp
+	url = git://github.com/kien/ctrlp.vim.git
