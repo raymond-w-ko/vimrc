@@ -16,3 +16,9 @@
 [submodule "vimfiles/bundle/ctrlp"]
 	path = vimfiles/bundle/ctrlp
 	url = git://github.com/kien/ctrlp.vim.git
+[submodule "vimfiles/bundle/bufkill"]
+	path = vimfiles/bundle/bufkill
+	url = git://github.com/vim-scripts/bufkill.vim.git
+[submodule "vimfiles/bundle/peaksea"]
+	path = vimfiles/bundle/peaksea
+	url = git://github.com/vim-scripts/peaksea.git
