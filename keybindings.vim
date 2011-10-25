@@ -26,7 +26,7 @@ nnoremap ,H :%!xxd -r<CR>
 
 "nnoremap ,t :ToggleWord<CR>
 nnoremap ,t :CommandT<CR>
-nnoremap ,b :CommandTBuffer<CR>
+nnoremap ,b :FufBuffer<CR>
 
 " press Space to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :let @/ = ""<CR>
@@ -55,7 +55,7 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-nnoremap ,wv :vsplit<CR>
+nnoremap ,wv :80vsplit<CR>
 nnoremap ,wn :split<CR>
 nnoremap ,wc :close<CR>
 
@@ -146,8 +146,8 @@ function! FindAllKeywordInBuffer()
   execute ":Scratch"
   normal ggVGD
   normal "+P
-  execute "%s/^/\\=printf('%4d | ', line('.'))/"
-  execute "v/\\<" . @x . "\\>/d"
+  execute ":silent %s/^/\\=printf('%4d | ', line('.'))/"
+  execute ":silent v/\\<" . @x . "\\>/d"
   let @/ = @/
   wincmd h
   normal `z
@@ -155,3 +155,5 @@ endfunction
 
 nnoremap <silent> <A-F> :call FindAllKeywordInBuffer()<CR>
 nnoremap <A-r> :echom "Test"<CR>
+
+noremap <C-g> ^yw<C-w>h:<C-r>"<CR>zz<C-w>l

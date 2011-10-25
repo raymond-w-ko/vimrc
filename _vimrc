@@ -1,5 +1,5 @@
 set nocompatible    " newer more awesome options
-set shortmess=atI    " no intro message
+set shortmess+=atI    " no intro message
 " Pathogen
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
@@ -65,7 +65,7 @@ set report=0
 set backspace=2
 set showtabline=2
 
-set cmdheight=1
+set cmdheight=2
 set laststatus=2        " always show the status line
 "set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%Y]\ [ascii=\%03.3b]\ [hex=\%02.2B]\ [pos=%04l,%04v][%p%%]\ [lines=%L]
 set statusline=%F%m%r%h%w\ [%{&ff}]%y\ [%p%%][%04l/%L,%04v]
@@ -97,6 +97,8 @@ set autowriteall      " write buffer when switching
 set splitright        " vsplit splits right
 "set autochdir
 set timeoutlen=200
+
+set hidden
 
 set splitright
 set splitbelow
@@ -150,9 +152,10 @@ if (has("gui_running"))
   "let g:molokai_original = 1
   "colorscheme molokai
 
-  colorscheme kokonut
+  "colorscheme kokonut
   "colorscheme Tomorrow
   colorscheme xoria256
+  "colorscheme peaksea
 
   "syntax enable
   "set background=dark
