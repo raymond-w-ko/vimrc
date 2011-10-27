@@ -22,3 +22,12 @@
 [submodule "vimfiles/bundle/peaksea"]
 	path = vimfiles/bundle/peaksea
 	url = git://github.com/vim-scripts/peaksea.git
+[submodule "vimfiles/bundle/tagbar"]
+	path = vimfiles/bundle/tagbar
+	url = git://github.com/majutsushi/tagbar.git
+[submodule "vimfiles/bundle/vim-indent-guides"]
+	path = vimfiles/bundle/vim-indent-guides
+	url = git://github.com/nathanaelkane/vim-indent-guides.git
+[submodule "vimfiles/bundle/lusty"]
+	path = vimfiles/bundle/lusty
+	url = git://github.com/sjbach/lusty.git
