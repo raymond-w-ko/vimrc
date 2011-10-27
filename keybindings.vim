@@ -25,8 +25,34 @@ nnoremap ,h :%!xxd<CR>
 nnoremap ,H :%!xxd -r<CR>
 
 "nnoremap ,t :ToggleWord<CR>
-nnoremap ,t :CommandT<CR>
+function! CommandTProject()
+  let directory = getcwd()
+  let depth_max = 15
+  let counter = 0
+  let failed = 0
+
+  while (filereadable(directory . "/project.cmdt") == 0)
+    let old_directory = directory
+    let directory .= "/.."
+
+    let counter += 1
+    if counter >= depth_max
+      let failed = 1
+      break
+    endif
+  endwhile
+
+  if failed == 0
+    let project_file = directory . "/project.cmdt"
+    execute ":source " . project_file
+    execute ":CommandT " . directory
+  else
+    execute ":CommandT"
+  endif 
+endfunction
+nnoremap ,t :call CommandTProject()<CR>
 nnoremap ,b :FufBuffer<CR>
+nnoremap ,l :LustyJuggler<CR>
 
 " press Space to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :let @/ = ""<CR>
@@ -47,7 +73,6 @@ inoremap <C-V> <ESC>"+pa
 " Buffer Navigation
 nnoremap <silent> <C-N> :bnext<CR>
 nnoremap <silent> <C-P> :bprevious<CR>
-"nnoremap <silent> <C-X> :bdelete!<CR>
 
 " Split
 noremap <C-h> <C-w>h
@@ -55,7 +80,7 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-nnoremap ,wv :80vsplit<CR>
+nnoremap ,wv :90vsplit<CR>
 nnoremap ,wn :split<CR>
 nnoremap ,wc :close<CR>
 

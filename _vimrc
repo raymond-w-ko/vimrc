@@ -95,7 +95,7 @@ set novisualbell
 
 set autowriteall      " write buffer when switching
 set splitright        " vsplit splits right
-"set autochdir
+set autochdir
 set timeoutlen=200
 
 set hidden
@@ -205,6 +205,7 @@ inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 "}
 
 " Command-T {
+let g:CommandTMaxHeight = 25
 let g:CommandTMatchWindowAtTop=1
 " }
 
@@ -215,7 +216,14 @@ let Tlist_Ctags_Cmd = 'ctags --c++-kinds=-p --extra=-q'
 let Tlist_WinWidth = 40
 "}
 
-" CtrlP
+" tagbar {
+" }
+
+" CtrlP "{
 let g:loaded_ctrlp = 1  " true actually disables this!!!
 " }
+
+" indent-guides {
+let g:indent_guides_enable_on_vim_startup=0
+" "
 " vim: fdl=0
