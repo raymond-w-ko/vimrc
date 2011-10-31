@@ -10,14 +10,12 @@ imap kj <ESC>
 if has("unix")
   nnoremap ,v :e ~/Dropbox/_vimrc<CR>
   nnoremap ,s :source ~/.vimrc<CR>
-  nnoremap ,c :e ~/.vim/colors/kokonut.vim<CR>
 elseif has("win32")
   nnoremap ,v :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
   nnoremap ,s :source $HOME/_vimrc<CR>
-  nnoremap ,c :e C:/Users/root/vimfiles/colors/kokonut.vim<CR>
 endif
 
-" Almost always skip whitespace when hitting 0
+" always skip whitespace when hitting 0
 nmap 0 ^
 
 " Hex Editing
@@ -32,7 +30,6 @@ function! CommandTProject()
   let failed = 0
 
   while (filereadable(directory . "/project.cmdt") == 0)
-    let old_directory = directory
     let directory .= "/.."
 
     let counter += 1
@@ -53,6 +50,8 @@ endfunction
 nnoremap ,t :call CommandTProject()<CR>
 nnoremap ,b :FufBuffer<CR>
 nnoremap ,l :LustyJuggler<CR>
+nnoremap ,c :botright cwindow<CR>
+nnoremap ,cc :cclose<CR>
 
 " press Space to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <Space> :let @/ = ""<CR>
@@ -80,11 +79,11 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-nnoremap ,wv :90vsplit<CR>
-nnoremap ,wn :split<CR>
+nnoremap ,wv :vsplit<CR>
+nnoremap ,wn :15split<CR>
 nnoremap ,wc :close<CR>
 
-" Windows Resizing
+" Splits Resizing
 nnoremap <C-Up> :resize +1<CR>
 nnoremap <C-Down> :resize -1<CR>
 nnoremap <C-Left> :vertical resize -1<CR>
@@ -114,10 +113,6 @@ function! TabsAre4()
   set shiftwidth=4
   set softtabstop=4
 endfunction
-
-nnoremap ,2 :call TabsAre2()<CR>
-nnoremap ,3 :call TabsAre3()<CR>
-nnoremap ,4 :call TabsAre4()<CR>
 
 " CTRL-hjkl movement while in omap mode
 cnoremap <C-h> <Left>
@@ -167,18 +162,61 @@ function! FindAllKeywordInBuffer()
   normal mz
   normal "xyiw
   execute ":silent %y+"
-  wincmd l
+  wincmd j
   execute ":Scratch"
   normal ggVGD
   normal "+P
   execute ":silent %s/^/\\=printf('%4d | ', line('.'))/"
   execute ":silent v/\\<" . @x . "\\>/d"
   let @/ = @/
-  wincmd h
+  wincmd k
   normal `z
 endfunction
 
-nnoremap <silent> <A-F> :call FindAllKeywordInBuffer()<CR>
+function! GetProjectDirectory()
+  let directory = getcwd()
+  let depth_max = 15
+  let counter = 0
+  let failed = 0
+
+  while (filereadable(directory . "/project.cmdt") == 0)
+    let directory .= "/.."
+
+    let counter += 1
+    if counter >= depth_max
+      let failed = 1
+      break
+    endif
+  endwhile
+
+  if failed == 0
+    return directory
+  else
+    return getcwd()
+  endif 
+endfunction
+
+function! GetRelevantExtensions(directory)
+  let extensions = ""
+  let extensions .= a:directory . "/**/*.vim "
+  let extensions .= a:directory . "/**/*.cpp "
+  let extensions .= a:directory . "/**/*.h "
+  let extensions .= a:directory . "/**/*.ssf "
+
+  return extensions
+endfunction
+
+function! FindAllKeywordInProject()
+  execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . GetRelevantExtensions(GetProjectDirectory())
+endfunction
+
+function! FindThisKeywordInProject(keyword)
+  execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions(GetProjectDirectory())
+endfunction
+
+
+nnoremap <A-F> :call FindAllKeywordInProject()<CR>
+nnoremap <A-f> :call FindThisKeywordInProject("")<left><left>
 nnoremap <A-r> :echom "Test"<CR>
 
 noremap <C-g> ^yw<C-w>h:<C-r>"<CR>zz<C-w>l

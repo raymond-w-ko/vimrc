@@ -11,15 +11,12 @@ set tags+=../tags
 set tags+=../../tags
 set tags+=../../../tags
 
-"set tags+=C:\SVN\Syandus_ALIVE3\Platform\SDK\Source\Code\tags
-
-set tags+=C:\SVN\Syandus_ALIVE3\Platform\SDK\Include\tags
+set tags+=C:\SVN\Syandus_ALIVE3\Platform\SDK\Source\Code\tags
 "set tags+=C:\SVN\Syandus_ALIVE3\Frameworks\Carbon\Source\Scripts\tags
-
 "set tags+=C:\SVN\Syandus_Cores\C_Demo_Marketing_01\Source\Scripts\Content\tags
 "set tags+=C:\SVN\Syandus_Cores\C_Spv_COPD_01\Source\Scripts\Content\tags
 
-"map <C-F12> :!ctags -R .<CR>
+"map <C-F12> :!ctags -R<CR>
 
 " Directories {
 if has("unix")
@@ -82,12 +79,10 @@ set smartcase
 "set mat=0
 set nocursorline
 
-set completeopt-=preview            "disable annoying window
-set completeopt+=menu
-set completeopt+=menuone
+set completeopt=menu,menuone
 
 set wildmenu
-set wildmode=list:longest
+set wildmode=longest,list
 
 " no audio or visual bell
 set noerrorbells
@@ -145,21 +140,14 @@ else
 endif
 " }
 
+" autocmds
+autocmd BufNewFile,BufRead C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+autocmd BufNewFile,BufRead C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+
 " GUI Options {
 if (has("gui_running"))
   " Colorscheme
-  " Molokai
-  "let g:molokai_original = 1
-  "colorscheme molokai
-
-  "colorscheme kokonut
-  "colorscheme Tomorrow
-  colorscheme xoria256
-  "colorscheme peaksea
-
-  "syntax enable
-  "set background=dark
-  "colorscheme solarized
+  "colorscheme zenburn
 
   " Font
   set guifont=Dina:h8
@@ -189,13 +177,12 @@ if (has("gui_running"))
 endif
 " }
 
+" Plugins
+
 " NetRW {
 let g:netrw_silent=1
 let g:netrw_mousemaps=0   " apparently enabling this hijacks the mouse completely so you can't use it to select stuff (WTF!)
 " }
-
-" Syandus PHP files on server
-nmap <F1> :e ftp://rko@syandus.com/ALIVEMed/Www_root/reports/<CR>
 
 " AutoComplPop {
 let g:acp_ignorecaseOption = 0
@@ -217,6 +204,8 @@ let Tlist_WinWidth = 40
 "}
 
 " tagbar {
+let g:tagbar_width = 40
+let g:tagbar_sort = 0
 " }
 
 " CtrlP "{
