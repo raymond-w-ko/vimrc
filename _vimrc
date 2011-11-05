@@ -11,25 +11,35 @@ set tags+=../tags
 set tags+=../../tags
 set tags+=../../../tags
 
-set tags+=C:\SVN\Syandus_ALIVE3\Platform\SDK\Source\Code\tags
-"set tags+=C:\SVN\Syandus_ALIVE3\Frameworks\Carbon\Source\Scripts\tags
+" Base
+set tags+=C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags
+set tags+=C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags
+
+" Cores
 "set tags+=C:\SVN\Syandus_Cores\C_Demo_Marketing_01\Source\Scripts\Content\tags
 "set tags+=C:\SVN\Syandus_Cores\C_Spv_COPD_01\Source\Scripts\Content\tags
 
 "map <C-F12> :!ctags -R<CR>
 
-" Directories {
+" multi-platform forks
 if has("unix")
   set directory=~/tmp//
   source ~/Dropbox/vim/projects.vim
   source ~/Dropbox/vim/keybindings.vim
+  source ~/Dropbox/vim/plugins.vim
+  source ~/Dropbox/vim/functions.vim
+
+  let find="find . -name "
 elseif has("win32")
   set directory=C:\tmp\\\\
   source C:/Users/root/Desktop/Dropbox/vim/projects.vim
   source C:/Users/root/Desktop/Dropbox/vim/keybindings.vim
+  source C:/Users/root/Desktop/Dropbox/vim/plugins.vim
+  source C:/Users/root/Desktop/Dropbox/vim/functions.vim
   let s:ruby_path='C:\Ruby192\bin'
+
+  let find="dir /b /s "
 endif
-" }
 
 " Mouse & Selection Behavior {
 behave xterm                " of course xterm is better
@@ -51,7 +61,11 @@ filetype plugin on      " load filetype plugin
 filetype indent off     " as a control freak, want to manually indent
 set ffs=dos,unix,mac    " order of support
 set autoread            " automatically reload file if it was changed outside of VIM
-set wildignore+=Debug,Release,.o,*.obj,.git,.svn,*.dep,*.idb,*.pdf,*.dll,*.dll.*,*.ncb,*.suo,*.user,*.vcproj,*.out,*.sln,Debug.bat,Release.bat,*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt,*.asi,*.lnk,*.bmp,*.tga,*.mp3,*.manifest,*.ico,*.wav,*.ini,*.bik,*.NSB,*.pdb,*.vcxproj
+set shellslash          " '/' is so much easier to type, also autocomplpop will use this instead
+set wildignore+=Debug,Release,.o,*.obj,.git,.svn,*.dep,*.idb,*.pdf,*.dll,*.dll.*,*.ncb,*.suo,*.user
+set wildignore+=*.vcproj,*.out,*.sln,Debug.bat,Release.bat,*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt
+set wildignore+=*.asi,*.lnk,*.bmp,*.tga,*.mp3,*.manifest,*.ico,*.wav,*.ini,*.bik,*.NSB,*.pdb,*.vcxproj
+set wildignore+=*.ani,*.ID,*.exe
 " }
 
 " General {
@@ -132,41 +146,31 @@ endfunction " }
 set foldtext=SimpleFoldText() " Custom fold text function (cleaner than default)
 " }
 
-" Multi-Platform Support {
-if has("unix")
-    let find="find . -name "
-else
-    let find="dir /b /s "
-endif
-" }
-
 " autocmds
-autocmd BufNewFile,BufRead C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-autocmd BufNewFile,BufRead C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+augroup three_space_indents
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Hub/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+augroup END
 
 " GUI Options {
 if (has("gui_running"))
   " Colorscheme
-  "colorscheme zenburn
+  colorscheme xoria256
 
   " Font
   set guifont=Dina:h8
   "set guifont=Consolas:h11
-  "set guifont=DejaVu\ Sans\ Mono:h11
-  "set guifont=ProggyClean:h8
-  "set guifont=ProggySquare:h8
-  "set guifont=Sheldon:h9
-  "set guifont=ter-114n:h11
-  "set guifont=peep:h11
-  "set guifont=Envy\ Code\ R:h10
-  "set guifont=Lucida\ Console:h8
 
   " GUI Configuration
   " No toolbars and menus
-  set guioptions-=T
-  set guioptions-=m
-  set guioptions-=L
-  set guioptions-=r
+  set guioptions-=T       " no toolbar
+  set guioptions-=m       " no menubar
+  set guioptions-=lLrR    " no toolbars on the left or right ever
+  set guioptions+=a       " sync with system clipboard
 
   " Maximize in Windows automatically
   autocmd GUIEnter * simalt ~X
@@ -177,42 +181,4 @@ if (has("gui_running"))
 endif
 " }
 
-" Plugins
-
-" NetRW {
-let g:netrw_silent=1
-let g:netrw_mousemaps=0   " apparently enabling this hijacks the mouse completely so you can't use it to select stuff (WTF!)
-" }
-
-" AutoComplPop {
-let g:acp_ignorecaseOption = 0
-let g:acp_completeOption = '.,w,b,u,k'
-inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
-"}
-
-" Command-T {
-let g:CommandTMaxHeight = 25
-let g:CommandTMatchWindowAtTop=1
-" }
-
-" taglist {
-let Tlist_Auto_Highlight_Tag = 0
-let Tlist_Use_Right_Window = 1
-let Tlist_Ctags_Cmd = 'ctags --c++-kinds=-p --extra=-q'
-let Tlist_WinWidth = 40
-"}
-
-" tagbar {
-let g:tagbar_width = 40
-let g:tagbar_sort = 0
-" }
-
-" CtrlP "{
-let g:loaded_ctrlp = 1  " true actually disables this!!!
-" }
-
-" indent-guides {
-let g:indent_guides_enable_on_vim_startup=0
-" "
 " vim: fdl=0

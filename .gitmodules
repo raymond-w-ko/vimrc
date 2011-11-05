@@ -31,3 +31,6 @@
 [submodule "vimfiles/bundle/lusty"]
 	path = vimfiles/bundle/lusty
 	url = git://github.com/sjbach/lusty.git
+[submodule "vimfiles/bundle/a.vim"]
+	path = vimfiles/bundle/a.vim
+	url = https://github.com/vim-scripts/a.vim.git

@@ -1,0 +1,29 @@
+" NetRW {
+let g:netrw_silent=1
+let g:netrw_mousemaps=0   " apparently enabling this hijacks the mouse completely so you can't use it to select stuff (WTF!)
+" }
+
+" AutoComplPop {
+let g:acp_ignorecaseOption = 0
+let g:acp_completeOption = '.,w,b,u'
+let g:acp_behaviorKeywordIgnores = ["Sy"]
+inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
+"}
+
+" Command-T {
+let g:CommandTMaxHeight = 25
+let g:CommandTMatchWindowAtTop=1
+" }
+
+" tagbar {
+let g:tagbar_width = 40
+let g:tagbar_sort = 0
+" }
+
+" CtrlP "{
+let g:loaded_ctrlp = 1  " true actually disables this!!!
+" }
+
+" indent-guides {
+let g:indent_guides_enable_on_vim_startup=0

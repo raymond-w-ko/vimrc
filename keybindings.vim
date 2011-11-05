@@ -24,37 +24,28 @@ nnoremap ,H :%!xxd -r<CR>
 
 "nnoremap ,t :ToggleWord<CR>
 function! CommandTProject()
-  let directory = getcwd()
-  let depth_max = 15
-  let counter = 0
-  let failed = 0
-
-  while (filereadable(directory . "/project.cmdt") == 0)
-    let directory .= "/.."
-
-    let counter += 1
-    if counter >= depth_max
-      let failed = 1
-      break
-    endif
-  endwhile
-
-  if failed == 0
-    let project_file = directory . "/project.cmdt"
-    execute ":source " . project_file
-    execute ":CommandT " . directory
-  else
-    execute ":CommandT"
-  endif 
+  execute ":CommandT " . GetProjectDirectory()
 endfunction
 nnoremap ,t :call CommandTProject()<CR>
 nnoremap ,b :FufBuffer<CR>
 nnoremap ,l :LustyJuggler<CR>
+nnoremap ,a :A<CR>
+
 nnoremap ,c :botright cwindow<CR>
 nnoremap ,cc :cclose<CR>
 
-" press Space to turn off highlighting and clear any message already displayed.
-nnoremap <silent> <Space> :let @/ = ""<CR>
+nnoremap <silent> <Space> :call HighlightNearCursor()<CR>
+let g:quickfix_is_open = 0
+function! HighlightNearCursor()
+  if !exists("s:highlightcursor")
+    let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    let s:highlightcursor=1
+  else
+    match None
+    let @/ = ''
+    unlet s:highlightcursor
+  endif
+endfunction
 
 " CTRL-X and SHIFT-Del are Cut
 vnoremap <C-X> "+x
@@ -173,29 +164,6 @@ function! FindAllKeywordInBuffer()
   normal `z
 endfunction
 
-function! GetProjectDirectory()
-  let directory = getcwd()
-  let depth_max = 15
-  let counter = 0
-  let failed = 0
-
-  while (filereadable(directory . "/project.cmdt") == 0)
-    let directory .= "/.."
-
-    let counter += 1
-    if counter >= depth_max
-      let failed = 1
-      break
-    endif
-  endwhile
-
-  if failed == 0
-    return directory
-  else
-    return getcwd()
-  endif 
-endfunction
-
 function! GetRelevantExtensions(directory)
   let extensions = ""
   let extensions .= a:directory . "/**/*.vim "
@@ -214,9 +182,16 @@ function! FindThisKeywordInProject(keyword)
   execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions(GetProjectDirectory())
 endfunction
 
+function! FindAllKeywordInBuffer()
+  execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . expand('%:p')
+endfunction
 
-nnoremap <A-F> :call FindAllKeywordInProject()<CR>
-nnoremap <A-f> :call FindThisKeywordInProject("")<left><left>
-nnoremap <A-r> :echom "Test"<CR>
 
-noremap <C-g> ^yw<C-w>h:<C-r>"<CR>zz<C-w>l
+nnoremap ,fp :call FindAllKeywordInProject()<CR>
+nnoremap ,ff :call FindAllKeywordInBuffer()<CR>
+nnoremap ,fk :call FindThisKeywordInProject("")<left><left>
+
+"nnoremap <A-r> :echom "Test"<CR>
+"noremap <C-g> ^yw<C-w>h:<C-r>"<CR>zz<C-w>l
+
+nnoremap <C-/> /\(^.*\/\/.*$\n\)*.\{-}.\{-}(\_.\{-})<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
