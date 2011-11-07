@@ -74,7 +74,7 @@ set number
 "set rnu
 set report=0
 set backspace=2
-set showtabline=2
+set showtabline=0
 
 set cmdheight=2
 set laststatus=2        " always show the status line
@@ -109,8 +109,8 @@ set timeoutlen=200
 
 set hidden
 
-set splitright
-set splitbelow
+"set splitright
+"set splitbelow
 "}
 
 " Text Formatting (Indents and Tabs) {
@@ -169,7 +169,10 @@ if (has("gui_running"))
   " No toolbars and menus
   set guioptions-=T       " no toolbar
   set guioptions-=m       " no menubar
-  set guioptions-=lLrR    " no toolbars on the left or right ever
+  set guioptions-=e       " no GUI tab bar
+  set guioptions-=L
+  set guioptions-=r
+  set guioptions-=R
   set guioptions+=a       " sync with system clipboard
 
   " Maximize in Windows automatically

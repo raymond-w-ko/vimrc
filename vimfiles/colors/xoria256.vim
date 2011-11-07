@@ -126,6 +126,13 @@ hi treeOpenable   ctermfg=150  guifg=#afdf87
 hi treePart       ctermfg=244  guifg=#808080
 hi treeDirSlash   ctermfg=244  guifg=#808080
 hi treeLink       ctermfg=182  guifg=#dfafdf
+""" minibufexpl {{{3
+hi MBEVisibleActive         guifg=#A6DB29
+hi MBEVisibleChangedActive  guifg=#F1266F
+hi MBEVisibleChanged        guifg=#F1266F
+hi MBEVisibleNormal         guifg=#5DC2D6
+hi MBEChanged               guifg=#CD5907
+hi MBENormal                guifg=#808080
 """ rst #{{{3
 hi link rstEmphasis Number
 

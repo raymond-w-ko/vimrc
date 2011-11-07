@@ -14,4 +14,5 @@ function! IntellisenseSearch(keyword)
   execute regexp
 endfunction
 
+" what does this do?
 "nnoremap ? :g/\(^.*\/\/.*$\n\)*.\{-}.\{-}(\_.\{-})/y A<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>

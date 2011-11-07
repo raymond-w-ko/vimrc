@@ -13,7 +13,8 @@ inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 
 " Command-T {
 let g:CommandTMaxHeight = 25
-let g:CommandTMatchWindowAtTop=1
+let g:CommandTMatchWindowAtTop=0
+let g:CommandTMatchWindowReverse=1
 " }
 
 " tagbar {
@@ -21,9 +22,16 @@ let g:tagbar_width = 40
 let g:tagbar_sort = 0
 " }
 
-" CtrlP "{
+" CtrlP " {
 let g:loaded_ctrlp = 1  " true actually disables this!!!
 " }
 
 " indent-guides {
 let g:indent_guides_enable_on_vim_startup=0
+" }
+
+" minibufexpl {
+let g:miniBufExplorerMoreThanOne=0
+"let g:miniBufExplSplitBelow=1
+" }
+
