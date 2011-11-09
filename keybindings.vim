@@ -26,8 +26,8 @@ nnoremap ,H :%!xxd -r<CR>
 function! CommandTProject()
   execute ":CommandT " . GetProjectDirectory()
 endfunction
-nnoremap ,t :call CommandTProject()<CR>
-nnoremap ,b :FufBuffer<CR>
+nnoremap ,t :CtrlPRoot<CR>
+nnoremap ,b :CtrlPBuffer<CR>
 nnoremap ,l :LustyJuggler<CR>
 nnoremap ,a :A<CR>
 
@@ -59,10 +59,6 @@ inoremap <C-V> <ESC>"+pa
 "inoremap <silent> <C-S-B> <ESC>:update<CR><ESC>:!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make.ahk<CR>a
 "map <C-S-b> <ESC>:w<CR><ESC>:make<CR>
 "imap <C-S-b> <ESC>:w<CR><ESC>:make<CR>
-
-" Buffer Navigation
-nnoremap <silent> <C-N> :bnext<CR>
-nnoremap <silent> <C-P> :bprevious<CR>
 
 " Split
 noremap <C-h> <C-w>h

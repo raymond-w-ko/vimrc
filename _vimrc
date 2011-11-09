@@ -109,8 +109,8 @@ set timeoutlen=200
 
 set hidden
 
-"set splitright
-"set splitbelow
+set splitright
+set splitbelow
 "}
 
 " Text Formatting (Indents and Tabs) {

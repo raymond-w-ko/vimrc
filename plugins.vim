@@ -23,7 +23,9 @@ let g:tagbar_sort = 0
 " }
 
 " CtrlP " {
-let g:loaded_ctrlp = 1  " true actually disables this!!!
+let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_max_height = 10
+let g:ctrlp_match_window_bottom = 0
 " }
 
 " indent-guides {
