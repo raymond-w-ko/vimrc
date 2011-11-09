@@ -1,10 +1,15 @@
-command! Symlin cd C:\SVN\Syandus_Cores\C_Sym_DM_01
-command! Spiriva cd C:\SVN\Syandus_Cores\C_Spv_COPD_01
-command! Immunobiology cd C:\SVN\Syandus_Cores\C_ImmunoSim_01
-command! Dropbox cd C:\Users\root\Desktop\Dropbox
-command! Platform cd C:\SVN\Syandus_ALIVE3\Platform\Source
-command! Carbon cd C:\SVN\Syandus_ALIVE3\Frameworks\Carbon
-command! Oxygen cd C:\SVN\Syandus_ALIVE3\Frameworks\Oxygen
+command! Dropbox cd C:/Users/root/Desktop/Dropbox
+command! Platform cd C:/SVN/Syandus_ALIVE3/Platform/Source
+
+command! Carbon cd C:/SVN/Syandus_ALIVE3/Frameworks/Carbon
+command! Oxygen cd C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen
+
+command! Hub cd C:/SVN/Syandus_ALIVE3/Hub
+command! Metrics cd C:/SVN/Syandus_ALIVE3/Metrics
+
+command! Symlin cd C:/SVN/Syandus_Cores/C_Sym_DM_01
+command! Spiriva cd C:/SVN/Syandus_Cores/C_Spv_COPD_01
+command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 
 function! IntellisenseSearch(keyword)
   execute ':set hlsearch'

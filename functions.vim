@@ -20,3 +20,18 @@ function! GetProjectDirectory()
     return getcwd()
   endif 
 endfunction
+
+function! DeleteEmptyBuffers()
+    let empty = []
+    let [i, nbuf] = [1, bufnr('$')]
+    while i <= nbuf
+        if bufexists(i) && bufname(i) == ''
+            let empty += [i]
+        endif
+        let i += 1
+    endwhile
+    if len(empty) > 0
+        execute 'bdelete ' . join(empty, ' ')
+    endif
+endfunction
+command! DeleteEmptyBuffers call DeleteEmptyBuffers()

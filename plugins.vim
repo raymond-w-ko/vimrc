@@ -12,9 +12,9 @@ inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 "}
 
 " Command-T {
-let g:CommandTMaxHeight = 25
+let g:CommandTMaxHeight=16
 let g:CommandTMatchWindowAtTop=0
-let g:CommandTMatchWindowReverse=1
+let g:CommandTMatchWindowReverse=0
 " }
 
 " tagbar {

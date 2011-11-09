@@ -65,7 +65,7 @@ set shellslash          " '/' is so much easier to type, also autocomplpop will 
 set wildignore+=Debug,Release,.o,*.obj,.git,.svn,*.dep,*.idb,*.pdf,*.dll,*.dll.*,*.ncb,*.suo,*.user
 set wildignore+=*.vcproj,*.out,*.sln,Debug.bat,Release.bat,*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt
 set wildignore+=*.asi,*.lnk,*.bmp,*.tga,*.mp3,*.manifest,*.ico,*.wav,*.ini,*.bik,*.NSB,*.pdb,*.vcxproj
-set wildignore+=*.ani,*.ID,*.exe
+set wildignore+=*.ani,*.ID,*.exe,*.mask,*.jpg,*.png,*.gif
 " }
 
 " General {
@@ -74,7 +74,7 @@ set number
 "set rnu
 set report=0
 set backspace=2
-set showtabline=0
+set showtabline=2
 
 set cmdheight=2
 set laststatus=2        " always show the status line
