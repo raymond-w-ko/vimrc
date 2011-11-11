@@ -23,6 +23,7 @@ let g:tagbar_sort = 0
 " }
 
 " CtrlP " {
+let g:loaded_ctrlp = 1
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_max_height = 25
 let g:ctrlp_match_window_bottom = 0

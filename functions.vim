@@ -21,6 +21,10 @@ function! GetProjectDirectory()
   endif 
 endfunction
 
+function! SetWorkingDirectory()
+  execute ":chdir " . GetProjectDirectory()
+endfunction
+
 function! DeleteEmptyBuffers()
   let empty = []
   let [i, nbuf] = [1, bufnr('$')]

@@ -8,7 +8,7 @@ augroup END
 
 augroup plugins
   autocmd!
-  autocmd BufEnter * call ctrlp#SetWorkingPath(2)
+  autocmd BufEnter * call SetWorkingDirectory()
 augroup END
 
 augroup platform
