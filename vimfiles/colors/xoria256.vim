@@ -133,6 +133,8 @@ hi MBEVisibleChanged        guifg=#F1266F
 hi MBEVisibleNormal         guifg=#5DC2D6
 hi MBEChanged               guifg=#CD5907
 hi MBENormal                guifg=#808080
+""" ColorColumn {{{3
+highlight ColorColumn guibg=#281C1C
 """ rst #{{{3
 hi link rstEmphasis Number
 

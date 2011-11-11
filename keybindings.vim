@@ -8,7 +8,7 @@ imap kj <ESC>
 
 " Platform specific keybinds
 if has("unix")
-  nnoremap ,v :e ~/Dropbox/_vimrc<CR>
+  nnoremap ,v :e ~/Dropbox/vim/_vimrc<CR>
   nnoremap ,s :source ~/.vimrc<CR>
 elseif has("win32")
   nnoremap ,v :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
@@ -18,16 +18,18 @@ endif
 " always skip whitespace when hitting 0
 nmap 0 ^
 
-" Hex Editing
-nnoremap ,h :%!xxd<CR>
-nnoremap ,H :%!xxd -r<CR>
-
-"nnoremap ,t :ToggleWord<CR>
-function! CommandTProject()
-  execute ":CommandT " . GetProjectDirectory()
+function! CtrlPProject()
+  let directory = GetProjectDirectory()
+  execute ":chdir " . directory
+  let directory = getcwd()
+  execute ":CtrlP " . directory
 endfunction
-nnoremap ,t :CtrlPRoot<CR>
-nnoremap ,b :CtrlPBuffer<CR>
+function! CommandTProject()
+  let directory = GetProjectDirectory()
+  execute ":CommandT " . directory
+endfunction
+nnoremap ,t :call CommandTProject()<CR>
+nnoremap ,b :FufBuffer<CR>
 nnoremap ,l :LustyJuggler<CR>
 nnoremap ,a :A<CR>
 
@@ -47,61 +49,25 @@ function! HighlightNearCursor()
   endif
 endfunction
 
-" CTRL-X and SHIFT-Del are Cut
-vnoremap <C-X> "+x
-" CTRL-C and CTRL-Insert are Copy
-vnoremap <C-C> "+y
 " CTRL-V and SHIFT-Insert are Paste
 inoremap <C-V> <ESC>"+pa
 
-" make command
-"nnoremap <silent> <C-S-B> <ESC>:update<CR><ESC>:!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make.ahk<CR>
-"inoremap <silent> <C-S-B> <ESC>:update<CR><ESC>:!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make.ahk<CR>a
-"map <C-S-b> <ESC>:w<CR><ESC>:make<CR>
-"imap <C-S-b> <ESC>:w<CR><ESC>:make<CR>
-
-" Split
+" Splits
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
 nnoremap ,wv :vsplit<CR>
-nnoremap ,wn :15split<CR>
+nnoremap ,wn :split<CR>
 nnoremap ,wc :close<CR>
 
-" Splits Resizing
 nnoremap <C-Up> :resize +1<CR>
 nnoremap <C-Down> :resize -1<CR>
 nnoremap <C-Left> :vertical resize -1<CR>
 nnoremap <C-Right> :vertical resize +1<CR>
 
-"toggle .{c|cpp}/.{h|hpp}
-"nnoremap <leader>a :A<CR>
-nnoremap <C-a> :A<CR>
-
-" Fuzzy Finder
-nnoremap ,fl :FufLine<CR>
-
-function! TabsAre2()
-  set tabstop=2
-  set shiftwidth=2
-  set softtabstop=2
-endfunction
-
-function! TabsAre3() 
-  set tabstop=3
-  set shiftwidth=3
-  set softtabstop=3
-endfunction
-
-function! TabsAre4() 
-  set tabstop=4
-  set shiftwidth=4
-  set softtabstop=4
-endfunction
-
-" CTRL-hjkl movement while in omap mode
+" CTRL-hjkl movement while in : command mode
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 cnoremap <C-j> <Down>
@@ -140,25 +106,11 @@ nnoremap <M-l> :tabnext<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "nnoremap <silent> <Space> :nohlsearch<CR>:NeoComplCacheCachingBuffer<CR>:echo "Caching done."<CR>
 "nnoremap <C-Space> viw"zy<C-w><C-W>:Scratch<CR>ggVGD"zp:FufTagWithCursorWord<CR>
-nnoremap <C-Space> mzviw"zy<C-w><C-W>:Scratch<CR>ggVGD"zp/<C-r>z<CR><C-]><C-w><C-w>`z
+"nnoremap <C-Space> mzviw"zy<C-w><C-W>:Scratch<CR>ggVGD"zp/<C-r>z<CR><C-]><C-w><C-w>`z
+nnoremap <C-Space> :FufTagWithCursorWord!<CR>
 
 " find and replace visually selected
 vnoremap <C-h> "hy:%s/<C-r>h//g<left><left>
-
-function! FindAllKeywordInBuffer()
-  normal mz
-  normal "xyiw
-  execute ":silent %y+"
-  wincmd j
-  execute ":Scratch"
-  normal ggVGD
-  normal "+P
-  execute ":silent %s/^/\\=printf('%4d | ', line('.'))/"
-  execute ":silent v/\\<" . @x . "\\>/d"
-  let @/ = @/
-  wincmd k
-  normal `z
-endfunction
 
 function! GetRelevantExtensions(directory)
   let extensions = ""
@@ -170,7 +122,12 @@ function! GetRelevantExtensions(directory)
   return extensions
 endfunction
 
-function! FindAllKeywordInProject()
+function! FindCursorWordInBuffer()
+  execute "lvimgrep /\\<" . expand("<cword>") . "\\>/j " . expand('%:p')
+  lopen
+endfunction
+
+function! FindCursorWordInProject()
   execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . GetRelevantExtensions(GetProjectDirectory())
 endfunction
 
@@ -178,16 +135,10 @@ function! FindThisKeywordInProject(keyword)
   execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions(GetProjectDirectory())
 endfunction
 
-function! FindAllKeywordInBuffer()
-  execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . expand('%:p')
-endfunction
-
-
-nnoremap ,fp :call FindAllKeywordInProject()<CR>
-nnoremap ,ff :call FindAllKeywordInBuffer()<CR>
+nnoremap ,ff :call FindCursorWordInBuffer()<CR>
+nnoremap ,fp :call FindCursorWordInProject()<CR>
 nnoremap ,fk :call FindThisKeywordInProject("")<left><left>
+nnoremap ,fl :FufLine<CR>
 
-"nnoremap <A-r> :echom "Test"<CR>
 "noremap <C-g> ^yw<C-w>h:<C-r>"<CR>zz<C-w>l
-
-nnoremap <C-/> /\(^.*\/\/.*$\n\)*.\{-}.\{-}(\_.\{-})<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+"nnoremap <C-/> /\(^.*\/\/.*$\n\)*.\{-}.\{-}(\_.\{-})<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>

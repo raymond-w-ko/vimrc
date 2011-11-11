@@ -12,8 +12,8 @@ inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 "}
 
 " Command-T {
-let g:CommandTMaxHeight=16
-let g:CommandTMatchWindowAtTop=0
+let g:CommandTMaxHeight=32
+let g:CommandTMatchWindowAtTop=1
 let g:CommandTMatchWindowReverse=0
 " }
 
@@ -24,8 +24,9 @@ let g:tagbar_sort = 0
 
 " CtrlP " {
 let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_max_height = 10
+let g:ctrlp_max_height = 25
 let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_working_path_mode = 2
 " }
 
 " indent-guides {

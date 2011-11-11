@@ -28,6 +28,7 @@ if has("unix")
   source ~/Dropbox/vim/keybindings.vim
   source ~/Dropbox/vim/plugins.vim
   source ~/Dropbox/vim/functions.vim
+  source ~/Dropbox/vim/autocmds.vim
 
   let find="find . -name "
 elseif has("win32")
@@ -36,6 +37,7 @@ elseif has("win32")
   source C:/Users/root/Desktop/Dropbox/vim/keybindings.vim
   source C:/Users/root/Desktop/Dropbox/vim/plugins.vim
   source C:/Users/root/Desktop/Dropbox/vim/functions.vim
+  source C:/Users/root/Desktop/Dropbox/vim/autocmds.vim
   let s:ruby_path='C:\Ruby192\bin'
 
   let find="dir /b /s "
@@ -59,19 +61,20 @@ syntax on               " syntax is good
 filetype on             " detect filetype
 filetype plugin on      " load filetype plugin
 filetype indent off     " as a control freak, want to manually indent
-set ffs=dos,unix,mac    " order of support
+set ffs=unix,dos        " order of support
 set autoread            " automatically reload file if it was changed outside of VIM
 set shellslash          " '/' is so much easier to type, also autocomplpop will use this instead
-set wildignore+=Debug,Release,.o,*.obj,.git,.svn,*.dep,*.idb,*.pdf,*.dll,*.dll.*,*.ncb,*.suo,*.user
-set wildignore+=*.vcproj,*.out,*.sln,Debug.bat,Release.bat,*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt
-set wildignore+=*.asi,*.lnk,*.bmp,*.tga,*.mp3,*.manifest,*.ico,*.wav,*.ini,*.bik,*.NSB,*.pdb,*.vcxproj
-set wildignore+=*.ani,*.ID,*.exe,*.mask,*.jpg,*.png,*.gif
+set wildignore+=Debug,Release,*.o,*.obj,.git,.svn,*.dep,*.idb,*.pdf,*.dll
+set wildignore+=*.dll.*,*.ncb,*.suo,*.user,*.vcproj,*.out,*.sln
+set wildignore+=Debug.bat,Release.bat,*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt
+set wildignore+=*.asi,*.lnk,*.bmp,*.tga,*.mp3,*.manifest,*.ico,*.wav,*.ini
+set wildignore+=*.bik,*.NSB,*.pdb,*.vcxproj,*.ani,*.ID,*.exe,*.mask
+set wildignore+=*.jpg,*.png,*.gif
 " }
 
 " General {
 set ruler
 set number
-"set rnu
 set report=0
 set backspace=2
 set showtabline=2
@@ -79,7 +82,7 @@ set showtabline=2
 set cmdheight=2
 set laststatus=2        " always show the status line
 "set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%Y]\ [ascii=\%03.3b]\ [hex=\%02.2B]\ [pos=%04l,%04v][%p%%]\ [lines=%L]
-set statusline=%F%m%r%h%w\ [%{&ff}]%y\ [%p%%][%04l/%L,%04v]
+set statusline=%F%m%r%h%w\ [%{&ff}]%y\ [%p%%][%04l/%L,%04v]\ %=\ [ascii=\%03.3b]\ [hex=\%02.2B]
 
 set lazyredraw
 
@@ -104,7 +107,7 @@ set novisualbell
 
 set autowriteall      " write buffer when switching
 set splitright        " vsplit splits right
-set autochdir
+"set autochdir
 set timeoutlen=200
 
 set hidden
@@ -125,6 +128,7 @@ set softtabstop=2
 set nosmarttab
 set expandtab           " tabs -> spaces
 set textwidth=0         " no automatic text wrapping
+set colorcolumn=80
 " }
 
 " Persistent Undo {
@@ -146,24 +150,18 @@ endfunction " }
 set foldtext=SimpleFoldText() " Custom fold text function (cleaner than default)
 " }
 
-" autocmds
-augroup three_space_indents
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Hub/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-augroup END
-
 " GUI Options {
 if (has("gui_running"))
   " Colorscheme
   colorscheme xoria256
 
   " Font
-  set guifont=Dina:h8
-  "set guifont=Consolas:h11
+  if has("win32")
+    set guifont=ProggyClean:h8
+  else
+    set guifont=ProggyCleanTT:h16
+    set noantialias
+  endif
 
   " GUI Configuration
   " No toolbars and menus
@@ -176,12 +174,11 @@ if (has("gui_running"))
   set guioptions+=a       " sync with system clipboard
 
   " Maximize in Windows automatically
-  autocmd GUIEnter * simalt ~X
-  "autocmd GUIEnter * set lines=55 columns=177
+  if has("win32")
+    autocmd GUIEnter * simalt ~X
+  endif
 
   " Remove cursor blink
   let &guicursor = &guicursor . ",a:blinkon0"
 endif
 " }
-
-" vim: fdl=0
