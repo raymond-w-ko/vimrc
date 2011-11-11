@@ -157,9 +157,9 @@ if (has("gui_running"))
 
   " Font
   if has("win32")
-    set guifont=ProggyClean:h8
+    set guifont=Dina:h8
   else
-    set guifont=ProggyCleanTT:h16
+    set guifont=DinaTTF:h11
     set noantialias
   endif
 
