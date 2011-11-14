@@ -21,7 +21,8 @@ function! GetProjectDirectory()
   endif 
 endfunction
 
-function! SetWorkingDirectory()
+function! CdToProjectDirectory()
+  lcd %:p:h
   execute ":chdir " . GetProjectDirectory()
 endfunction
 

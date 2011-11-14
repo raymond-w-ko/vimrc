@@ -1,32 +1,64 @@
-augroup indents
+augroup CppFiles
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter *.c,*.cpp setlocal foldlevel=0
+  autocmd BufNewFile,BufRead,BufEnter *.c,*.cpp setlocal foldnestmax=20
+augroup END
+
+augroup HFiles
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter *.h setlocal foldlevel=1
+  autocmd BufNewFile,BufRead,BufEnter *.h setlocal foldnestmax=20
+augroup END
+
+augroup SsfFiles
+  autocmd!
+  autocmd BufNewFile,BufRead *.ssf setlocal foldlevel=9001
+  autocmd BufNewFile,BufRead *.ssf setlocal foldnestmax=0
+augroup END
+
+augroup SmlFiles
+  autocmd!
+  autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001
+  autocmd BufNewFile,BufRead *.sml setlocal foldnestmax=0
+augroup END
+
+augroup Indents
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Hub/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
 augroup END
 
-augroup plugins
+augroup Personal
   autocmd!
-  autocmd BufEnter * call SetWorkingDirectory()
+  autocmd BufEnter * call CdToProjectDirectory()
 augroup END
 
-augroup platform
+augroup Platform
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* nnoremap ,m :call MakePlatform()<CR>
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
 augroup END
 function! MakePlatform()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
   execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make_platform.ahk'
 endfunction
 
-augroup immunosim
+augroup ImmunoSim
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* nnoremap ,m :call MakeImmunoSim()<CR>
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
 augroup END
 function! MakeImmunoSim()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
   execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make_immunosim.ahk'
+endfunction
+
+augroup Symlin
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* nnoremap ,m :call MakeSymlin()<CR>
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* setlocal tabstop=2 shiftwidth=2 softtabstop=2
+augroup END
+function! MakeSymlin()
+  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make_symlin.ahk'
 endfunction
 
 " vim -b : edit binary using xxd-format!

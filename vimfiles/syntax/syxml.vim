@@ -184,7 +184,7 @@ if exists('g:xml_syntax_folding')
 	\ end=+</\z1\_\s\{-}>+
 	\ matchgroup=xmlEndTag end=+/>+
 	\ fold
-	\ contains=xmlTag,xmlEndTag,xmlCdata,xmlRegion,xmlComment,xmlEntity,xmlProcessing,@xmlRegionHook,@Spell
+	\ contains=xmlTag,xmlEndTag,xmlCdata,xmlRegion,xmlComment,xmlDoubleForwardSlashComment,xmlCBlockComment,xmlEntity,xmlProcessing,@xmlRegionHook,@Spell
 	\ keepend
 	\ extend
 
@@ -224,12 +224,12 @@ if exists('g:xml_syntax_folding')
     syn region xmlDoubleForwardSlashComment
         \ start=+//+
         \ end=+$+
-        \ keepend
+        \ extend
         \ fold
         
     syn region xmlCBlockComment
-        \ start=+/*+
-        \ end=+*/+
+        \ start=+/\*+
+        \ end=+\*/+
         \ extend
         \ fold
 

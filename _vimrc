@@ -139,15 +139,14 @@ set undoreload=16384 "maximum number lines to save for undo on a buffer reload
 " }
 
 " Folding {
-set foldenable        " Turn on folding
-set foldmethod=marker " Fold on the marker
-set foldmarker={,}    " Fold C style code (only use this as default if you use a high foldlevel)
-set foldlevel=9001    " Don't autofold anything (but I can still fold manually)
+set foldenable
+set foldmethod=syntax
 set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds 
-function! SimpleFoldText() " {
+function! SimpleFoldText()
   return getline(v:foldstart).' '
-endfunction " }
+endfunction
 set foldtext=SimpleFoldText() " Custom fold text function (cleaner than default)
+let g:xml_syntax_folding=1
 " }
 
 " GUI Options {
