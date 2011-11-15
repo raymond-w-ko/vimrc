@@ -22,8 +22,8 @@ function! GetProjectDirectory()
 endfunction
 
 function! CdToProjectDirectory()
-  lcd %:p:h
-  execute ":chdir " . GetProjectDirectory()
+  silent! lcd %:p:h
+  silent! execute ":chdir " . GetProjectDirectory()
 endfunction
 
 function! DeleteEmptyBuffers()

@@ -1,8 +1,16 @@
 set nocompatible    " newer more awesome options
 set shortmess+=atI    " no intro message
 " Pathogen
+let g:pathogen_disabled = []
+call add(g:pathogen_disabled, "cocoa")
+call add(g:pathogen_disabled, "tagbar")
+call add(g:pathogen_disabled, "taglist")
+call add(g:pathogen_disabled, "ctrlp")
+call add(g:pathogen_disabled, "toggle_words")
+
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+
 
 " ctags
 set tags=tags

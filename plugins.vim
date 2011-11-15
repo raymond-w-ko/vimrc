@@ -6,6 +6,8 @@ let g:netrw_mousemaps=0   " apparently enabling this hijacks the mouse completel
 " AutoComplPop {
 let g:acp_ignorecaseOption = 0
 let g:acp_completeOption = '.,w,b,u'
+let g:acp_behaviorKeywordCommand = "\<C-n>"
+let g:acp_behaviorKeywordLength = 2
 let g:acp_behaviorKeywordIgnores = ["Sy"]
 inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"

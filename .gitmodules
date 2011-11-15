@@ -34,3 +34,9 @@
 [submodule "vimfiles/bundle/camelcasecomtion"]
 	path = vimfiles/bundle/camelcasecomtion
 	url = git://github.com/vim-scripts/camelcasemotion.git
+[submodule "vimfiles/bundle/cocoa"]
+	path = vimfiles/bundle/cocoa
+	url = git://github.com/msanders/cocoa.vim.git
+[submodule "vimfiles/bundle/pathogen"]
+	path = vimfiles/bundle/pathogen
+	url = git://github.com/tpope/vim-pathogen.git
