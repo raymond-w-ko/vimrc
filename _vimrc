@@ -142,6 +142,8 @@ set undoreload=16384 "maximum number lines to save for undo on a buffer reload
 set foldenable
 set foldmethod=syntax
 set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds 
+set foldlevel=9001
+set foldnestmax=20
 function! SimpleFoldText()
   return getline(v:foldstart).' '
 endfunction
