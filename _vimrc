@@ -13,11 +13,7 @@ call pathogen#helptags()
 
 
 " ctags
-set tags=tags
-set tags+=./tags
-set tags+=../tags
-set tags+=../../tags
-set tags+=../../../tags
+set tags=
 
 " Base
 set tags+=C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags
@@ -46,7 +42,7 @@ elseif has("win32")
   source C:/Users/root/Desktop/Dropbox/vim/plugins.vim
   source C:/Users/root/Desktop/Dropbox/vim/functions.vim
   source C:/Users/root/Desktop/Dropbox/vim/autocmds.vim
-  let s:ruby_path='C:\Ruby192\bin'
+  let s:ruby_path='C:/Ruby193/bin'
 
   let find="dir /b /s "
 endif
@@ -104,7 +100,7 @@ set smartcase
 "set mat=0
 set nocursorline
 
-set completeopt=menu,menuone
+set completeopt=menu,menuone,preview
 
 set wildmenu
 set wildmode=longest,list

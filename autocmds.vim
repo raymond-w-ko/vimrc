@@ -1,13 +1,19 @@
 augroup CppFiles
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter *.c,*.cpp setlocal foldlevel=0
-  autocmd BufNewFile,BufRead,BufEnter *.c,*.cpp setlocal foldnestmax=20
+  autocmd BufNewFile,BufRead *.c,*.cpp setlocal foldlevel=0
+  autocmd BufNewFile,BufRead *.c,*.cpp setlocal foldnestmax=1
+augroup END
+
+augroup MFiles
+  autocmd!
+  autocmd BufNewFile,BufRead *.m setlocal foldlevel=0
+  autocmd BufNewFile,BufRead *.m setlocal foldnestmax=1
 augroup END
 
 augroup HFiles
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter *.h setlocal foldlevel=1
-  autocmd BufNewFile,BufRead,BufEnter *.h setlocal foldnestmax=20
+  autocmd BufNewFile,BufRead *.h setlocal foldlevel=1
+  autocmd BufNewFile,BufRead *.h setlocal foldnestmax=20
 augroup END
 
 augroup SsfFiles

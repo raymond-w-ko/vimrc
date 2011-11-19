@@ -5,10 +5,9 @@ let g:netrw_mousemaps=0   " apparently enabling this hijacks the mouse completel
 
 " AutoComplPop {
 let g:acp_ignorecaseOption = 0
-let g:acp_completeOption = '.,w,b,u'
-let g:acp_behaviorKeywordCommand = "\<C-n>"
-let g:acp_behaviorKeywordLength = 2
-let g:acp_behaviorKeywordIgnores = ["Sy"]
+let g:acp_completeOption = '.,w,b,u,t'
+let g:acp_behaviorKeywordLength = 3
+let g:acp_completeoptPreview = 1
 inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 "}
@@ -35,9 +34,3 @@ let g:ctrlp_working_path_mode = 2
 " indent-guides {
 let g:indent_guides_enable_on_vim_startup=0
 " }
-
-" minibufexpl {
-let g:miniBufExplorerMoreThanOne=0
-"let g:miniBufExplSplitBelow=1
-" }
-

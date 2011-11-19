@@ -112,30 +112,33 @@ nnoremap <C-Space> :FufTagWithCursorWord!<CR>
 " find and replace visually selected
 vnoremap <C-h> "hy:%s/<C-r>h//g<left><left>
 
-function! GetRelevantExtensions(directory)
+function! GetRelevantExtensions()
+  let directory = "."
   let extensions = ""
-  let extensions .= a:directory . "/**/*.vim "
-  let extensions .= a:directory . "/**/*.cpp "
-  let extensions .= a:directory . "/**/*.h "
-  let extensions .= a:directory . "/**/*.ssf "
+  let extensions .= directory . "/**/*.vim "
+  let extensions .= directory . "/**/*.ssf "
+  let extensions .= directory . "/**/*.h "
+  let extensions .= directory . "/**/*.cpp "
+  let extensions .= directory . "/**/*.m "
 
   return extensions
 endfunction
 
 function! FindCursorWordInBuffer()
-  execute "lvimgrep /\\<" . expand("<cword>") . "\\>/j " . expand('%:p')
+  let filename = substitute(expand('%:p'), "\\ ", "\\\\ ", "g")
+  execute "lvimgrep /\\<" . expand("<cword>") . "\\>/j " . filename
   lopen
 endfunction
 
 function! FindCursorWordInProject()
-  execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . GetRelevantExtensions(GetProjectDirectory())
+  execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . GetRelevantExtensions()
 endfunction
 
 function! FindThisKeywordInProject(keyword)
-  execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions(GetProjectDirectory())
+  execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions()
 endfunction
 
-nnoremap ,ff :call FindCursorWordInBuffer()<CR>
+nnoremap ,fw :call FindCursorWordInBuffer()<CR>
 nnoremap ,fp :call FindCursorWordInProject()<CR>
 nnoremap ,fk :call FindThisKeywordInProject("")<left><left>
 nnoremap ,fl :FufLine<CR>
