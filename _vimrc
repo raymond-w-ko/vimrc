@@ -229,9 +229,9 @@ function! SetFoldSettings()
   set foldenable
   set foldmethod=syntax
   set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds 
-  set foldlevel=9001
+  set foldlevel=0
   set foldnestmax=20
-  set foldlevelstart=0
+  set foldlevelstart=9001
   function! MyFoldText() " {{{
       return getline(v:foldstart)
   endfunction " }}}
