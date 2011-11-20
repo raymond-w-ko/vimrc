@@ -229,7 +229,7 @@ function! SetFoldSettings()
   set foldenable
   set foldmethod=syntax
   set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds 
-  set foldlevel=0
+  set foldlevel=9001
   set foldnestmax=20
   set foldlevelstart=0
   function! MyFoldText() " {{{
@@ -239,7 +239,6 @@ function! SetFoldSettings()
 
   let g:my_fold_settings_applied=1
 endfunction
-
 call SetFoldSettings()
 
 " Space to toggle folds.
