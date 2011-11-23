@@ -1,4 +1,5 @@
 " Preamble ---------------------------------------------------------------- {{{
+set nocompatible
 filetype off
 let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "cocoa")
@@ -8,8 +9,6 @@ call add(g:pathogen_disabled, "ctrlp")
 call add(g:pathogen_disabled, "toggle_words")
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
-filetype plugin indent off
-set nocompatible
 " }}}
 " File options {{{
 syntax on               " syntax is good
@@ -47,7 +46,7 @@ set autowriteall
 set title
 set showtabline=2
 set cmdheight=2
-set completeopt=menu,menuone,preview
+set completeopt=menu,menuone
 
 " My own version of autochdir
 augroup AutoChdirSubstitute
@@ -63,7 +62,7 @@ augroup END
 
 " Wildmenu completion {{{
 set wildmenu
-set wildmode=list:longest
+set wildmode=longest,list
 
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.bmp,*.tga
@@ -125,10 +124,12 @@ set statusline+=%m    " modified flag
 set statusline+=%r    " readonly flag
 set statusline+=%w    " preview window flag
 
-set statusline+=\     " space
+set statusline+=\ \ \ \                 " space
 
 set statusline+=[%{&ff}]                " line ending type
+set statusline+=\                       " space
 set statusline+=%y                      " file type
+set statusline+=[%{&fdm}]               " foldmethod
 
 set statusline+=\                       " space
 
@@ -147,7 +148,7 @@ set hlsearch
 set incsearch
 set gdefault    " inverts the meaning of the g-flag in s///g
 
-set scrolloff=3
+set scrolloff=9001
 set sidescroll=1
 set sidescrolloff=10
 
@@ -160,8 +161,10 @@ map <tab> %
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nnoremap n nzzzv:call PulseCursorLine()<cr>
-nnoremap N Nzzzv:call PulseCursorLine()<cr>
+"nnoremap n nzzzv:call PulseCursorLine()<cr>
+"nnoremap N Nzzzv:call PulseCursorLine()<cr>
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 " Don't move on *
 nnoremap * *<c-o>
@@ -241,6 +244,12 @@ function! SetFoldSettings()
 endfunction
 call SetFoldSettings()
 
+" Don't screw up folds when inserting text that might affect them, until
+" leaving insert mode. Foldmethod is local to the window. Protect against
+" screwing up folding when switching between windows.
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+
 " Space to toggle folds.
 nnoremap <Space> za
 vnoremap <Space> za
@@ -304,7 +313,9 @@ endfunction
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
 if (has("gui_running"))
-  colorscheme xoria256
+  "colorscheme xoria256
+  let g:molokai_original=0
+  colorscheme molokai
 
   " Font
   if has("win32")
@@ -546,7 +557,7 @@ set tags=
 
 " Base
 set tags+=C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags
-set tags+=C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags
+"set tags+=C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags
 
 " Cores
 "set tags+=C:\SVN\Syandus_Cores\C_Demo_Marketing_01\Source\Scripts\Content\tags
@@ -562,9 +573,10 @@ let g:netrw_mousemaps=0
 " }}}
 " AutoComplPop {{{
 let g:acp_ignorecaseOption = 0
+set complete =.,w,b,u,t
 let g:acp_completeOption = '.,w,b,u,t'
-let g:acp_behaviorKeywordLength = 3
-let g:acp_completeoptPreview = 1
+let g:acp_behaviorKeywordLength = 2
+let g:acp_completeoptPreview = 0
 inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 "}}}
@@ -740,7 +752,7 @@ imap jk <ESC>
 imap kj <ESC>
 
 " Less chording
-nnoremap ; :
+"nnoremap ; :
 
 " Substitute
 nnoremap ,s :%s//<left>
@@ -895,4 +907,4 @@ nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
 " }}}
 " }}}
 
-" vim:fdm=marker
+" vim:fdm=marker:foldlevelstart=0
