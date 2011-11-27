@@ -1,20 +1,19 @@
 " Preamble ---------------------------------------------------------------- {{{
 set nocompatible
-filetype off
 let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "taglist")
 call add(g:pathogen_disabled, "ctrlp")
 call add(g:pathogen_disabled, "toggle_words")
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 call pathogen#helptags()
 " }}}
 " File options {{{
 syntax on               " syntax is good
 filetype on             " detect filetype
 filetype plugin on      " load filetype plugin
-filetype indent off     " as a control freak, want to manually indent
+filetype indent off     " enable automatic indenting
 set ffs=unix,dos        " order of support
 set shellslash          " '/' is so much easier to type
 " }}}
@@ -46,13 +45,15 @@ set autowriteall
 set title
 set showtabline=2
 set cmdheight=2
+set complete=.,w,b,u,t
 set completeopt=menu,menuone
-
+set pumheight=16
+set autochdir
 " My own version of autochdir
-augroup AutoChdirSubstitute
-  autocmd!
-  autocmd BufEnter * call CdToProjectDirectory()
-augroup END
+"augroup AutoChdirSubstitute
+"  autocmd!
+"  autocmd BufEnter * call CdToProjectDirectory()
+"augroup END
 
 " Save when losing focus
 augroup Basic
@@ -156,7 +157,7 @@ set virtualedit+=block
 
 noremap ,<space> :noh<cr>:call clearmatches()<cr>
 
-runtime macros/matchit.vim
+"runtime macros/matchit.vim
 map <tab> %
 
 " Keep search matches in the middle of the window and pulse the line when moving
@@ -238,7 +239,7 @@ function! SetFoldSettings()
   function! MyFoldText() " {{{
       return getline(v:foldstart)
   endfunction " }}}
-  set foldtext=MyFoldText()
+  "set foldtext=MyFoldText()
 
   let g:my_fold_settings_applied=1
 endfunction
@@ -572,13 +573,14 @@ let g:netrw_silent=1
 let g:netrw_mousemaps=0   
 " }}}
 " AutoComplPop {{{
-let g:acp_ignorecaseOption = 0
-set complete =.,w,b,u,t
+let g:acp_enableAtStartup = 1
+let g:acp_ignorecaseOption = 1
 let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 2
 let g:acp_completeoptPreview = 0
-inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-inoremap <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
+let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
+inoremap <expr> <Tab> pumvisible() ? "\<C-y>"       : "\<Tab>"
+inoremap <expr> <CR>  pumvisible() ? "\<C-e>\<CR>"  : "\<CR>"
 "}}}
 " Command-T {{{
 let g:CommandTMaxHeight=32
