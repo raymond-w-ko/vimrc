@@ -327,13 +327,7 @@ if (has("gui_running"))
   endif
 
   " GUI Configuration
-  set guioptions-=T       " no toolbar
-  set guioptions-=m       " no menubar
-  set guioptions-=e       " no GUI tab bar
-  set guioptions-=L
-  set guioptions-=r
-  set guioptions-=R
-  set guioptions+=a       " sync with system clipboard
+  set guioptions=a          " disable everything except synced clipboard
 
   " Maximize in Windows automatically
   if has("win32")
