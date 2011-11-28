@@ -1,5 +1,6 @@
 " Preamble ---------------------------------------------------------------- {{{
 set nocompatible
+ 
 let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "tagbar")
@@ -11,16 +12,16 @@ call pathogen#helptags()
 " }}}
 " File options {{{
 syntax on               " syntax is good
-filetype on             " detect filetype
+filetype on             " detect and set filetype
 filetype plugin on      " load filetype plugin
-filetype indent off     " enable automatic indenting
+filetype indent off     " as a control freak, don't enable automatic indenting
 set ffs=unix,dos        " order of support
 set shellslash          " '/' is so much easier to type
 " }}}
 " Basic options ----------------------------------------------------------- {{{
 set shortmess+=aI    " no intro message
 "set bomb
-"set encoding=utf-8
+set encoding=utf-8
 set showmode
 set showcmd
 set hidden
@@ -33,7 +34,7 @@ set backspace=indent,eol,start
 set number
 set norelativenumber
 set laststatus=2
-set history=1000
+set history=1024
 set lazyredraw
 set showmatch
 set matchtime=0
@@ -56,7 +57,7 @@ set autochdir
 "augroup END
 
 " Save when losing focus
-augroup Basic
+augroup SaveWhenLosingFocus
   au!
   au FocusLost * :wa
 augroup END
@@ -106,6 +107,12 @@ elseif has("win32")
   set directory=C:/tmp//
 endif
 " }}}
+" Leader {{{
+
+let mapleader = ","
+let maplocalleader = "\\"
+
+" }}}
 
 " }}}
 " Mouse & selection Behavior {{{
@@ -128,7 +135,9 @@ set statusline+=%w    " preview window flag
 set statusline+=\ \ \ \                 " space
 
 set statusline+=[%{&ff}]                " line ending type
-set statusline+=\                       " space
+ 
+set statusline+=[%{strlen(&fenc)?&fenc:&enc}]    " Encoding
+
 set statusline+=%y                      " file type
 set statusline+=[%{&fdm}]               " foldmethod
 
@@ -149,16 +158,16 @@ set hlsearch
 set incsearch
 set gdefault    " inverts the meaning of the g-flag in s///g
 
-set scrolloff=9001
+set scrolloff=9001        " always try to center current line
 set sidescroll=1
 set sidescrolloff=10
 
 set virtualedit+=block
 
-noremap ,<space> :noh<cr>:call clearmatches()<cr>
+nnoremap <leader><space> :noh<cr>:call clearmatches()<cr>
 
-"runtime macros/matchit.vim
-map <tab> %
+runtime macros/matchit.vim
+nmap <tab> %
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
@@ -175,11 +184,11 @@ nnoremap g; g;zz
 nnoremap g, g,zz
 
 " Easier to type, and I never use the default behavior.
-noremap H ^
-noremap L g_
+nnoremap H ^
+nnoremap L g_
 
 " Open a Quickfix window for the last search.
-"nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+nnoremap <silent> <leader>/ :execute 'lvimgrep /'.@/.'/g %'<CR>:lopen<CR>
 
 " Ack for the last search.
 "nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
@@ -190,6 +199,20 @@ noremap L g_
 "nnoremap Vat vatV
 "nnoremap Vab vabV
 "nnoremap VaB vaBV
+
+" Directional keys -------------------------------------------------------- {{{
+
+" It's 2011.
+nnoremap j gj
+nnoremap k gk
+
+" Easy buffer navigation
+nnoremap <C-h>  <C-w>h
+nnoremap <C-j>  <C-w>j
+nnoremap <C-k>  <C-w>k
+nnoremap <C-l>  <C-w>l
+
+" }}}
 
 " Highlight word {{{
 nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
@@ -209,19 +232,6 @@ endfunction
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 " }}}
-
-" }}}
-" Directional keys -------------------------------------------------------- {{{
-
-" It's 2011.
-noremap j gj
-noremap k gk
-
-" Easy buffer navigation
-noremap <C-h>  <C-w>h
-noremap <C-j>  <C-w>j
-noremap <C-k>  <C-w>k
-noremap <C-l>  <C-w>l
 
 " }}}
 " Folding ----------------------------------------------------------------- {{{
@@ -259,9 +269,10 @@ vnoremap <Space> za
 " cursor happens to be.
 nnoremap zO zCzO
 
-" Use ,z to "focus" the current fold.
-nnoremap ,z zMzvzz
+" Use <leader>z to "focus" the current fold.
+nnoremap <leader>z zMzvzz
 
+" enable syntax folding for XML (caution, this can be slow)
 let g:xml_syntax_folding=1
 " }}}
 " Destroy infuriating keys ------------------------------------------------ {{{
@@ -355,7 +366,7 @@ function! SynStack() "{{{
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
 endfunc "}}}
 
-"nnoremap ,ss :call SynStack()<CR>
+"nnoremap <leader>ss :call SynStack()<CR>
 
 " }}}
 " Toggle whitespace in diffs {{{
@@ -373,7 +384,7 @@ function! ToggleDiffWhitespace() "{{{
     diffupdate
 endfunc "}}}
 
-nnoremap ,dw :call ToggleDiffWhitespace()<CR>
+nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 
 " }}}
 
@@ -595,7 +606,6 @@ let g:ctrlp_working_path_mode = 2
 " indent-guides {{{
 let g:indent_guides_enable_on_vim_startup=0
 " }}}
-
 " }}}
 " Projects ---------------------------------------------------------------- {{{
 command! Dropbox cd C:/Users/root/Desktop/Dropbox
@@ -620,7 +630,7 @@ augroup END
 
 augroup Platform
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* nnoremap ,m :call MakePlatform()<CR>
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* nnoremap <leader>m :call MakePlatform()<CR>
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
 augroup END
 function! MakePlatform()
@@ -629,7 +639,7 @@ endfunction
 
 augroup ImmunoSim
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* nnoremap ,m :call MakeImmunoSim()<CR>
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* nnoremap <leader>m :call MakeImmunoSim()<CR>
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
 augroup END
 function! MakeImmunoSim()
@@ -638,7 +648,7 @@ endfunction
 
 augroup Symlin
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* nnoremap ,m :call MakeSymlin()<CR>
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* nnoremap <leader>m :call MakeSymlin()<CR>
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 function! MakeSymlin()
@@ -751,7 +761,7 @@ imap kj <ESC>
 "nnoremap ; :
 
 " Substitute
-nnoremap ,s :%s//<left>
+nnoremap <leader>s :%s//<left>
 
 " CTRL-V and SHIFT-Insert are Paste
 inoremap <C-V> <ESC>"+pa
@@ -764,11 +774,11 @@ cnoremap <C-k> <Up>
 
 " Platform specific keybinds
 if has("unix")
-  nnoremap ,v :e ~/Dropbox/vim/_vimrc<CR>
+  nnoremap <leader>v :e ~/Dropbox/vim/_vimrc<CR>
   " Sudo to write
   cmap w!! w !sudo tee % >/dev/null
 elseif has("win32")
-  nnoremap ,v :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
+  nnoremap <leader>v :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
 endif
 
 function! CtrlPProject()
@@ -781,23 +791,24 @@ function! CommandTProject()
   let directory = GetProjectDirectory()
   execute ":CommandT " . directory
 endfunction
-nnoremap ,t :call CommandTProject()<CR>
-nnoremap ,b :FufBuffer<CR>
-nnoremap ,l :LustyJuggler<CR>
-nnoremap ,a :A<CR>
+nnoremap <leader>t :call CommandTProject()<CR>
+nnoremap <leader>b :FufBuffer<CR>
+silent! nunmap <leader>lj
+nnoremap <leader>l :LustyJuggler<CR>
+nnoremap <leader>a :A<CR>
 
-nnoremap ,c :botright cwindow<CR>
-nnoremap ,cc :cclose<CR>
+nnoremap <leader>c :botright cwindow<CR>
+nnoremap <leader>cc :cclose<CR>
 
 " Splits {{{
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-nnoremap ,wv :vsplit<CR>
-nnoremap ,wn :split<CR>
-nnoremap ,wc :close<CR>
+nnoremap <leader>wv :vsplit<CR>
+nnoremap <leader>wn :split<CR>
+nnoremap <leader>wc :close<CR>
 
 nnoremap <C-Up> :resize +1<CR>
 nnoremap <C-Down> :resize -1<CR>
@@ -858,10 +869,10 @@ function! FindThisKeywordInProject(keyword)
   execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions()
 endfunction
 
-nnoremap ,fw :call FindCursorWordInBuffer()<CR>
-nnoremap ,fp :call FindCursorWordInProject()<CR>
-nnoremap ,fk :call FindThisKeywordInProject("")<left><left>
-nnoremap ,fl :FufLine<CR>
+nnoremap <leader>fw :call FindCursorWordInBuffer()<CR>
+nnoremap <leader>fp :call FindCursorWordInProject()<CR>
+nnoremap <leader>fk :call FindThisKeywordInProject("")<left><left>
+nnoremap <leader>fl :FufLine<CR>
 
 nnoremap <C-Space> :FufTagWithCursorWord!<CR>
 
