@@ -68,7 +68,7 @@ set wildmode=longest,list
 
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.bmp,*.tga
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.dep,*.idb
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.dep,*.idb,*.ipch
 set wildignore+=*.ncb,*.suo,*.user,*.vcproj,*.vcxproj,*.out,*.sln
 set wildignore+=Debug,Release,Debug.bat,Release.bat
 set wildignore+=*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt
@@ -327,7 +327,9 @@ endfunction
 if (has("gui_running"))
   "colorscheme xoria256
   let g:molokai_original=0
-  colorscheme molokai
+  "colorscheme molokai
+  set background=dark
+  colorscheme solarized
 
   " Font
   if has("win32")
@@ -349,7 +351,7 @@ if (has("gui_running"))
   endif
 
   " Remove cursor blink
-  let &guicursor = &guicursor . ",a:blinkon0"
+  set guicursor+=a:blinkon0
 endif
 " }}}
 " Utils ------------------------------------------------------------------- {{{
@@ -561,9 +563,12 @@ augroup END
 " Tags -------------------------------------------------------------------- {{{
 set tags=
 
+" Current Directory
+set tags+=tags
+
 " Base
 set tags+=C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags
-"set tags+=C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags
+set tags+=C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags
 
 " Cores
 "set tags+=C:\SVN\Syandus_Cores\C_Demo_Marketing_01\Source\Scripts\Content\tags
@@ -581,17 +586,133 @@ let g:netrw_mousemaps=0
 let g:acp_enableAtStartup = 1
 let g:acp_ignorecaseOption = 1
 let g:acp_completeOption = '.,w,b,u,t'
-let g:acp_behaviorKeywordLength = 2
+let g:acp_behaviorKeywordLength = 4
 let g:acp_completeoptPreview = 0
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
-inoremap <expr> <Tab> pumvisible() ? "\<C-y>"       : "\<Tab>"
-inoremap <expr> <CR>  pumvisible() ? "\<C-e>\<CR>"  : "\<CR>"
+
+function! MySuperTabUserCompletion(findstart, base)
+  if a:findstart
+    if (!exists("b:possible_function_signatures"))
+      return -1;
+    else
+      let start = col('.') - 1
+      return start
+    endif
+  else
+    return { 'words' : b:possible_function_signatures, 'refresh' : 'always' }
+  endif
+endfunction
+
+function! MySuperTab()
+  " if popup menu is open accept selected entry
+  if pumvisible() 
+    return "\<C-y>"
+  " do fancy tab
+  else
+    let words = split(getline("."), '\W\+')
+    " if we are just TAB-ing to get more leading whitespace
+    if (len(words) < 1)
+      return "\<TAB>"
+    endif
+
+    let last_word = words[-1]
+
+    let results = taglist("^" . last_word . "$")
+    let b:possible_function_signatures = []
+    for item in results
+      if (has_key(item, 'signature'))
+        let entry = {}
+        let signature = item['signature']
+        let entry.word = signature
+
+        let class = '-'
+        if (has_key(item, 'class'))
+          let class = item['class']
+        endif
+
+        let kind = '-'
+        if (has_key(item, 'kind'))
+          let kind = item['kind']
+        endif
+
+        let abbr = class . '::' . last_word . signature
+        let entry.abbr = abbr
+        call add(b:possible_function_signatures, entry)
+      endif
+    endfor
+
+    if (len(b:possible_function_signatures) > 0)
+      setlocal completefunc=MySuperTabUserCompletion
+      return "\<C-X>\<C-U>"
+    endif
+
+    return ""
+  endif
+endfunction
+
+function! MySuperEnter()
+  if pumvisible()
+    if (exists("b:possible_function_signatures"))
+      return "\<C-y>\<ESC>F(la"
+    else
+      return "\<C-e>\<CR>"
+    endif
+  else
+    return "\<CR>"
+  endif
+endfunction
+
+inoremap <expr> <TAB> MySuperTab()
+inoremap <expr> <CR>  MySuperEnter()
+
+function! MyChangeNextArg()
+  " always start out with an ESC to get out of insert mode
+  let change_command = "\<ESC>"
+  " yay for zero indexing
+  let current_pos = col('.') - 2
+  let line = getline('.')
+  let char0 = strpart(line, current_pos, 1)
+  let char1 = strpart(line, current_pos + 1, 1)
+  let char2 = strpart(line, current_pos + 2, 1)
+
+  if (char1 ==# ',')
+    let change_command .= "lll"
+  else
+    let change_command .= "l"
+  endif
+
+  let change_command .= "vt"
+
+  "determine if we even have a ',' to move to
+  let ii = 0
+  let found_comma = 0
+  for ii in range(current_pos + 2, len(line))
+    let cur_char = strpart(line, ii, 1)
+    if (cur_char ==# ',')
+      let found_comma = 1
+    endif
+  endfor
+
+  if (found_comma)
+    let change_command .= ','
+  else
+    let change_command .= ')'
+  endif
+
+  let change_command .= "\<C-G>"
+  return change_command
+endfunction
+inoremap <expr> <S-A-l> MyChangeNextArg()
 "}}}
 " Command-T {{{
 let g:CommandTMaxHeight=32
 let g:CommandTMatchWindowAtTop=1
 let g:CommandTMatchWindowReverse=0
 " }}}
+" ack.vim {{{
+let g:ackprg="C:/Perl/site/bin/ack.bat -H --nocolor --nogroup --column"
+" }}}
+
 " tagbar {{{
 let g:tagbar_width = 40
 let g:tagbar_sort = 0
