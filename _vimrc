@@ -354,43 +354,6 @@ if (has("gui_running"))
   set guicursor+=a:blinkon0
 endif
 " }}}
-" Utils ------------------------------------------------------------------- {{{
-
-function! g:echodammit(msg)
-    exec 'echom "----------> ' . a:msg . '"'
-endfunction
-
-" Synstack {{{
-
-" Show the stack of syntax hilighting classes affecting whatever is under the
-" cursor.
-function! SynStack() "{{{
-  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
-endfunc "}}}
-
-"nnoremap <leader>ss :call SynStack()<CR>
-
-" }}}
-" Toggle whitespace in diffs {{{
-
-set diffopt-=iwhite
-let g:diffwhitespaceon = 1
-function! ToggleDiffWhitespace() "{{{
-    if g:diffwhitespaceon
-        set diffopt-=iwhite
-        let g:diffwhitespaceon = 0
-    else
-        set diffopt+=iwhite
-        let g:diffwhitespaceon = 1
-    endif
-    diffupdate
-endfunc "}}}
-
-nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
-
-" }}}
-
-" }}}
 " Pulse ------------------------------------------------------------------- {{{
 
 function! PulseCursorLine()
@@ -439,6 +402,47 @@ function! PulseCursorLine()
 
     windo set cursorline
     execute current_window . 'wincmd w'
+endfunction
+
+" }}}
+" Utils ------------------------------------------------------------------- {{{
+
+function! g:echodammit(msg)
+    exec 'echom "----------> ' . a:msg . '"'
+endfunction
+
+" Synstack {{{
+
+" Show the stack of syntax hilighting classes affecting whatever is under the
+" cursor.
+function! SynStack() "{{{
+  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
+endfunc "}}}
+
+"nnoremap <leader>ss :call SynStack()<CR>
+
+" }}}
+" Toggle whitespace in diffs {{{
+
+set diffopt-=iwhite
+let g:diffwhitespaceon = 1
+function! ToggleDiffWhitespace() "{{{
+    if g:diffwhitespaceon
+        set diffopt-=iwhite
+        let g:diffwhitespaceon = 0
+    else
+        set diffopt+=iwhite
+        let g:diffwhitespaceon = 1
+    endif
+    diffupdate
+endfunc "}}}
+
+nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
+
+" }}}
+
+function! AutoHotkeyMake(makefile)
+  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" ' . a:makefile
 endfunction
 
 " }}}
@@ -609,7 +613,9 @@ function! MySuperTab()
     return "\<C-y>"
   " do fancy tab
   else
-    let words = split(getline("."), '\W\+')
+    let line = getline(".")
+    let line = strpart(line, 0, col('.') - 1)
+    let words = split(line, '\W\+')
     " if we are just TAB-ing to get more leading whitespace
     if (len(words) < 1)
       return "\<TAB>"
@@ -645,6 +651,8 @@ function! MySuperTab()
       setlocal completefunc=MySuperTabUserCompletion
       return "\<C-X>\<C-U>"
     endif
+
+    unlet b:possible_function_signatures
 
     return ""
   endif
@@ -742,6 +750,8 @@ command! Symlin cd C:/SVN/Syandus_Cores/C_Sym_DM_01
 command! Spiriva cd C:/SVN/Syandus_Cores/C_Spv_COPD_01
 command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 
+command! Mac cd S:/trunk/ALIVE Med/
+
 augroup SyandusIndents
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
@@ -749,32 +759,38 @@ augroup SyandusIndents
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Hub/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
 augroup END
 
+function! SetSettingsForPlatform()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_platform.ahk')<CR>
+endfunction
 augroup Platform
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* nnoremap <leader>m :call MakePlatform()<CR>
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Platform/Source/Code/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_ALIVE3/Platform/Source/Code/*
+  \ call SetSettingsForPlatform()
 augroup END
-function! MakePlatform()
-  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make_platform.ahk'
-endfunction
 
+function! SetSettingsForImmunoSim()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_immunosim.ahk')<CR>
+endfunction
 augroup ImmunoSim
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* nnoremap <leader>m :call MakeImmunoSim()<CR>
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_ImmunoSim_01/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_Cores/C_ImmunoSim_01/*
+  \ call SetSettingsForImmunoSim()
 augroup END
-function! MakeImmunoSim()
-  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make_immunosim.ahk'
-endfunction
 
+function! SetSettingsForSymlin()
+  setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_symlin.ahk')<CR>
+endfunction
 augroup Symlin
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* nnoremap <leader>m :call MakeSymlin()<CR>
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_Cores/C_Sym_DM_01/* setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd BufNewFile,BufRead,BufEnter 
+  \ C:/SVN/Syandus_Cores/C_Sym_DM_01/*
+  \ call SetSettingsForSymlin()
 augroup END
-function! MakeSymlin()
-  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" C:\Users\root\Desktop\Dropbox\make_symlin.ahk'
-endfunction
 " }}}
 
 " Function Library -------------------------------------------------------- {{{
