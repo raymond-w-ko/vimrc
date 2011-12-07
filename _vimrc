@@ -7,6 +7,7 @@ call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "taglist")
 call add(g:pathogen_disabled, "ctrlp")
 call add(g:pathogen_disabled, "toggle_words")
+call add(g:pathogen_disabled, "neocomplcache")
 call pathogen#infect()
 call pathogen#helptags()
 " }}}
@@ -32,40 +33,38 @@ set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
-set number
+set nonumber
 set norelativenumber
 set laststatus=2
-set history=1024
+set history=8192
 set lazyredraw
 set showmatch
 set matchtime=0
 set splitbelow
 set splitright
-set timeoutlen=300
+"set timeoutlen=300
+set notimeout
+set nottimeout
 set autoread
 set autowriteall
 set title
 set showtabline=2
 set cmdheight=2
 set complete=.,w,b,u,t
-set completeopt=menu,menuone
+set completeopt=menu,menuone,preview
 set pumheight=16
 set autochdir
-" My own version of autochdir
-"augroup AutoChdirSubstitute
-"  autocmd!
-"  autocmd BufEnter * call CdToProjectDirectory()
-"augroup END
+set nolist
 
 " Save when losing focus
 augroup SaveWhenLosingFocus
   au!
-  au FocusLost * :wa
+  au FocusLost * :silent! wall
 augroup END
 
 " Wildmenu completion {{{
 set wildmenu
-set wildmode=longest,list
+set wildmode=list:longest
 
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.bmp,*.tga
@@ -84,9 +83,9 @@ set autoindent
 set nocindent
 set nosmartindent
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set shiftround
 set expandtab
 set nosmarttab
@@ -167,8 +166,10 @@ set virtualedit+=block
 
 nnoremap <leader><space> :noh<cr>:call clearmatches()<cr>
 
-runtime macros/matchit.vim
+"I copied the default one to Dropbox vim plugin/ folder to make changes
+"runtime macros/matchit.vim
 nmap <tab> %
+vmap <tab> %
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
@@ -223,15 +224,15 @@ nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'
 " }}}
 
 " Visual Mode */# from Scrooloose {{{
-function! s:VSetSearch()
+function! s:VisualModeSetSearch()
   let temp = @@
   norm! gvy
   let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
   let @@ = temp
 endfunction
 
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+vnoremap * :<C-u>call <SID>VisualModeSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VisualModeSetSearch()<CR>??<CR><c-o>
 " }}}
 
 " }}}
@@ -252,14 +253,11 @@ function! SetFoldSettings()
   set foldopen=block,hor,mark,percent,quickfix,tag,search
   set foldlevel=0
   set foldnestmax=20
-  set foldlevelstart=9001
   set foldtext=MyFoldText()
 
   let g:my_fold_settings_applied=1
 endfunction
 call SetFoldSettings()
-
-let v:folddashes=' '
 
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against
@@ -281,7 +279,7 @@ nnoremap <leader>z zMzvzz
 " enable syntax folding for XML (caution, this can be slow)
 let g:xml_syntax_folding=1
 " }}}
-" Destroy infuriating keys {{{
+" Destroy infuriating / ??? keys {{{
 
 " Fuck you too, manual key.
 nnoremap K <nop>
@@ -340,7 +338,8 @@ if (has("gui_running"))
   " Font
   if has("win32")
     set guifont=Dina:h8
-    "set guifont=Consolas:h11
+    "set guifont=Consolas:h9
+    "set guifont=DejaVu\ Sans\ Mono:h10
   elseif has("gui_macvim")
     set noantialias
     set guifont=DinaTTF:h11
@@ -550,11 +549,12 @@ endfunction
 " The holy ESC key
 imap jk <ESC>
 imap kj <ESC>
+imap <F1> <ESC>
 
 " Substitute
 nnoremap <leader>s :%s//<left>
 
-" CTRL-V and SHIFT-Insert are Paste
+" CTRL-V and are Paste
 inoremap <C-V> <ESC>"+pa
 
 " CTRL-hjkl movement while in : command mode
@@ -565,10 +565,10 @@ cnoremap <C-k> <Up>
 
 " Platform specific keybinds
 if has("unix")
-  nnoremap <leader>v :e ~/Dropbox/vim/_vimrc<CR>
+  nnoremap <leader>ev :e ~/Dropbox/vim/_vimrc<CR>
   cmap w!! w !sudo tee % >/dev/null
 elseif has("win32")
-  nnoremap <leader>v :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
+  nnoremap <leader>ev :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
 endif
 
 function! CommandTProject()
@@ -576,12 +576,14 @@ function! CommandTProject()
 endfunction
 nnoremap <leader>t :call CommandTProject()<CR>
 nnoremap <leader>b :FufBuffer<CR>
-silent! nunmap <leader>lj
 nnoremap <leader>l :LustyJuggler<CR>
 nnoremap <leader>a :A<CR>
 
-nnoremap <leader>c :botright cwindow<CR>
-nnoremap <leader>cc :cclose<CR>
+nnoremap <leader>C<space> :botright cwindow<CR>
+nnoremap <leader>Cc :cclose<CR>
+nnoremap <leader>Cc :cclose<CR>
+nnoremap <leader>L<space> :lopen<CR>
+nnoremap <leader>LL :lclose<CR>
 
 " lazy braces
 "inoremap { {<CR>}<ESC>zoO<TAB>
@@ -607,10 +609,6 @@ nnoremap <A-2> 2gt
 nnoremap <A-3> 3gt
 nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
-nnoremap <A-6> 6gt
-nnoremap <A-7> 7gt
-nnoremap <A-8> 8gt
-nnoremap <A-9> 9gt
 nnoremap <A-t> <ESC>:tabnew<CR>
 nnoremap <A-w> <ESC>:tabclose<CR>
 
@@ -619,15 +617,8 @@ inoremap <A-2> <ESC>2gt
 inoremap <A-3> <ESC>3gt
 inoremap <A-4> <ESC>4gt
 inoremap <A-5> <ESC>5gt
-inoremap <A-6> <ESC>6gt
-inoremap <A-7> <ESC>7gt
-inoremap <A-8> <ESC>8gt
-inoremap <A-9> <ESC>9gt
 inoremap <A-t> <ESC>:tabnew<CR>
 inoremap <A-w> <ESC>:tabclose<CR>
-
-nnoremap <M-h> :tabprev<CR>
-nnoremap <M-l> :tabnext<CR>
 " }}}
 " Finding stuff {{{
 function! GetRelevantExtensions()
@@ -638,6 +629,7 @@ function! GetRelevantExtensions()
   let extensions .= directory . "/**/*.ssf "
   let extensions .= directory . "/**/*.sml "
   let extensions .= directory . "/**/*.h "
+  let extensions .= directory . "/**/*.c "
   let extensions .= directory . "/**/*.cpp "
   let extensions .= directory . "/**/*.m "
 
@@ -730,7 +722,7 @@ function! MySuperEnter()
     if (exists("b:possible_function_signatures"))
       return "\<C-y>\<ESC>F(a"
     else
-      return "\<C-e>\<CR>"
+      return "\<C-y>\<CR>"
     endif
   else
     return "\<CR>"
@@ -821,6 +813,11 @@ nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
 " Filetype-specific stuff {{{
 
 " C {{{
+augroup ft_c
+  autocmd!
+  autocmd BufNewFile,BufRead *.c setlocal foldlevel=0
+  autocmd BufNewFile,BufRead *.c setlocal foldnestmax=1
+augroup END
 " }}}
 " C++ {{{
 augroup ft_cpp
@@ -883,6 +880,21 @@ augroup vimrc
   au BufWritePost _vimrc source $MYVIMRC
 augroup END
 " }}}
+" git {{{
+augroup ft_gitcommit
+  au!
+  au FileType gitcommit setlocal foldlevel=9001
+augroup END
+"}}}
+" Python {{{
+augroup ft_python
+  au!
+  au FileType python setlocal foldlevel=0
+  au FileType python setlocal foldnestmax=1
+  au FileType python setlocal foldmethod=indent
+  au FileType python setlocal omnifunc=python3complete#Complete
+augroup END
+"}}}
 
 " Hex Editing {{{
 " vim -b : edit binary using xxd-format!
@@ -1006,6 +1018,25 @@ augroup ImmunoSim
   \ call SetSettingsForImmunoSim()
 augroup END
 " }}}
+" UnbrandedSpiriva {{{
+function! SetSettingsForUnbrandedSpiriva()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:/Users/root/Desktop/Dropbox/make_unbrandedcopd.ahk')<CR>
+  setlocal tags=
+  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
+  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
+endfunction
+augroup UnbrandedSpiriva
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_Cores/C_Unb_COPD_01/*
+  \ call SetSettingsForUnbrandedSpiriva()
+
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_Cores/C_Spv_COPD_01/*
+  \ call SetSettingsForUnbrandedSpiriva()
+augroup END
+" }}}
 " Symlin {{{
 function! SetSettingsForSymlin()
   setlocal tabstop=2 shiftwidth=2 softtabstop=2
@@ -1050,17 +1081,20 @@ let g:netrw_mousemaps=0
 let g:acp_enableAtStartup = 1
 let g:acp_ignorecaseOption = 1
 let g:acp_completeOption = '.,w,b,u,t'
-let g:acp_behaviorKeywordLength = 4
-let g:acp_completeoptPreview = 0
+let g:acp_behaviorKeywordLength = 3
+let g:acp_completeoptPreview = 1
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
 "}}}
 " Command-T {{{
-let g:CommandTMaxHeight=32
+let g:CommandTMaxHeight=16
 let g:CommandTMatchWindowAtTop=1
 let g:CommandTMatchWindowReverse=0
 " }}}
 " ack.vim {{{
 let g:ackprg="C:/Perl/site/bin/ack.bat -H --nocolor --nogroup --column"
+" }}}
+" LustyJuggler {{{
+let g:LustyJugglerDefaultMappings=0
 " }}}
 
 " tagbar {{{
