@@ -31,8 +31,8 @@
 [submodule "vimfiles/bundle/a.vim"]
 	path = vimfiles/bundle/a.vim
 	url = https://github.com/vim-scripts/a.vim.git
-[submodule "vimfiles/bundle/camelcasecomtion"]
-	path = vimfiles/bundle/camelcasecomtion
+[submodule "vimfiles/bundle/camelcasemotion"]
+	path = vimfiles/bundle/camelcasemotion
 	url = git://github.com/vim-scripts/camelcasemotion.git
 [submodule "vimfiles/bundle/cocoa"]
 	path = vimfiles/bundle/cocoa
