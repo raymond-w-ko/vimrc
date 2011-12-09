@@ -1,5 +1,6 @@
 " Preamble {{{
 set nocompatible
+filetype off
  
 let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "cocoa")
@@ -13,12 +14,12 @@ call pathogen#helptags()
 " }}}
 
 " File options {{{
-syntax on               " syntax is good
-filetype on             " detect and set filetype
-filetype plugin on      " load filetype plugin
-filetype indent off     " as a control freak, don't enable automatic indenting
-set ffs=unix,dos        " order of support
-set shellslash          " '/' is so much easier to type
+filetype on                         " detect and set filetype
+filetype plugin on                  " load filetype plugin
+filetype indent off                 " as a control freak, don't enable automatic indenting
+syntax on                           " syntax is good
+set fileformats=unix,dos,mac        " order of support
+set shellslash                      " '/' is so much easier to type
 " }}}
 " Basic options {{{
 set shortmess+=aI    " no intro message
@@ -58,8 +59,8 @@ set nolist
 
 " Save when losing focus
 augroup SaveWhenLosingFocus
-  au!
-  au FocusLost * :silent! wall
+    au!
+    au FocusLost * :silent! wall
 augroup END
 
 " Wildmenu completion {{{
@@ -91,8 +92,13 @@ set expandtab
 set nosmarttab
 set textwidth=0           " no automatic text wrapping
 set colorcolumn=80
-set nowrap
 set formatoptions=qn1
+set wrap
+if exists("&breakindent")
+    set breakindent showbreak=+++\ 
+elseif has("gui_running")
+    set showbreak=\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +++
+endif
 " }}}
 " Persistent Undo {{{
 set undodir=~/vimundo
@@ -134,12 +140,10 @@ set statusline+=%w    " preview window flag
 
 set statusline+=\ \ \ \                 " space
 
+"set statusline+=[%{strlen(&fenc)?&fenc:&enc}]    " Encoding
+set statusline+=[%{&filetype}]                      " file type
+"set statusline+=[fdm=%{&fdm}]               " foldmethod
 set statusline+=[%{&ff}]                " line ending type
- 
-set statusline+=[%{strlen(&fenc)?&fenc:&enc}]    " Encoding
-
-set statusline+=%y                      " file type
-set statusline+=[%{&fdm}]               " foldmethod
 
 set statusline+=\                       " space
 
@@ -171,12 +175,17 @@ nnoremap <leader><space> :noh<cr>:call clearmatches()<cr>
 nmap <tab> %
 vmap <tab> %
 
+" make D behave
+nnoremap D d$
+
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-nnoremap n nzzzv
-nnoremap N Nzzzv
+"nnoremap n nzzzv
+"nnoremap N Nzzzv
+nnoremap n nzv
+nnoremap N Nzv
 
 " Don't move on *
 nnoremap * *<c-o>
@@ -196,11 +205,11 @@ nnoremap <silent> <leader>/ :execute 'lvimgrep /'.@/.'/g %'<CR>:lopen<CR>
 "nnoremap <silent> <leader>? :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
 " Fix linewise visual selection of various text objects
-"nnoremap VV V
-"nnoremap Vit vitVkoj
-"nnoremap Vat vatV
-"nnoremap Vab vabV
-"nnoremap VaB vaBV
+nnoremap VV V
+nnoremap Vit vitVkoj
+nnoremap Vat vatV
+nnoremap Vab vabV
+nnoremap VaB vaBV
 
 " Directional keys -------------------------------------------------------- {{{
 
@@ -330,7 +339,7 @@ endfunction
 " Environments (GUI/Console) {{{
 if (has("gui_running"))
   "colorscheme xoria256
-  let g:molokai_original=0
+  "let g:molokai_original=0
   "colorscheme molokai
   set background=dark
   colorscheme solarized
@@ -338,7 +347,7 @@ if (has("gui_running"))
   " Font
   if has("win32")
     set guifont=Dina:h8
-    "set guifont=Consolas:h9
+    "set guifont=Consolas:h11
     "set guifont=DejaVu\ Sans\ Mono:h10
   elseif has("gui_macvim")
     set noantialias
@@ -360,71 +369,15 @@ if (has("gui_running"))
   set guicursor+=a:blinkon0
 endif
 " }}}
-" Pulse {{{
-
-function! PulseCursorLine()
-    let current_window = winnr()
-
-    windo set nocursorline
-    execute current_window . 'wincmd w'
-
-    setlocal cursorline
-
-    redir => old_hi
-        silent execute 'hi CursorLine'
-    redir END
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#444444 ctermbg=239
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#3a3a3a ctermbg=237
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#333333 ctermbg=235
-    redraw
-    sleep 20m
-
-    hi CursorLine guibg=#2a2a2a ctermbg=233
-    redraw
-    sleep 20m
-
-    execute 'hi ' . old_hi
-
-    windo set cursorline
-    execute current_window . 'wincmd w'
-endfunction
-
-" }}}
 " Utils {{{
-
-function! g:echodammit(msg)
-    exec 'echom "----------> ' . a:msg . '"'
-endfunction
 
 " Synstack {{{
 
 " Show the stack of syntax hilighting classes affecting whatever is under the
 " cursor.
-function! SynStack() "{{{
+function! SynStack()
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
-endfunc "}}}
-
+endfunc
 "nnoremap <leader>ss :call SynStack()<CR>
 
 " }}}
@@ -432,7 +385,7 @@ endfunc "}}}
 
 set diffopt-=iwhite
 let g:diffwhitespaceon = 1
-function! ToggleDiffWhitespace() "{{{
+function! ToggleDiffWhitespace() "
     if g:diffwhitespaceon
         set diffopt-=iwhite
         let g:diffwhitespaceon = 0
@@ -441,15 +394,11 @@ function! ToggleDiffWhitespace() "{{{
         let g:diffwhitespaceon = 1
     endif
     diffupdate
-endfunc "}}}
+endfunc "
 
 nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 
 " }}}
-
-function! AutoHotkeyMake(makefile)
-  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" ' . a:makefile
-endfunction
 
 " }}}
 " Function Library {{{
@@ -501,6 +450,14 @@ function! CurrentDirectory()
   execute ":lcd %:p:h"
 endfunction
 
+function! EscapePathname(pathname)
+  return substitute(a:pathname, "\\ ", "\\\\ ", "g")
+endfunction
+
+function! AutoHotkeyMake(makefile)
+  execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" ' . a:makefile
+endfunction
+
 " ex command for toggling hex mode - define mapping if desired
 command! -bar Hexmode call ToggleHex()
 
@@ -546,6 +503,7 @@ endfunction
 
 " Keybindings {{{
 
+" General {{{
 " The holy ESC key
 imap jk <ESC>
 imap kj <ESC>
@@ -572,7 +530,7 @@ elseif has("win32")
 endif
 
 function! CommandTProject()
-  execute ":CommandT " . GetProjectDirectory()
+  execute ":CommandT " . EscapePathname(GetProjectDirectory())
 endfunction
 nnoremap <leader>t :call CommandTProject()<CR>
 nnoremap <leader>b :FufBuffer<CR>
@@ -586,8 +544,33 @@ nnoremap <leader>L<space> :lopen<CR>
 nnoremap <leader>LL :lclose<CR>
 
 " lazy braces
-"inoremap { {<CR>}<ESC>zoO<TAB>
+function! MyLazyBraces()
+    let cur_ft = &filetype 
+    if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc')
+        return "{\<CR>}\<ESC>zoO\<TAB>"
+    else
+        return "{"
+    endif
+endfunction
+inoremap <expr> { MyLazyBraces()
+" lazy parentheses
+"inoremap ( ()<Left>
+" lazy brackets
+"inoremap [ []<Left>
+" lazy quotes
+"inoremap ' ''<Left>
+"inoremap " ""<Left>
 
+" these are sort of necessary since you usually have
+" to move right of the surrounds
+inoremap <A-h> <Left>
+inoremap <A-l> <Right>
+inoremap <A-k> <Up>
+inoremap <A-j> <Down>
+
+" might as well make it do something useful
+inoremap <S-CR> <ESC>o
+"}}}
 " Splits {{{
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -621,23 +604,28 @@ inoremap <A-t> <ESC>:tabnew<CR>
 inoremap <A-w> <ESC>:tabclose<CR>
 " }}}
 " Finding stuff {{{
+function! ExtensionHelper(ext, dir)
+    let partial = a:dir . '/**/*.' . a:ext
+    let partial = EscapePathname(partial) . ' '
+    return partial
+endfunction
 function! GetRelevantExtensions()
   let directory = GetProjectDirectory()
 
   let extensions = ""
-  let extensions .= directory . "/**/*.vim "
-  let extensions .= directory . "/**/*.ssf "
-  let extensions .= directory . "/**/*.sml "
-  let extensions .= directory . "/**/*.h "
-  let extensions .= directory . "/**/*.c "
-  let extensions .= directory . "/**/*.cpp "
-  let extensions .= directory . "/**/*.m "
+  let extensions .= ExtensionHelper('vim', directory)
+  let extensions .= ExtensionHelper('ssf', directory)
+  let extensions .= ExtensionHelper('sml', directory)
+  let extensions .= ExtensionHelper('h', directory)
+  let extensions .= ExtensionHelper('c', directory)
+  let extensions .= ExtensionHelper('cpp', directory)
+  let extensions .= ExtensionHelper('m', directory)
 
   return extensions
 endfunction
 
 function! FindCursorWordInBuffer()
-  let filename = substitute(expand('%:p'), "\\ ", "\\\\ ", "g")
+  let filename = EscapePathname(expand('%:p'))
   execute "lvimgrep /\\<" . expand("<cword>") . "\\>/j " . filename
   lopen
 endfunction
@@ -647,7 +635,7 @@ function! FindCursorWordInProject()
 endfunction
 
 function! FindThisKeywordInProject(keyword)
-  execute "vimgrep /" . a:keyword . "\\c/j " . GetRelevantExtensions()
+  execute ':Ack! ' . a:keyword . ' ' . GetProjectDirectory()
 endfunction
 
 nnoremap <leader>fw :call FindCursorWordInBuffer()<CR>
@@ -815,52 +803,46 @@ nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
 " C {{{
 augroup ft_c
   autocmd!
-  autocmd BufNewFile,BufRead *.c setlocal foldlevel=0
-  autocmd BufNewFile,BufRead *.c setlocal foldnestmax=1
+  autocmd BufNewFile,BufRead *.c setlocal foldlevel=0 foldnestmax=1
 augroup END
 " }}}
 " C++ {{{
 augroup ft_cpp
   autocmd!
-  autocmd BufNewFile,BufRead *.cpp setlocal foldlevel=0
-  autocmd BufNewFile,BufRead *.cpp setlocal foldnestmax=1
+  autocmd BufNewFile,BufRead *.cpp setlocal foldlevel=0 foldnestmax=1
 augroup END
 " }}}
 " Objective-C {{{
 augroup ft_objc
   autocmd!
-  autocmd BufNewFile,BufRead *.m setlocal foldlevel=0
-  autocmd BufNewFile,BufRead *.m setlocal foldnestmax=1
+  autocmd BufNewFile,BufRead *.m setlocal foldlevel=0 foldnestmax=1
 augroup END
 " }}}
 " C, C++, Obj-C Header {{{
 augroup ft_h
   autocmd!
-  autocmd BufNewFile,BufRead *.h setlocal foldlevel=1
-  autocmd BufNewFile,BufRead *.h setlocal foldnestmax=20
+  autocmd BufNewFile,BufRead *.h setlocal foldlevel=1 foldnestmax=20
 augroup END
 " }}}
+
 " Syandus Spec File {{{
 augroup ft_ssf
   autocmd!
-  autocmd BufNewFile,BufRead *.ssf setlocal foldlevel=9001
-  autocmd BufNewFile,BufRead *.ssf setlocal foldnestmax=0
+  autocmd BufNewFile,BufRead *.ssf setlocal foldlevel=9001 foldnestmax=0
 augroup END
 " }}}
 " SyML {{{
 augroup ft_sml
   autocmd!
-  autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001
-  autocmd BufNewFile,BufRead *.sml setlocal foldnestmax=0
+  autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001 foldnestmax=0
 augroup END
 " }}}
+
 " Java {{{
 
 augroup ft_java
     au!
-
-    au FileType java setlocal foldmethod=marker
-    au FileType java setlocal foldmarker={,}
+    au FileType java setlocal foldmethod=marker foldmarker={,}
 augroup END
 
 " }}}
@@ -868,9 +850,7 @@ augroup END
 
 augroup ft_javascript
     au!
-
-    au FileType javascript setlocal foldmethod=marker
-    au FileType javascript setlocal foldmarker={,}
+    au FileType javascript setlocal foldmethod=marker foldmarker={,}
 augroup END
 
 " }}}
@@ -889,9 +869,7 @@ augroup END
 " Python {{{
 augroup ft_python
   au!
-  au FileType python setlocal foldlevel=0
-  au FileType python setlocal foldnestmax=1
-  au FileType python setlocal foldmethod=indent
+  au FileType python setlocal foldlevel=0 foldnestmax=1 foldmethod=indent
   au FileType python setlocal omnifunc=python3complete#Complete
 augroup END
 "}}}
@@ -963,6 +941,7 @@ command! Metrics cd C:/SVN/Syandus_ALIVE3/Metrics
 
 command! Symlin cd C:/SVN/Syandus_Cores/C_Sym_DM_01
 command! Spiriva cd C:/SVN/Syandus_Cores/C_Spv_COPD_01
+command! Copd cd C:/SVN/Syandus_Cores/C_Unb_COPD_01
 command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 
 command! Mac cd S:/trunk/ALIVE Med/
@@ -971,6 +950,7 @@ augroup SyandusIndents
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Hub/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Metrics/* setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
 " Platform {{{
@@ -1104,7 +1084,7 @@ let g:tagbar_sort = 0
 " CtrlP {{{
 let g:loaded_ctrlp = 1
 let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_max_height = 25
+let g:ctrlp_max_height = 16
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_working_path_mode = 2
 " }}}
