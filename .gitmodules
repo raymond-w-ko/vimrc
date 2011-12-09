@@ -55,3 +55,12 @@
 [submodule "vimfiles/bundle/nerdcommenter"]
 	path = vimfiles/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "vimfiles/bundle/vim-easymotion"]
+	path = vimfiles/bundle/vim-easymotion
+	url = git://github.com/Lokaltog/vim-easymotion.git
+[submodule "vimfiles/bundle/vim-repeat"]
+	path = vimfiles/bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "vimfiles/bundle/vim-surround"]
+	path = vimfiles/bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
