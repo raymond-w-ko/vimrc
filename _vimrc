@@ -17,7 +17,11 @@ call pathogen#helptags()
 filetype on                         " detect and set filetype
 filetype plugin on                  " load filetype plugin
 filetype indent off                 " as a control freak, don't enable automatic indenting
-syntax on                           " syntax is good
+" without a guard, re-sourcing this file breaks vim-easymotion
+if !exists("g:already_syntax_on")
+    syntax on
+    let g:already_syntax_on=1
+endif
 set fileformats=unix,dos,mac        " order of support
 set shellslash                      " '/' is so much easier to type
 " }}}
@@ -56,6 +60,8 @@ set completeopt=menu,menuone,preview
 set pumheight=16
 set autochdir
 set nolist
+"set list
+"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 
 " Save when losing focus
 augroup SaveWhenLosingFocus
@@ -95,23 +101,18 @@ set colorcolumn=80
 set formatoptions=qn1
 set wrap
 if exists("&breakindent")
-    set breakindent showbreak=+++\ 
+    set breakindent showbreak=...
 elseif has("gui_running")
-    set showbreak=\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +++
+    set showbreak=\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ...
 endif
 " }}}
-" Persistent Undo {{{
+" swap, undo, backup {{{
 set undodir=~/vimundo
 set undofile
-set undolevels=8192 "maximum number of changes that can be undone
-set undoreload=32768 "maximum number lines to save for undo on a buffer reload
-" }}}
-" Backups {{{
-if has("unix")
-  set directory=~/tmp//
-elseif has("win32")
-  set directory=C:/tmp//
-endif
+set undolevels=8192   "maximum number of changes that can be undone
+set undoreload=65536  "maximum number lines to save for undo on a buffer reload
+
+set directory=~/vimtmp//
 " }}}
 " Leader {{{
 
@@ -140,10 +141,10 @@ set statusline+=%w    " preview window flag
 
 set statusline+=\ \ \ \                 " space
 
-"set statusline+=[%{strlen(&fenc)?&fenc:&enc}]    " Encoding
 set statusline+=[%{&filetype}]                      " file type
-"set statusline+=[fdm=%{&fdm}]               " foldmethod
+set statusline+=[%{&fdm}]               " foldmethod
 set statusline+=[%{&ff}]                " line ending type
+set statusline+=[%{strlen(&fenc)?&fenc:&enc}]    " Encoding
 
 set statusline+=\                       " space
 
@@ -247,25 +248,25 @@ vnoremap # :<C-u>call <SID>VisualModeSetSearch()<CR>??<CR><c-o>
 " }}}
 " Folding {{{
 function! MyFoldText()
-  let line = getline(v:foldstart)
-  let sub = substitute(line, '^"\s\=\|/\*\|\*/\|{{{\d\=', '', 'g') "}}}
-  let remaining = 80 - len(sub)
-  return sub . repeat(' ', remaining)
+    let line = getline(v:foldstart)
+    let sub = substitute(line, '^"\s\=\|/\*\|\*/\|{{{\d\=', '', 'g') "}}}
+    let remaining = 80 - len(sub)
+    return sub . repeat(' ', remaining)
 endfunction
 function! SetFoldSettings()
-  if exists("g:my_fold_settings_applied")
-    return
-  endif
+    if exists("g:my_fold_settings_applied")
+        return
+    endif
 
-  set foldenable
-  set foldmethod=syntax
-  set foldopen=block,hor,mark,percent,quickfix,tag,search
-  set foldlevel=0
-  set foldnestmax=20
-  set foldtext=MyFoldText()
+    set foldenable
+    set foldmethod=syntax
+    set foldopen=block,hor,mark,percent,quickfix,tag,search
+    set foldlevelstart=0
+    set foldnestmax=20
 
-  let g:my_fold_settings_applied=1
+    let g:my_fold_settings_applied=1
 endfunction
+set foldtext=MyFoldText()
 call SetFoldSettings()
 
 " Don't screw up folds when inserting text that might affect them, until
@@ -338,21 +339,29 @@ endfunction
 " }}}
 " Environments (GUI/Console) {{{
 if (has("gui_running"))
-  "colorscheme xoria256
-  "let g:molokai_original=0
-  "colorscheme molokai
-  set background=dark
-  colorscheme solarized
+    if !exists("g:already_set_color_scheme")
+        "colorscheme xoria256
+
+        colorscheme molokai
+
+        "set background=dark
+        "colorscheme solarized
+        let g:already_set_color_scheme=1
+    endif
 
   " Font
   if has("win32")
     set guifont=Dina:h8
     "set guifont=Consolas:h11
-    "set guifont=DejaVu\ Sans\ Mono:h10
+    "set guifont=DejaVu\ Sans\ Mono:h9
+    "set guifont=Envy\ Code\ R:h10
   elseif has("gui_macvim")
-    set noantialias
-    set guifont=DinaTTF:h11
+    set antialias
+    set guifont=Menlo:h12
   endif
+
+    " Use a line-drawing char for pretty vertical splits.
+    "set fillchars+=vert:│
 
   " GUI Configuration
   set guioptions=a          " disable everything except synced clipboard
@@ -502,7 +511,6 @@ endfunction
 " }}}
 
 " Keybindings {{{
-
 " General {{{
 " The holy ESC key
 imap jk <ESC>
@@ -539,7 +547,7 @@ nnoremap <leader>a :A<CR>
 
 nnoremap <leader>C<space> :botright cwindow<CR>
 nnoremap <leader>Cc :cclose<CR>
-nnoremap <leader>Cc :cclose<CR>
+nnoremap <leader>CC :cclose<CR>
 nnoremap <leader>L<space> :lopen<CR>
 nnoremap <leader>LL :lclose<CR>
 
@@ -560,6 +568,8 @@ inoremap <expr> { MyLazyBraces()
 " lazy quotes
 "inoremap ' ''<Left>
 "inoremap " ""<Left>
+" super backspace
+inoremap <S-BS> <ESC>diwa
 
 " these are sort of necessary since you usually have
 " to move right of the surrounds
@@ -626,21 +636,21 @@ endfunction
 
 function! FindCursorWordInBuffer()
   let filename = EscapePathname(expand('%:p'))
-  execute "lvimgrep /\\<" . expand("<cword>") . "\\>/j " . filename
+  execute 'LAck! ' . expand("<cword>") . ' ' . EscapePathname(filename)
   lopen
 endfunction
 
 function! FindCursorWordInProject()
-  execute "vimgrep /\\<" . expand("<cword>") . "\\>/j " . GetRelevantExtensions()
+  execute ':Ack! ' . expand("<cword>") . ' ' . GetProjectDirectory()
 endfunction
 
 function! FindThisKeywordInProject(keyword)
   execute ':Ack! ' . a:keyword . ' ' . GetProjectDirectory()
 endfunction
 
-nnoremap <leader>fw :call FindCursorWordInBuffer()<CR>
-nnoremap <leader>fp :call FindCursorWordInProject()<CR>
-nnoremap <leader>fk :call FindThisKeywordInProject("")<left><left>
+nnoremap <leader>fwib :call FindCursorWordInBuffer()<CR>
+nnoremap <leader>fwip :call FindCursorWordInProject()<CR>
+nnoremap <leader>fkip :call FindThisKeywordInProject("")<left><left>
 nnoremap <leader>fl :FufLine<CR>
 
 nnoremap <C-Space> :FufTagWithCursorWord!<CR>
@@ -949,7 +959,6 @@ command! Mac cd S:/trunk/ALIVE Med/
 augroup SyandusIndents
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Hub/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
   autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Metrics/* setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
@@ -965,6 +974,20 @@ augroup Platform
   autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_ALIVE3/Platform/Source/Code/*
   \ call SetSettingsForPlatform()
+augroup END
+" }}}
+" Hub {{{
+function! SetSettingsForHub()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_hub.ahk')<CR>
+  setlocal tags=
+  \C:/SVN/Syandus_ALIVE3/Hub/Source/tags
+endfunction
+augroup Hub
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_ALIVE3/Hub/*
+  \ call SetSettingsForHub()
 augroup END
 " }}}
 " Carbon {{{
@@ -1092,4 +1115,4 @@ let g:ctrlp_working_path_mode = 2
 let g:indent_guides_enable_on_vim_startup=0
 " }}}
 " }}}
-" vim:fdm=marker:foldlevelstart=0
+" vim:fdm=marker:foldlevel=0
