@@ -39,7 +39,7 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set nonumber
-set norelativenumber
+set relativenumber
 set laststatus=2
 set history=8192
 set lazyredraw
@@ -60,8 +60,6 @@ set completeopt=menu,menuone,preview
 set pumheight=16
 set autochdir
 set nolist
-"set list
-"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 
 " Save when losing focus
 augroup SaveWhenLosingFocus
@@ -342,26 +340,23 @@ if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
         "colorscheme xoria256
 
-        colorscheme molokai
+        "colorscheme molokai
 
-        "set background=dark
-        "colorscheme solarized
+        set background=dark
+        colorscheme solarized
         let g:already_set_color_scheme=1
     endif
 
   " Font
   if has("win32")
     set guifont=Dina:h8
-    "set guifont=Consolas:h11
+    "set guifont=Consolas:h9
     "set guifont=DejaVu\ Sans\ Mono:h9
     "set guifont=Envy\ Code\ R:h10
   elseif has("gui_macvim")
     set antialias
     set guifont=Menlo:h12
   endif
-
-    " Use a line-drawing char for pretty vertical splits.
-    "set fillchars+=vert:│
 
   " GUI Configuration
   set guioptions=a          " disable everything except synced clipboard
@@ -590,6 +585,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <leader>wv :vsplit<CR>
 nnoremap <leader>wn :split<CR>
 nnoremap <leader>wc :close<CR>
+nnoremap <leader>wo :wincmd o<CR>
 
 nnoremap <C-Up> :resize +1<CR>
 nnoremap <C-Down> :resize -1<CR>
