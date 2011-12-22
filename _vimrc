@@ -27,8 +27,8 @@ set shellslash                      " '/' is so much easier to type
 " }}}
 " Basic options {{{
 set shortmess+=aI    " no intro message
-"set encoding=utf-8
-set encoding=latin1
+set encoding=utf-8
+"set encoding=latin1
 set showmode
 set showcmd
 set hidden
@@ -137,14 +137,14 @@ set statusline+=%m    " modified flag
 set statusline+=%r    " readonly flag
 set statusline+=%w    " preview window flag
 
-set statusline+=\ \ \ \                 " space
+set statusline+=\ \ \ \         " space
 
-set statusline+=[%{&filetype}]                      " file type
-set statusline+=[%{&fdm}]               " foldmethod
-set statusline+=[%{&ff}]                " line ending type
-set statusline+=[%{strlen(&fenc)?&fenc:&enc}]    " Encoding
+set statusline+=[%{&filetype}]      " file type
+set statusline+=[%{&fdm}]           " foldmethod
+set statusline+=[%{&ff}]            " line ending type
+set statusline+=[%{strlen(&fenc)?&fenc:&enc}]   " Encoding
 
-set statusline+=\                       " space
+set statusline+=\                   " space
 
 set statusline+=[%p%%][%04l/%L,%04v]    " location
 set statusline+=\ %=\                   " right indent
@@ -349,8 +349,8 @@ if (has("gui_running"))
 
   " Font
   if has("win32")
-    set guifont=Dina:h8
-    "set guifont=Consolas:h9
+    set guifont=Dina\ TTF:h8
+    "set guifont=Consolas:h10
     "set guifont=DejaVu\ Sans\ Mono:h9
     "set guifont=Envy\ Code\ R:h10
   elseif has("gui_macvim")
@@ -508,8 +508,6 @@ endfunction
 " Keybindings {{{
 " General {{{
 " The holy ESC key
-imap jk <ESC>
-imap kj <ESC>
 imap <F1> <ESC>
 
 " Substitute
@@ -674,6 +672,9 @@ function! MySuperTab()
   " do fancy tab
   else
     let line = strpart(getline('.'), 0, col('.') - 1)
+    if (line[strlen(line) - 1] == ' ')
+        return "\<TAB>"
+    endif
     let words = split(line, '\W\+')
     " if we are just TAB-ing to get more leading whitespace
     if (len(words) < 1)
@@ -877,6 +878,12 @@ augroup ft_python
   au!
   au FileType python setlocal foldlevel=0 foldnestmax=1 foldmethod=indent
   au FileType python setlocal omnifunc=python3complete#Complete
+augroup END
+"}}}
+" autohotkey {{{
+augroup ft_autohotkey
+  au!
+  au FileType autohotkey setlocal foldlevel=0 foldnestmax=1 foldmethod=marker
 augroup END
 "}}}
 
