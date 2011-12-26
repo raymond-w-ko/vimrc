@@ -56,10 +56,13 @@ set title
 set showtabline=2
 set cmdheight=2
 set complete=.,w,b,u,t
-set completeopt=menu,menuone,preview
+set completeopt=menu,menuone
 set pumheight=16
 set autochdir
-set nolist
+"set nolist
+set list
+set listchars=tab:▸\ ,eol:¬
+set fillchars=diff:⣿
 
 " Save when losing focus
 augroup SaveWhenLosingFocus
@@ -343,34 +346,40 @@ if (has("gui_running"))
         "colorscheme molokai
 
         set background=dark
+        let g:solarized_visibility="low"
         colorscheme solarized
         let g:already_set_color_scheme=1
     endif
 
-  " Font
-  if has("win32")
-    set guifont=Dina\ TTF:h8
-    "set guifont=Consolas:h10
-    "set guifont=DejaVu\ Sans\ Mono:h9
-    "set guifont=Envy\ Code\ R:h10
-  elseif has("gui_macvim")
-    set antialias
-    set guifont=Menlo:h12
-  endif
+    " Font
+    if has("win32")
+        set guifont=Dina_TTF:h8
+        "set guifont=Fixedsys_Excelsior_3.01:h12
+        "set guifont=Consolas:h10
+        "set guifont=DejaVu\ Sans\ Mono:h9
+        "set guifont=Envy\ Code\ R:h10
+        set linespace=0
+    elseif has("gui_macvim")
+        set antialias
+        set guifont=Menlo:h12
+    endif
 
-  " GUI Configuration
-  set guioptions=a          " disable everything except synced clipboard
+    " GUI Configuration
+    set guioptions=a          " disable everything except synced clipboard
 
-  " Maximize in Windows automatically
-  if has("win32")
-    autocmd GUIEnter * simalt ~X
-  elseif has("gui_macvim")
-    " Full screen means FULL screen
-    set fuoptions=maxvert,maxhorz
-  endif
+    " Maximize in Windows automatically
+    if has("win32")
+        autocmd GUIEnter * simalt ~X
+    elseif has("gui_macvim")
+        " Full screen means FULL screen
+        set fuoptions=maxvert,maxhorz
+    endif
 
-  " Remove cursor blink
-  set guicursor+=a:blinkon0
+    " Remove cursor blink
+    set guicursor+=a:blinkon0
+
+    " pretty vertical Splits
+    set fillchars+=vert:│
 endif
 " }}}
 " Utils {{{
@@ -876,8 +885,8 @@ augroup END
 " Python {{{
 augroup ft_python
   au!
-  au FileType python setlocal foldlevel=0 foldnestmax=1 foldmethod=indent
-  au FileType python setlocal omnifunc=python3complete#Complete
+  au BufNewFile,BufRead *.py setlocal foldmethod=syntax foldlevel=1
+  au BufNewFile,BufRead *.py setlocal omnifunc=pythoncomplete#Complete
 augroup END
 "}}}
 " autohotkey {{{
@@ -1088,7 +1097,7 @@ let g:acp_enableAtStartup = 1
 let g:acp_ignorecaseOption = 1
 let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 3
-let g:acp_completeoptPreview = 1
+let g:acp_completeoptPreview = 0
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
 "}}}
 " Command-T {{{
