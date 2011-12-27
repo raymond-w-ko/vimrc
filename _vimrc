@@ -354,7 +354,6 @@ if (has("gui_running"))
     " Font
     if has("win32")
         set guifont=Dina_TTF:h8
-        "set guifont=Fixedsys_Excelsior_3.01:h12
         "set guifont=Consolas:h10
         "set guifont=DejaVu\ Sans\ Mono:h9
         "set guifont=Envy\ Code\ R:h10
@@ -369,7 +368,14 @@ if (has("gui_running"))
 
     " Maximize in Windows automatically
     if has("win32")
-        autocmd GUIEnter * simalt ~X
+        nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
+        function! FullScreenVim()
+            if !exists("g:already_fullscreen_vim")
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                let g:already_fullscreen_vim=1
+            endif
+        endfunction
+        autocmd BufEnter * call FullScreenVim()
     elseif has("gui_macvim")
         " Full screen means FULL screen
         set fuoptions=maxvert,maxhorz
