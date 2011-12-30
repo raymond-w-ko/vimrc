@@ -353,11 +353,12 @@ if (has("gui_running"))
 
     " Font
     if has("win32")
-        set guifont=Dina_TTF:h8
-        "set guifont=Consolas:h10
-        "set guifont=DejaVu\ Sans\ Mono:h9
-        "set guifont=Envy\ Code\ R:h10
-        set linespace=0
+        if !exists("g:already_set_font")
+            set guifont=Dina_TTF:h8
+            "set guifont=Consolas:h10
+            set linespace=0
+            let g:already_set_font=1
+        endif
     elseif has("gui_macvim")
         set antialias
         set guifont=Menlo:h12
