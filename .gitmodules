@@ -30,7 +30,7 @@
 	url = https://bitbucket.org/rko/a.vim.git
 [submodule "vimfiles/bundle/camelcasemotion"]
 	path = vimfiles/bundle/camelcasemotion
-	url = git://github.com/vim-scripts/camelcasemotion.git
+	url = https://bitbucket.org/rko/camelcasemotion.git
 [submodule "vimfiles/bundle/cocoa"]
 	path = vimfiles/bundle/cocoa
 	url = git://github.com/msanders/cocoa.vim.git
