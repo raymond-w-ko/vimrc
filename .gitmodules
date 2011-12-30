@@ -1,6 +1,6 @@
 [submodule "vimfiles/bundle/autocomplpop"]
 	path = vimfiles/bundle/autocomplpop
-	url = git://github.com/vim-scripts/AutoComplPop.git
+	url = https://bitbucket.org/rko/autocomplpop.git
 [submodule "vimfiles/bundle/netrw"]
 	path = vimfiles/bundle/netrw
 	url = git://github.com/vim-scripts/netrw.vim.git
