@@ -24,7 +24,7 @@
 	url = git://github.com/majutsushi/tagbar.git
 [submodule "vimfiles/bundle/lusty"]
 	path = vimfiles/bundle/lusty
-	url = git://github.com/sjbach/lusty.git
+	url = https://bitbucket.org/rko/lusty.git
 [submodule "vimfiles/bundle/a.vim"]
 	path = vimfiles/bundle/a.vim
 	url = https://bitbucket.org/rko/a.vim.git
