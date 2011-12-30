@@ -45,7 +45,7 @@
 	url = git://github.com/mileszs/ack.vim.git
 [submodule "vimfiles/bundle/vim-colors-solarized"]
 	path = vimfiles/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized
+	url = https://bitbucket.org/rko/vim-colors-solarized
 [submodule "vimfiles/bundle/nerdcommenter"]
 	path = vimfiles/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
