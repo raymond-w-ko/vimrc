@@ -63,4 +63,4 @@
 	url = git://github.com/tpope/vim-surround.git
 [submodule "gvimfullscreen_win32"]
 	path = gvimfullscreen_win32
-	url = git://bitbucket.org/rko/gvimfullscreen_win32.git
+	url = https://rko@bitbucket.org/rko/gvimfullscreen_win32.git
