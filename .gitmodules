@@ -27,7 +27,7 @@
 	url = git://github.com/sjbach/lusty.git
 [submodule "vimfiles/bundle/a.vim"]
 	path = vimfiles/bundle/a.vim
-	url = https://github.com/vim-scripts/a.vim.git
+	url = https://bitbucket.org/rko/a.vim.git
 [submodule "vimfiles/bundle/camelcasemotion"]
 	path = vimfiles/bundle/camelcasemotion
 	url = git://github.com/vim-scripts/camelcasemotion.git
