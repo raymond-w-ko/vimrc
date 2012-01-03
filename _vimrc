@@ -902,7 +902,7 @@ augroup END
 " SyML {{{
 augroup ft_sml
   autocmd!
-  autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001 foldnestmax=0
+  autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001 foldnestmax=20
 augroup END
 " }}}
 
