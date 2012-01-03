@@ -128,6 +128,21 @@ syn match   xmlTagName
     \ contains=xmlNamespace,xmlAttribPunct,@xmlTagHook
     \ display
 
+" end tag name
+"
+" PROVIDES: @xmlTagHook
+"
+" EXAMPLE:
+"
+" </tag>
+"   ^^^
+"
+syn match   xmlEndTagName
+    \ +[^ /!?<>"']\++
+    \ contained
+    \ contains=xmlNamespace,xmlAttribPunct
+    \ display
+
 
 if exists('g:xml_syntax_folding')
 
@@ -161,7 +176,7 @@ if exists('g:xml_syntax_folding')
     syn match   xmlEndTag
 	\ +</[^ /!?<>"']\+>+
 	\ contained
-	\ contains=xmlNamespace,xmlAttribPunct,@xmlTagHook
+	\ contains=xmlNamespace,xmlEndTagName,xmlAttribPunct,@xmlTagHook
 
 
     " tag elements with syntax-folding.
@@ -201,7 +216,7 @@ else
 
     syn match   xmlEndTag
 	\ +</[^ /!?<>"']\+>+
-	\ contains=xmlNamespace,xmlAttribPunct,@xmlTagHook
+	\ contains=xmlNamespace,xmlEndTagName,xmlAttribPunct,@xmlTagHook
 
 endif
 
@@ -331,8 +346,9 @@ syn sync minlines=100
 " The default highlighting.
 hi def link xmlTodo		Todo
 hi def link xmlTag		Function
-hi def link xmlTagName		Function
-hi def link xmlEndTag		Identifier
+hi def link xmlTagName		Keyword
+hi def link xmlEndTag		Function
+hi def link xmlEndTagName	Keyword
 if !exists("g:xml_namespace_transparent")
     hi def link xmlNamespace	Tag
 endif
@@ -363,7 +379,7 @@ hi def link xmlDocTypeDecl	Function
 hi def link xmlDocTypeKeyword	Statement
 hi def link xmlInlineDTD	Function
 
-let b:current_syntax = "xml"
+let b:current_syntax = "syxml"
 
 let &cpo = s:xml_cpo_save
 unlet s:xml_cpo_save
