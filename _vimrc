@@ -132,26 +132,122 @@ set selection=inclusive
 set mouse=a
 set mousehide
 "}}}
+" Environments (GUI/Console) {{{
+if (has("gui_running"))
+    if !exists("g:already_set_color_scheme")
+        "colorscheme xoria256
+
+        "colorscheme molokai
+
+        set background=dark
+
+        "let g:solarized_visibility="low"
+        "colorscheme solarized
+
+        colorscheme wombat
+
+        let g:already_set_color_scheme=1
+    endif
+
+    " Font
+    if has("win32")
+        if !exists("g:already_set_font")
+            set guifont=Dina_TTF:h8
+            "set guifont=Consolas:h10
+            set linespace=0
+            let g:already_set_font=1
+        endif
+    elseif has("gui_macvim")
+        set antialias
+        set guifont=Menlo:h12
+    endif
+
+    " GUI Configuration
+    set guioptions=a          " disable everything except synced clipboard
+
+    " Maximize in Windows automatically
+    if has("win32")
+        nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
+        function! FullScreenVim()
+            if !exists("g:already_fullscreen_vim")
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                let g:already_fullscreen_vim=1
+            endif
+        endfunction
+        autocmd BufEnter * call FullScreenVim()
+    elseif has("gui_macvim")
+        " Full screen means FULL screen
+        set fuoptions=maxvert,maxhorz
+    endif
+
+    " Remove cursor blink
+    set guicursor+=a:blinkon0
+
+    " pretty vertical Splits
+    set fillchars+=vert:│
+endif
+" }}}
 " Status line {{{
-"set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%Y]\ [ascii=\%03.3b]\ [hex=\%02.2B]\ [pos=%04l,%04v][%p%%]\ [lines=%L]
+"set statusline=%f     " file path relative to current directory
+"set statusline+=%m    " modified flag
+"set statusline+=%r    " readonly flag
+"set statusline+=%w    " preview window flag
 
-set statusline=%f     " file path relative to current directory
-set statusline+=%m    " modified flag
-set statusline+=%r    " readonly flag
-set statusline+=%w    " preview window flag
+"set statusline+=\ \ \ \         " space
 
-set statusline+=\ \ \ \         " space
+"set statusline+=[%{&filetype}]      " file type
+"set statusline+=[%{&fdm}]           " foldmethod
+"set statusline+=[%{&ff}]            " line ending type
+"set statusline+=[%{strlen(&fenc)?&fenc:&enc}]   " Encoding
 
-set statusline+=[%{&filetype}]      " file type
-set statusline+=[%{&fdm}]           " foldmethod
-set statusline+=[%{&ff}]            " line ending type
-set statusline+=[%{strlen(&fenc)?&fenc:&enc}]   " Encoding
+"set statusline+=\                   " space
 
-set statusline+=\                   " space
+"set statusline+=[%p%%][%04l/%L,%04v]    " location
+"set statusline+=\ %=\                   " right indent
+"set statusline+=[ascii=\%03.3b]\ [hex=\%02.2B]    " ASCII & Hexadecimal
 
-set statusline+=[%p%%][%04l/%L,%04v]    " location
-set statusline+=\ %=\                   " right indent
-set statusline+=[ascii=\%03.3b]\ [hex=\%02.2B]    " ASCII & Hexadecimal
+hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen   ctermfg=black
+hi Modified  guibg=orange  guifg=black ctermbg=lightred     ctermfg=black
+
+function! MyStatusLine(mode)
+    let statusline=""
+    if a:mode == 'Enter'
+        let statusline.="%#StatColor#"
+    endif
+    let statusline.="\(%n\)\ %f\ "
+    if a:mode == 'Enter'
+        let statusline.="%*"
+    endif
+    let statusline.="%#Modified#%m"
+    if a:mode == 'Leave'
+        let statusline.="%*%r"
+    elseif a:mode == 'Enter'
+        let statusline.="%r%*"
+    endif
+    let statusline .= "\ (%l/%L,\ %c)\ %P%=%h%w\ %y\ [%{&encoding}:%{&fileformat}]\ \ "
+    return statusline
+endfunction
+
+au WinEnter * setlocal statusline=%!MyStatusLine('Enter')
+au WinLeave * setlocal statusline=%!MyStatusLine('Leave')
+set statusline=%!MyStatusLine('Enter')
+
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi StatColor guibg=orange ctermbg=lightred
+  elseif a:mode == 'r'
+    hi StatColor guibg=#e454ba ctermbg=magenta
+  elseif a:mode == 'v'
+    hi StatColor guibg=#e454ba ctermbg=magenta
+  else
+    hi StatColor guibg=red ctermbg=red
+  endif
+endfunction 
+
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black
 " }}}
 " Searching and movement {{{
 " Use sane regexes.
@@ -337,57 +433,6 @@ endfunction
 
 " }}}
 
-" }}}
-" Environments (GUI/Console) {{{
-if (has("gui_running"))
-    if !exists("g:already_set_color_scheme")
-        "colorscheme xoria256
-
-        "colorscheme molokai
-
-        set background=dark
-        let g:solarized_visibility="low"
-        colorscheme solarized
-        let g:already_set_color_scheme=1
-    endif
-
-    " Font
-    if has("win32")
-        if !exists("g:already_set_font")
-            set guifont=Dina_TTF:h8
-            "set guifont=Consolas:h10
-            set linespace=0
-            let g:already_set_font=1
-        endif
-    elseif has("gui_macvim")
-        set antialias
-        set guifont=Menlo:h12
-    endif
-
-    " GUI Configuration
-    set guioptions=a          " disable everything except synced clipboard
-
-    " Maximize in Windows automatically
-    if has("win32")
-        nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
-        function! FullScreenVim()
-            if !exists("g:already_fullscreen_vim")
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                let g:already_fullscreen_vim=1
-            endif
-        endfunction
-        autocmd BufEnter * call FullScreenVim()
-    elseif has("gui_macvim")
-        " Full screen means FULL screen
-        set fuoptions=maxvert,maxhorz
-    endif
-
-    " Remove cursor blink
-    set guicursor+=a:blinkon0
-
-    " pretty vertical Splits
-    set fillchars+=vert:│
-endif
 " }}}
 " Utils {{{
 
@@ -851,7 +896,7 @@ augroup END
 " Syandus Spec File {{{
 augroup ft_ssf
   autocmd!
-  autocmd BufNewFile,BufRead *.ssf setlocal foldlevel=9001 foldnestmax=0
+  autocmd BufNewFile,BufRead *.ssf setlocal foldlevel=9001 foldnestmax=20
 augroup END
 " }}}
 " SyML {{{
