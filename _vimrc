@@ -59,8 +59,7 @@ set complete=.,w,b,u,t
 set completeopt=menu,menuone
 set pumheight=16
 set autochdir
-"set nolist
-set list
+set nolist
 set listchars=tab:▸\ ,eol:¬
 set fillchars=diff:⣿
 
@@ -158,8 +157,8 @@ if (has("gui_running"))
             let g:already_set_font=1
         endif
     elseif has("gui_macvim")
-        set antialias
-        set guifont=Menlo:h12
+        set noantialias
+        set guifont=Dina_TTF:h11
     endif
 
     " GUI Configuration
@@ -608,13 +607,28 @@ nnoremap <leader>LL :lclose<CR>
 " lazy braces
 function! MyLazyBraces()
     let cur_ft = &filetype 
-    if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc')
+    if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' || cur_ft == 'php' || cur_ft == 'fx')
         return "{\<CR>}\<ESC>zoO\<TAB>"
     else
         return "{"
     endif
 endfunction
 inoremap <expr> { MyLazyBraces()
+
+" lazy .. to ->
+"inoremap <C-.> ->
+"autocmd CursorMovedI * call MyLazyDotDotToArrow()
+"function! MyLazyDotDotToArrow()
+    "let line = strpart(getline('.'), 0, col('.') - 1)
+    "let line_len = strlen(line)
+    "if (line_len < 2)
+        "return
+    "endif
+
+    "if (line[line_len - 1] == '.' && line[line_len - 2] == '.')
+        "call feedkeys("\<BS>\<BS>->", 't')
+    "endif
+"endfunction
 " lazy parentheses
 "inoremap ( ()<Left>
 " lazy brackets
@@ -657,7 +671,7 @@ nnoremap <A-2> 2gt
 nnoremap <A-3> 3gt
 nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
-nnoremap <A-t> <ESC>:tabnew<CR>
+nnoremap <A-t> <ESC>:tabnew<CR>:vsplit<CR>:wincmd h<CR>
 nnoremap <A-w> <ESC>:tabclose<CR>
 
 inoremap <A-1> <ESC>1gt
@@ -665,7 +679,7 @@ inoremap <A-2> <ESC>2gt
 inoremap <A-3> <ESC>3gt
 inoremap <A-4> <ESC>4gt
 inoremap <A-5> <ESC>5gt
-inoremap <A-t> <ESC>:tabnew<CR>
+inoremap <A-t> <ESC>:tabnew<CR>:vsplit<CR>:wincmd h<CR>
 inoremap <A-w> <ESC>:tabclose<CR>
 " }}}
 " Finding stuff {{{
@@ -778,7 +792,7 @@ function! MySuperEnter()
     if (exists("b:possible_function_signatures"))
       return "\<C-y>\<ESC>F(a"
     else
-      return "\<C-y>\<CR>"
+      return " \<CR>"
     endif
   else
     return "\<CR>"
@@ -903,6 +917,12 @@ augroup END
 augroup ft_sml
   autocmd!
   autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001 foldnestmax=20
+augroup END
+" }}}
+" HLSL, FX, FXL {{{
+augroup ft_fx
+  autocmd!
+  autocmd BufNewFile,BufRead *.fx,*.fxl,*.hlsl setlocal syntax=fx foldlevel=9001 foldnestmax=20
 augroup END
 " }}}
 
@@ -1179,4 +1199,5 @@ let g:ctrlp_working_path_mode = 2
 let g:indent_guides_enable_on_vim_startup=0
 " }}}
 " }}}
+
 " vim:fdm=marker:foldlevel=0
