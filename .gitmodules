@@ -57,7 +57,7 @@
 	url = git://github.com/tpope/vim-repeat.git
 [submodule "vimfiles/bundle/vim-surround"]
 	path = vimfiles/bundle/vim-surround
-	url = git://github.com/tpope/vim-surround.git
+	url = https://bitbucket.org/rko/vim-surround.git
 [submodule "gvimfullscreen_win32"]
 	path = gvimfullscreen_win32
 	url = https://bitbucket.org/rko/gvimfullscreen_win32.git
