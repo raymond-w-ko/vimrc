@@ -66,4 +66,4 @@
 	url = git://github.com/tpope/vim-pathogen.git
 [submodule "vimfiles/bundle/inkpot"]
 	path = vimfiles/bundle/inkpot
-	url = git://github.com/ciaranm/inkpot.git
+	url = https://bitbucket.org/rko/inkpot.git

@@ -135,15 +135,12 @@ set mousehide
 if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
         "colorscheme xoria256
-
         "colorscheme molokai
-
         set background=dark
-
         "let g:solarized_visibility="low"
         "colorscheme solarized
-
-        colorscheme wombat
+        let g:inkpot_black_background = 0
+        colorscheme inkpot
 
         let g:already_set_color_scheme=1
     endif
@@ -169,13 +166,14 @@ if (has("gui_running"))
         nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
         function! FullScreenVim()
             if !exists("g:already_fullscreen_vim")
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 let g:already_fullscreen_vim=1
             endif
         endfunction
         autocmd BufEnter * call FullScreenVim()
+        au GUIEnter * simalt ~x
     elseif has("gui_macvim")
         " Full screen means FULL screen
         set fuoptions=maxvert,maxhorz
@@ -722,7 +720,7 @@ nnoremap <leader>fwip :call FindCursorWordInProject()<CR>
 nnoremap <leader>fkip :call FindThisKeywordInProject("")<left><left>
 nnoremap <leader>fl :FufLine<CR>
 
-nnoremap <C-Space> :FufTagWithCursorWord!<CR>
+"nnoremap <C-Space> :FufTagWithCursorWord!<CR>
 
 " }}}
 " Fancy Tag Completion {{{
@@ -799,8 +797,16 @@ function! MySuperEnter()
   endif
 endfunction
 
+function! MySuperCtrlSpace()
+    if pumvisible()
+        return "\<C-y>"
+    else 
+        return " "
+endfunction
+
 inoremap <expr> <TAB> MySuperTab()
 inoremap <expr> <CR>  MySuperEnter()
+inoremap <expr> <C-Space> MySuperCtrlSpace()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
@@ -1154,6 +1160,15 @@ augroup Mac
 augroup END
 " }}}
 
+function! SetSettingsForShaders()
+  setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  nnoremap <buffer> <leader>m :update<CR>:!start .\install.bat<CR>
+  setlocal tags=
+endfunction
+augroup Shaders
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter *.fx call SetSettingsForShaders()
+augroup END
 "}}}
 
 " Plugin setting {{{
