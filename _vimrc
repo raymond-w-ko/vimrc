@@ -187,64 +187,20 @@ if (has("gui_running"))
 endif
 " }}}
 " Status line {{{
-"set statusline=%f     " file path relative to current directory
-"set statusline+=%m    " modified flag
-"set statusline+=%r    " readonly flag
-"set statusline+=%w    " preview window flag
-
-"set statusline+=\ \ \ \         " space
-
-"set statusline+=[%{&filetype}]      " file type
-"set statusline+=[%{&fdm}]           " foldmethod
-"set statusline+=[%{&ff}]            " line ending type
-"set statusline+=[%{strlen(&fenc)?&fenc:&enc}]   " Encoding
-
-"set statusline+=\                   " space
-
-"set statusline+=[%p%%][%04l/%L,%04v]    " location
-"set statusline+=\ %=\                   " right indent
-"set statusline+=[ascii=\%03.3b]\ [hex=\%02.2B]    " ASCII & Hexadecimal
-
-hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen   ctermfg=black
-hi Modified  guibg=orange  guifg=black ctermbg=lightred     ctermfg=black
-
-function! MyStatusLine(mode)
-    let statusline=""
-    if a:mode == 'Enter'
-        let statusline.="%#StatColor#"
-    endif
-    let statusline.="\(%n\)\ %f\ "
-    if a:mode == 'Enter'
-        let statusline.="%*"
-    endif
-    let statusline.="%#Modified#%m"
-    if a:mode == 'Leave'
-        let statusline.="%*%r"
-    elseif a:mode == 'Enter'
-        let statusline.="%r%*"
-    endif
-    let statusline .= "\ (%l/%L,\ %c)\ %P%=%h%w\ %y\ [%{&encoding}:%{&fileformat}]\ \ "
-    return statusline
-endfunction
-
-au WinEnter * setlocal statusline=%!MyStatusLine('Enter')
-au WinLeave * setlocal statusline=%!MyStatusLine('Leave')
-set statusline=%!MyStatusLine('Enter')
-
-function! InsertStatuslineColor(mode)
-  if a:mode == 'i'
-    hi StatColor guibg=orange ctermbg=lightred
-  elseif a:mode == 'r'
-    hi StatColor guibg=#e454ba ctermbg=magenta
-  elseif a:mode == 'v'
-    hi StatColor guibg=#e454ba ctermbg=magenta
-  else
-    hi StatColor guibg=red ctermbg=red
-  endif
-endfunction 
-
-au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black
+" buffer number and filename
+set statusline=\(%n\)\ %f\ 
+" read-only, error highlighting, modified tag, restore highlighting
+set statusline+=%r%#Error#%m%*\ 
+" current line number and column count
+set statusline+=(%l/%L,\ %c)\ 
+" percentage through current file
+set statusline+=%P
+" left-right separator
+set statusline+=%=
+" [help] and [preview] flags
+set statusline+=%h%w\ 
+" file type, foldmethod, and encoding, and fileformat
+set statusline+=%y\ [%{&foldmethod}\ [%{&encoding}:%{&fileformat}]\ \ 
 " }}}
 " Searching and movement {{{
 " Use sane regexes.
@@ -1043,13 +999,19 @@ command! Symlin cd C:/SVN/Syandus_Cores/C_Sym_DM_01
 command! Spiriva cd C:/SVN/Syandus_Cores/C_Spv_COPD_01
 command! Copd cd C:/SVN/Syandus_Cores/C_Unb_COPD_01
 command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
+command! Sutent cd C:/SVN/Syandus_Cores/C_Sut_AE_01
 
 command! Mac cd S:/trunk/ALIVE Med/
 
 augroup SyandusIndents
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/* setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  autocmd BufNewFile,BufRead,BufEnter C:/SVN/Syandus_ALIVE3/Metrics/* setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd BufNewFile,BufRead,BufEnter 
+  \ C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/*
+  \ setlocal tabstop=3 shiftwidth=3 softtabstop=3
+
+  autocmd BufNewFile,BufRead,BufEnter 
+  \ C:/SVN/Syandus_ALIVE3/Metrics/*
+  \ setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
 " Platform {{{
@@ -1159,7 +1121,23 @@ augroup Mac
   \ call SetSettingsForMac()
 augroup END
 " }}}
-
+" Sutent {{{
+function! SetSettingsForSutent()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_sutent.ahk')<CR>
+  setlocal tags=
+  \C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/tags,
+  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
+  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
+endfunction
+augroup Sutent
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter 
+  \ C:/SVN/Syandus_Cores/C_Sut_AE_01/*
+  \ call SetSettingsForSutent()
+augroup END
+" }}}
+" Shaders {{{
 function! SetSettingsForShaders()
   setlocal tabstop=4 shiftwidth=4 softtabstop=4
   nnoremap <buffer> <leader>m :update<CR>:!start .\install.bat<CR>
@@ -1170,9 +1148,10 @@ augroup Shaders
     autocmd BufNewFile,BufRead,BufEnter *.fx call SetSettingsForShaders()
 augroup END
 "}}}
+"}}}
 
 " Plugin setting {{{
-
+"let g:loaded_matchparen = 1
 " NetRW {{{
 let g:netrw_silent=1
 " apparently enabling this hijacks the mouse completely
