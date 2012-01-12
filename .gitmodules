@@ -67,3 +67,6 @@
 [submodule "vimfiles/bundle/inkpot"]
 	path = vimfiles/bundle/inkpot
 	url = https://bitbucket.org/rko/inkpot.git
+[submodule "vimfiles/bundle/vim-smartusline"]
+	path = vimfiles/bundle/vim-smartusline
+	url = git://github.com/molok/vim-smartusline.git
