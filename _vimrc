@@ -7,7 +7,6 @@ call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "taglist")
 call add(g:pathogen_disabled, "ctrlp")
-call add(g:pathogen_disabled, "toggle_words")
 call add(g:pathogen_disabled, "neocomplcache")
 call pathogen#infect()
 call pathogen#helptags()
@@ -552,6 +551,7 @@ nnoremap <leader>t :call CommandTProject()<CR>
 nnoremap <leader>b :FufBuffer<CR>
 nnoremap <leader>l :LustyJuggler<CR>
 nnoremap <leader>a :A<CR>
+nnoremap <leader>g :ToggleWord<CR>
 
 nnoremap <leader>C<space> :botright cwindow<CR>
 nnoremap <leader>Cc :cclose<CR>
@@ -600,9 +600,6 @@ inoremap <A-h> <Left>
 inoremap <A-l> <Right>
 inoremap <A-k> <Up>
 inoremap <A-j> <Down>
-
-" might as well make it do something useful
-inoremap <S-CR> <ESC>o
 "}}}
 " Splits {{{
 nnoremap <C-h> <C-w>h
@@ -682,7 +679,7 @@ nnoremap <leader>fl :FufLine<CR>
 " }}}
 " Fancy Tag Completion {{{
       
-function! MySuperTabUserCompletion(findstart, base)
+function! MySuperCtrlJUserCompletion(findstart, base)
   if a:findstart
     if (!exists("b:possible_function_signatures"))
       return -1;
@@ -709,46 +706,13 @@ function! GetFunctionSignatures(keyword)
           let class = item['class']
         endif
 
-        let abbr = class . '::' . last_word . signature
+        let abbr = class . '::' . a:keyword . signature
         let entry.abbr = abbr
         call add(b:possible_function_signatures, entry)
       endif
     endfor
 
     return len(b:possible_function_signatures)
-endfunction
-
-function! MySuperTab()
-  " if popup menu is open accept selected entry
-  if pumvisible() 
-    return "\<C-y>"
-  else
-    " get current line up to where cursor is located
-    let line = strpart(getline('.'), 0, col('.') - 1)
-
-    " if last character before cursor is whitespace, then we just want a TAB
-    if (line[strlen(line) - 1] == ' ')
-        return "\<TAB>"
-    endif
-
-    let words = split(line, '\W\+')
-    " just TAB-ing to get more leading whitespace at start of line
-    if (len(words) < 1)
-      return "\<TAB>"
-    endif
-
-    let last_word = words[-1]
-
-    let num_sig = GetFunctionSignatures(last_word)
-
-    if (num_sig > 0)
-      setlocal completefunc=MySuperTabUserCompletion
-      return "\<C-X>\<C-U>"
-    else
-      unlet b:possible_function_signatures
-      return     "\<TAB>"
-    endif
-  endif
 endfunction
 
 function! MySuperEnter()
@@ -763,16 +727,38 @@ function! MySuperEnter()
   endif
 endfunction
 
-function! MySuperCtrlSpace()
+function! MySuperCtrlJ()
     if pumvisible()
         return "\<C-y>"
-    else 
-        return " "
+    else
+        " get current line up to where cursor is located
+        let line = strpart(getline('.'), 0, col('.') - 1)
+
+        if (line[strlen(line) - 1] == ' ')
+            return ""
+        endif
+
+        let words = split(line, '\W\+')
+        if (len(words) < 1)
+            return ""
+        endif
+
+        let last_word = words[-1]
+
+        let num_sig = GetFunctionSignatures(last_word)
+        if (num_sig > 0)
+            setlocal completefunc=MySuperCtrlJUserCompletion
+            return "\<C-X>\<C-U>"
+        else
+            if exists("b:possible_function_signatures")
+                unlet b:possible_function_signatures
+            endif
+            return ""
+        endif
 endfunction
 
-inoremap <expr> <TAB> MySuperTab()
 inoremap <expr> <CR>  MySuperEnter()
-inoremap <expr> <C-Space> MySuperCtrlSpace()
+inoremap <expr> <C-j> MySuperCtrlJ()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
