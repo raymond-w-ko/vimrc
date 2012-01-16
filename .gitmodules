@@ -73,3 +73,6 @@
 [submodule "vimfiles/bundle/yankring"]
 	path = vimfiles/bundle/yankring
 	url = git://github.com/vim-scripts/YankRing.vim.git
+[submodule "vimfiles/bundle/snipmate"]
+	path = vimfiles/bundle/snipmate
+	url = https://bitbucket.org/rko/snipmate.vim.git
