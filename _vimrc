@@ -34,7 +34,7 @@ set showcmd
 set hidden
 set novisualbell
 set noerrorbells
-set cursorline
+set nocursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
@@ -100,6 +100,7 @@ set textwidth=0           " no automatic text wrapping
 set colorcolumn=80
 set formatoptions=qn1
 set wrap
+set wrapscan
 if exists("&breakindent")
     set breakindent showbreak=...
 elseif has("gui_running")
@@ -200,7 +201,7 @@ set statusline+=%=
 " [help] and [preview] flags
 set statusline+=%h%w\ 
 " file type, foldmethod, and encoding, and fileformat
-set statusline+=%y\ [%{&foldmethod}\ [%{&encoding}:%{&fileformat}]\ \ 
+set statusline+=%y\ [%{&foldmethod}]\ [%{&encoding}:%{&fileformat}]\ \ 
 " }}}
 " Searching and movement {{{
 " Use sane regexes.
@@ -528,7 +529,7 @@ imap <F1> <ESC>
 nnoremap <leader>s :%s//<left>
 
 " CTRL-V and are Paste
-inoremap <C-V> <ESC>"+pa
+inoremap <C-V> <C-r>=@+<CR>
 
 " CTRL-hjkl movement while in : command mode
 cnoremap <C-h> <Left>
@@ -694,25 +695,8 @@ function! MySuperTabUserCompletion(findstart, base)
   endif
 endfunction
 
-function! MySuperTab()
-  " if popup menu is open accept selected entry
-  if pumvisible() 
-    return "\<C-y>"
-  " do fancy tab
-  else
-    let line = strpart(getline('.'), 0, col('.') - 1)
-    if (line[strlen(line) - 1] == ' ')
-        return "\<TAB>"
-    endif
-    let words = split(line, '\W\+')
-    " if we are just TAB-ing to get more leading whitespace
-    if (len(words) < 1)
-      return "\<TAB>"
-    endif
-
-    let last_word = words[-1]
-
-    let results = taglist("^" . last_word . "$")
+function! GetFunctionSignatures(keyword)
+    let results = taglist("^" . a:keyword . "$")
     let b:possible_function_signatures = []
     for item in results
       if (has_key(item, 'signature'))
@@ -731,12 +715,38 @@ function! MySuperTab()
       endif
     endfor
 
-    if (len(b:possible_function_signatures) > 0)
+    return len(b:possible_function_signatures)
+endfunction
+
+function! MySuperTab()
+  " if popup menu is open accept selected entry
+  if pumvisible() 
+    return "\<C-y>"
+  else
+    " get current line up to where cursor is located
+    let line = strpart(getline('.'), 0, col('.') - 1)
+
+    " if last character before cursor is whitespace, then we just want a TAB
+    if (line[strlen(line) - 1] == ' ')
+        return "\<TAB>"
+    endif
+
+    let words = split(line, '\W\+')
+    " just TAB-ing to get more leading whitespace at start of line
+    if (len(words) < 1)
+      return "\<TAB>"
+    endif
+
+    let last_word = words[-1]
+
+    let num_sig = GetFunctionSignatures(last_word)
+
+    if (num_sig > 0)
       setlocal completefunc=MySuperTabUserCompletion
       return "\<C-X>\<C-U>"
     else
       unlet b:possible_function_signatures
-      return ""
+      return     "\<TAB>"
     endif
   endif
 endfunction
@@ -746,7 +756,7 @@ function! MySuperEnter()
     if (exists("b:possible_function_signatures"))
       return "\<C-y>\<ESC>F(a"
     else
-      return " \<CR>"
+      return "⣿\<CR>⣿\<ESC>k:s/⣿//g\<CR>js"
     endif
   else
     return "\<CR>"
@@ -884,7 +894,7 @@ augroup END
 " HLSL, FX, FXL {{{
 augroup ft_fx
   autocmd!
-  autocmd BufNewFile,BufRead *.fx,*.fxl,*.hlsl setlocal syntax=fx foldlevel=9001 foldnestmax=20
+  autocmd BufNewFile,BufRead *.fx,*.fxl,*.hlsl setlocal filetype=fx foldlevel=9001 foldnestmax=20
 augroup END
 " }}}
 
@@ -920,7 +930,7 @@ augroup END
 augroup ft_python
   au!
   au BufNewFile,BufRead *.py setlocal foldmethod=syntax foldlevel=1
-  au BufNewFile,BufRead *.py setlocal omnifunc=pythoncomplete#Complete
+  au BufNewFile,BufRead *.py setlocal omnifunc=python3complete#Complete
 augroup END
 "}}}
 " autohotkey {{{
@@ -1152,6 +1162,9 @@ augroup END
 
 " Plugin setting {{{
 "let g:loaded_matchparen = 1
+" a.vim {{{
+let g:alternateNoDefaultAlternate=1
+"}}}
 " NetRW {{{
 let g:netrw_silent=1
 " apparently enabling this hijacks the mouse completely
@@ -1177,6 +1190,9 @@ let g:ackprg="C:/Perl/site/bin/ack.bat -H --nocolor --nogroup --column"
 " LustyJuggler {{{
 let g:LustyJugglerDefaultMappings=0
 " }}}
+" yankring {{{
+let g:yankring_min_element_length = 1
+" }}}k
 
 " tagbar {{{
 let g:tagbar_width = 40
