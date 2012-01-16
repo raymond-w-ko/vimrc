@@ -126,7 +126,7 @@ if version >= 508 || !exists("did_fx_syntax_inits")
 endif
 
 "make compatible with VS.Net and FXComposer...
-set ts=4
+"set ts=4
 
 let b:current_syntax = "fx"
 
