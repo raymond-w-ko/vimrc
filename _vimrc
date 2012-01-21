@@ -33,8 +33,8 @@ set showcmd
 set hidden
 set novisualbell
 set noerrorbells
-set nocursorline
-set ttyfast
+set cursorline
+set nocursorcolumn
 set ruler
 set backspace=indent,eol,start
 set nonumber
@@ -42,6 +42,7 @@ set relativenumber
 set laststatus=2
 set history=8192
 set lazyredraw
+set ttyfast
 set showmatch
 set matchtime=0
 set splitbelow
@@ -139,8 +140,9 @@ if (has("gui_running"))
         set background=dark
         "let g:solarized_visibility="low"
         "colorscheme solarized
-        let g:inkpot_black_background = 0
-        colorscheme inkpot
+        "let g:inkpot_black_background = 0
+        "colorscheme inkpot
+        colorscheme luciusmod
 
         let g:already_set_color_scheme=1
     endif
@@ -172,7 +174,10 @@ if (has("gui_running"))
                 let g:already_fullscreen_vim=1
             endif
         endfunction
-        autocmd BufEnter * call FullScreenVim()
+        augroup FullScreenOnStartup
+            autocmd!
+            autocmd BufEnter * call FullScreenVim()
+        augroup END
         au GUIEnter * simalt ~x
     elseif has("gui_macvim")
         " Full screen means FULL screen
@@ -558,15 +563,35 @@ nnoremap <leader>Cc :cclose<CR>
 nnoremap <leader>CC :cclose<CR>
 nnoremap <leader>L<space> :lopen<CR>
 nnoremap <leader>LL :lclose<CR>
+function! MyPasteToggle()
+    if (&paste)
+        echom "paste mode set"
+        set nopaste
+    else
+        echom "nopaste mode set"
+        set paste
+    endif
+endfunction
+nnoremap <leader>p :call MyPasteToggle()<CR>
 
 " lazy braces
 function! MyLazyBraces()
     let cur_ft = &filetype 
-    if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' || cur_ft == 'php' || cur_ft == 'fx')
-        return "{\<CR>}\<ESC>zoO\<TAB>"
+    if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' ||
+      \ cur_ft == 'php' || cur_ft == 'fx' || cur_ft == 'cs')
+        call feedkeys("{\<CR>\<TAB>⣿\<CR>", 'n')
+        for ii in range(1)
+          call feedkeys("\<BS>", 'n')
+        endfor
+        call feedkeys("}\<Up>", 'n')
+        for ii in range(&tabstop)
+          call feedkeys("\<Right>", 'n')
+        endfor
+        call feedkeys("\<BS>", 'n')
     else
-        return "{"
+        call feedkeys('{', 'n')
     endif
+    return ""
 endfunction
 inoremap <expr> { MyLazyBraces()
 
@@ -717,19 +742,20 @@ endfunction
 
 function! MySuperEnter()
   if pumvisible()
-    if (exists("b:possible_function_signatures"))
-      return "\<C-y>\<ESC>F(a"
-    else
-      return "⣿\<CR>⣿\<ESC>k:s/⣿//g\<CR>js"
-    endif
+      return "⣿\<CR>⣿\<ESC>k:s/⣿//g\<CR>j0f⣿s"
   else
     return "\<CR>"
   endif
 endfunction
 
-function! MySuperCtrlJ()
+function! MySuperCtrlSpace()
     if pumvisible()
         return "\<C-y>"
+        if (exists("b:possible_function_signatures"))
+            return "\<C-y>\<ESC>F(a"
+        else
+            return "\<C-y>"
+        endif
     else
         " get current line up to where cursor is located
         let line = strpart(getline('.'), 0, col('.') - 1)
@@ -758,7 +784,7 @@ function! MySuperCtrlJ()
 endfunction
 
 inoremap <expr> <CR>  MySuperEnter()
-inoremap <expr> <C-j> MySuperCtrlJ()
+inoremap <expr> <C-Space> MySuperCtrlSpace()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
@@ -846,6 +872,12 @@ augroup ft_c
   autocmd BufNewFile,BufRead *.c setlocal foldlevel=0 foldnestmax=1
 augroup END
 " }}}
+" C# {{{
+augroup ft_cs
+  autocmd!
+  autocmd BufNewFile,BufRead *.cs setlocal foldlevel=9001 foldnestmax=1 foldmethod=indent
+augroup END
+" }}}
 " C++ {{{
 augroup ft_cpp
   autocmd!
@@ -880,7 +912,7 @@ augroup END
 " HLSL, FX, FXL {{{
 augroup ft_fx
   autocmd!
-  autocmd BufNewFile,BufRead *.fx,*.fxl,*.hlsl setlocal filetype=fx foldlevel=9001 foldnestmax=20
+  autocmd BufNewFile,BufRead *.fx,*.fxl,*.fxh,*.hlsl setlocal filetype=fx foldlevel=9001 foldnestmax=20
 augroup END
 " }}}
 
@@ -996,6 +1028,8 @@ command! Spiriva cd C:/SVN/Syandus_Cores/C_Spv_COPD_01
 command! Copd cd C:/SVN/Syandus_Cores/C_Unb_COPD_01
 command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 command! Sutent cd C:/SVN/Syandus_Cores/C_Sut_AE_01
+command! SyLogParser cd C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser
+command! SyHandleGen cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen
 
 command! Mac cd S:/trunk/ALIVE Med/
 
@@ -1120,7 +1154,7 @@ augroup END
 " Sutent {{{
 function! SetSettingsForSutent()
   setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_sutent.ahk')<CR>
+  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_sutent.ahk')<CR>
   setlocal tags=
   \C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/tags,
   \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
@@ -1142,6 +1176,32 @@ endfunction
 augroup Shaders
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter *.fx call SetSettingsForShaders()
+augroup END
+"}}}
+" SyLogParser {{{
+function! SetSettingsForSyLogParser()
+  setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_sylogparser.ahk')<CR>
+  setlocal tags=
+endfunction
+augroup SyLogParser
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser/*
+    \ call SetSettingsForSyLogParser()
+augroup END
+"}}}
+" SyLogParser {{{
+function! SetSettingsForSyHandleGen()
+  setlocal tabstop=2 shiftwidth=2 softtabstop=2
+  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_syhandlegen.ahk')<CR>
+  setlocal tags=
+endfunction
+augroup SyLogParser
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen/*
+    \ call SetSettingsForSyHandleGen()
 augroup END
 "}}}
 "}}}
