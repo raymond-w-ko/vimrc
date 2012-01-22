@@ -135,13 +135,6 @@ set mousehide
 " Environments (GUI/Console) {{{
 if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
-        "colorscheme xoria256
-        "colorscheme molokai
-        set background=dark
-        "let g:solarized_visibility="low"
-        "colorscheme solarized
-        "let g:inkpot_black_background = 0
-        "colorscheme inkpot
         colorscheme luciusmod
 
         let g:already_set_color_scheme=1
