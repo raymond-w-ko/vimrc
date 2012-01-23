@@ -1,7 +1,7 @@
 " Preamble {{{
 set nocompatible
 filetype off
- 
+
 let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "tagbar")
@@ -25,6 +25,7 @@ set fileformats=unix,dos,mac        " order of support
 set shellslash                      " '/' is so much easier to type
 " }}}
 " Basic options {{{
+" General {{{
 set shortmess+=aI    " no intro message
 set encoding=utf-8
 "set encoding=latin1
@@ -69,6 +70,11 @@ augroup SaveWhenLosingFocus
     au FocusLost * :silent! wall
 augroup END
 
+augroup StripTrailingWhitespaceOnSave
+    au!
+autocmd BufWritePre * :%s/\s\+$//e
+augroup END
+" }}}
 " Wildmenu completion {{{
 set wildmenu
 set wildmode=list:longest
@@ -161,7 +167,7 @@ if (has("gui_running"))
         nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
         function! FullScreenVim()
             if !exists("g:already_fullscreen_vim")
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 let g:already_fullscreen_vim=1
@@ -171,7 +177,7 @@ if (has("gui_running"))
             autocmd!
             autocmd BufEnter * call FullScreenVim()
         augroup END
-        au GUIEnter * simalt ~x
+        "au GUIEnter * simalt ~x
     elseif has("gui_macvim")
         " Full screen means FULL screen
         set fuoptions=maxvert,maxhorz
@@ -186,19 +192,20 @@ endif
 " }}}
 " Status line {{{
 " buffer number and filename
-set statusline=\(%n\)\ %f\ 
+set statusline=\(%n\)\ %f
 " read-only, error highlighting, modified tag, restore highlighting
-set statusline+=%r%#Error#%m%*\ 
+set statusline+=\ %r%#Error#%m%*
 " current line number and column count
-set statusline+=(%l/%L,\ %c)\ 
+set statusline+=\ (%l/%L,\ %c)
 " percentage through current file
-set statusline+=%P
+set statusline+=\ %P
 " left-right separator
 set statusline+=%=
 " [help] and [preview] flags
-set statusline+=%h%w\ 
+set statusline+=%h%w
 " file type, foldmethod, and encoding, and fileformat
-set statusline+=%y\ [%{&foldmethod}]\ [%{&encoding}:%{&fileformat}]\ \ 
+set statusline+=\ %y\ [%{&foldmethod}]\ [%{&encoding}:%{&fileformat}]
+set statusline+=\ \ "two spaces so it doesn't crowd the vsplit
 " }}}
 " Searching and movement {{{
 " Use sane regexes.
@@ -438,7 +445,7 @@ function! GetProjectDirectory()
     return directory
   else
     return getcwd()
-  endif 
+  endif
 endfunction
 
 command! LcdToProjectDirectory call LcdToProjectDirectory()
@@ -569,7 +576,7 @@ nnoremap <leader>p :call MyPasteToggle()<CR>
 
 " lazy braces
 function! MyLazyBraces()
-    let cur_ft = &filetype 
+    let cur_ft = &filetype
     if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' ||
       \ cur_ft == 'php' || cur_ft == 'fx' || cur_ft == 'cs')
         call feedkeys("{\<CR>\<TAB>⣿\<CR>", 'n')
@@ -696,7 +703,7 @@ nnoremap <leader>fl :FufLine<CR>
 
 " }}}
 " Fancy Tag Completion {{{
-      
+
 function! MySuperCtrlJUserCompletion(findstart, base)
   if a:findstart
     if (!exists("b:possible_function_signatures"))
@@ -1028,11 +1035,11 @@ command! Mac cd S:/trunk/ALIVE Med/
 
 augroup SyandusIndents
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter 
+  autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/*
   \ setlocal tabstop=3 shiftwidth=3 softtabstop=3
 
-  autocmd BufNewFile,BufRead,BufEnter 
+  autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_ALIVE3/Metrics/*
   \ setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
@@ -1126,7 +1133,7 @@ function! SetSettingsForSymlin()
 endfunction
 augroup Symlin
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter 
+  autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_Cores/C_Sym_DM_01/*
   \ call SetSettingsForSymlin()
 augroup END
@@ -1139,7 +1146,7 @@ function! SetSettingsForMac()
 endfunction
 augroup Mac
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter 
+  autocmd BufNewFile,BufRead,BufEnter
   \ S:/*
   \ call SetSettingsForMac()
 augroup END
@@ -1155,7 +1162,7 @@ function! SetSettingsForSutent()
 endfunction
 augroup Sutent
   autocmd!
-  autocmd BufNewFile,BufRead,BufEnter 
+  autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_Cores/C_Sut_AE_01/*
   \ call SetSettingsForSutent()
 augroup END
@@ -1208,7 +1215,7 @@ let g:alternateNoDefaultAlternate=1
 let g:netrw_silent=1
 " apparently enabling this hijacks the mouse completely
 " so you can't use it to select stuff (WTF!)
-let g:netrw_mousemaps=0   
+let g:netrw_mousemaps=0
 " }}}
 " AutoComplPop {{{
 let g:acp_enableAtStartup = 1
