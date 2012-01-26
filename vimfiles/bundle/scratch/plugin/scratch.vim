@@ -99,6 +99,9 @@ function! s:ScratchMarkBuffer()
     setlocal bufhidden=hide
     setlocal noswapfile
     setlocal buflisted
+    setlocal nonumber
+    setlocal norelativenumber
+    setlocal nowrap
 endfunction
 
 autocmd BufNewFile __Scratch__ call s:ScratchMarkBuffer()
