@@ -39,7 +39,7 @@ set nocursorcolumn
 set ruler
 set backspace=indent,eol,start
 set nonumber
-set relativenumber
+set norelativenumber
 set laststatus=2
 set history=8192
 set lazyredraw
@@ -78,6 +78,7 @@ augroup END
 " Wildmenu completion {{{
 set wildmenu
 set wildmode=list:longest
+set wildchar=<Tab>
 
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.bmp,*.tga
@@ -103,7 +104,7 @@ set shiftround
 set expandtab
 set nosmarttab
 set textwidth=0           " no automatic text wrapping
-set colorcolumn=80
+set colorcolumn=""
 set formatoptions=qn1
 set wrap
 set wrapscan
@@ -316,7 +317,7 @@ function! SetFoldSettings()
     set foldenable
     set foldmethod=syntax
     set foldopen=block,hor,mark,percent,quickfix,tag,search
-    set foldlevelstart=0
+    set foldlevelstart=9001
     set foldnestmax=20
 
     let g:my_fold_settings_applied=1
@@ -616,8 +617,6 @@ inoremap <expr> { MyLazyBraces()
 " lazy quotes
 "inoremap ' ''<Left>
 "inoremap " ""<Left>
-" super backspace
-inoremap <S-BS> <ESC>diwa
 
 " these are sort of necessary since you usually have
 " to move right of the surrounds
@@ -641,6 +640,28 @@ nnoremap <C-Up> :resize +1<CR>
 nnoremap <C-Down> :resize -1<CR>
 nnoremap <C-Left> :vertical resize -1<CR>
 nnoremap <C-Right> :vertical resize +1<CR>
+
+function! MarkWindowSwap()
+    let g:markedWinNum = winnr()
+endfunction
+
+function! DoWindowSwap()
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf
+endfunction
+
+nnoremap <silent> <leader>wm :call MarkWindowSwap()<CR>
+nnoremap <silent> <leader>wp :call DoWindowSwap()<CR>
 " }}}
 " Tabs {{{
 nnoremap <A-1> 1gt
@@ -648,16 +669,49 @@ nnoremap <A-2> 2gt
 nnoremap <A-3> 3gt
 nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
-nnoremap <A-t> <ESC>:tabnew<CR>:vsplit<CR>:wincmd h<CR>
+function! CreateAndSetupVsplits()
+    if !exists("g:num_tabs")
+        let g:num_tabs = 1
+    endif
+
+    if g:num_tabs <= 1
+        call InitialVsplits()
+        let g:num_tabs = g:num_tabs + 1
+        return
+    endif
+
+    tabnew
+    vsplit
+    40vsplit
+    set winfixwidth
+    wincmd r
+    wincmd =
+    Scratch
+    wincmd l
+
+    let g:num_tabs = g:num_tabs + 1
+
+    return
+endfunction
+nnoremap <A-t> :call CreateAndSetupVsplits()<CR>
 nnoremap <A-w> <ESC>:tabclose<CR>
 
-inoremap <A-1> <ESC>1gt
-inoremap <A-2> <ESC>2gt
-inoremap <A-3> <ESC>3gt
-inoremap <A-4> <ESC>4gt
-inoremap <A-5> <ESC>5gt
-inoremap <A-t> <ESC>:tabnew<CR>:vsplit<CR>:wincmd h<CR>
-inoremap <A-w> <ESC>:tabclose<CR>
+function! InitialVsplits()
+    if exists("g:already_did_initial_vsplits")
+        return
+    endif
+
+    vsplit
+    40vsplit
+    set winfixwidth
+    wincmd r
+    wincmd =
+    Scratch
+    wincmd l
+
+    let g:already_did_initial_vsplits=1
+endfunction
+
 " }}}
 " Finding stuff {{{
 function! ExtensionHelper(ext, dir)
@@ -704,7 +758,7 @@ nnoremap <leader>fl :FufLine<CR>
 " }}}
 " Fancy Tag Completion {{{
 
-function! MySuperCtrlJUserCompletion(findstart, base)
+function! MySuperCtrlSpaceUserCompletion(findstart, base)
   if a:findstart
     if (!exists("b:possible_function_signatures"))
       return -1;
@@ -719,72 +773,91 @@ endfunction
 
 function! GetFunctionSignatures(keyword)
     let results = taglist("^" . a:keyword . "$")
-    let b:possible_function_signatures = []
+    let possible_function_signatures = []
     for item in results
       if (has_key(item, 'signature'))
-        let entry = {}
         let signature = item['signature']
-        let entry.word = signature
+        let signature = substitute(signature, '\((\s*\)\|\(\s*)\)', "", "g")
+        let arg_list = split(signature, '\s*,')
 
         let class = '-'
         if (has_key(item, 'class'))
           let class = item['class']
         endif
 
-        let abbr = class . '::' . a:keyword . signature
-        let entry.abbr = abbr
-        call add(b:possible_function_signatures, entry)
+        let entry = class . '::' . a:keyword . '('
+        for arg in arg_list
+            let arg = substitute(arg, '^\s*\|\s*$', "", 'g')
+            let entry .= "\n  " . arg
+        endfor
+        let entry .= " )"
+
+        call add(possible_function_signatures, entry)
       endif
     endfor
 
-    return len(b:possible_function_signatures)
+    return possible_function_signatures
 endfunction
 
 function! MySuperEnter()
   if pumvisible()
-      return "⣿\<CR>⣿\<ESC>k:s/⣿//g\<CR>j0f⣿s"
+      return " \<CR>"
+      " sometimes glitches, it is not perfect
+      " using space instead since I strip whitespace at save
+      " return "⣿\<CR>⣿\<ESC>k:s/⣿//g\<CR>j0f⣿s"
   else
     return "\<CR>"
   endif
 endfunction
 
-function! MySuperCtrlSpace()
-    if pumvisible()
-        return "\<C-y>"
-        if (exists("b:possible_function_signatures"))
-            return "\<C-y>\<ESC>F(a"
-        else
-            return "\<C-y>"
-        endif
-    else
-        " get current line up to where cursor is located
-        let line = strpart(getline('.'), 0, col('.') - 1)
+function! WriteArgListToScratch()
+    " get current line up to where cursor is located
+    let line = strpart(getline('.'), 0, col('.'))
 
-        if (line[strlen(line) - 1] == ' ')
-            return ""
-        endif
+    if (line[strlen(line) - 1] == ' ')
+        return ""
+    endif
 
-        let words = split(line, '\W\+')
-        if (len(words) < 1)
-            return ""
-        endif
+    let words = split(line, '\W\+')
+    if (len(words) < 1)
+        return ""
+    endif
 
-        let last_word = words[-1]
+    let last_word = words[-1]
+    let possible_function_signatures = GetFunctionSignatures(last_word)
+    let num_sig = len(possible_function_signatures)
 
-        let num_sig = GetFunctionSignatures(last_word)
-        if (num_sig > 0)
-            setlocal completefunc=MySuperCtrlJUserCompletion
-            return "\<C-X>\<C-U>"
-        else
-            if exists("b:possible_function_signatures")
-                unlet b:possible_function_signatures
-            endif
-            return ""
-        endif
+    if (num_sig == 0)
+        return ""
+    endif
+
+    let output = ""
+
+    for item in possible_function_signatures
+        let output .= item
+        let output .= "\n"
+        let output .= "\n"
+    endfor
+
+    let cur_buf_nr = bufnr('%')
+    let scratch_buf_nr = bufnr("__Scratch__")
+    normal mz
+    execute "buf " . scratch_buf_nr
+    normal ggVGD
+    :$put=output
+    normal gg
+    execute "buf " . cur_buf_nr
+    normal `z
+    return
 endfunction
 
-inoremap <expr> <CR>  MySuperEnter()
-inoremap <expr> <C-Space> MySuperCtrlSpace()
+function! MySuperLeftParen()
+    return "⣿\<ESC>:call WriteArgListToScratch()\<CR>a\<BS>("
+endfunction
+
+inoremap <expr> <CR>        MySuperEnter()
+inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : ""
+inoremap <expr> (           MySuperLeftParen()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
@@ -869,68 +942,64 @@ nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
 " C {{{
 augroup ft_c
   autocmd!
-  autocmd BufNewFile,BufRead *.c setlocal foldlevel=0 foldnestmax=1
+  autocmd BufNewFile,BufRead *.c setlocal foldnestmax=1
 augroup END
 " }}}
 " C# {{{
 augroup ft_cs
   autocmd!
-  autocmd BufNewFile,BufRead *.cs setlocal foldlevel=9001 foldnestmax=1 foldmethod=indent
+  autocmd BufNewFile,BufRead *.cs setlocal foldnestmax=1 foldmethod=indent
 augroup END
 " }}}
 " C++ {{{
 augroup ft_cpp
   autocmd!
-  autocmd BufNewFile,BufRead *.cpp setlocal foldlevel=0 foldnestmax=1
+  autocmd BufNewFile,BufRead *.cpp setlocal foldnestmax=1
 augroup END
 " }}}
 " Objective-C {{{
 augroup ft_objc
   autocmd!
-  autocmd BufNewFile,BufRead *.m setlocal foldlevel=0 foldnestmax=1
+  autocmd BufNewFile,BufRead *.m setlocal foldnestmax=1
 augroup END
 " }}}
 " C, C++, Obj-C Header {{{
 augroup ft_h
   autocmd!
-  autocmd BufNewFile,BufRead *.h setlocal foldlevel=1 foldnestmax=20
+  autocmd BufNewFile,BufRead *.h setlocal foldnestmax=20
 augroup END
 " }}}
 
 " Syandus Spec File {{{
 augroup ft_ssf
   autocmd!
-  autocmd BufNewFile,BufRead *.ssf setlocal foldlevel=9001 foldnestmax=20
+  autocmd BufNewFile,BufRead *.ssf setlocal foldnestmax=20
 augroup END
 " }}}
 " SyML {{{
 augroup ft_sml
   autocmd!
-  autocmd BufNewFile,BufRead *.sml setlocal foldlevel=9001 foldnestmax=20
+  autocmd BufNewFile,BufRead *.sml setlocal foldnestmax=20
 augroup END
 " }}}
 " HLSL, FX, FXL {{{
 augroup ft_fx
   autocmd!
-  autocmd BufNewFile,BufRead *.fx,*.fxl,*.fxh,*.hlsl setlocal filetype=fx foldlevel=9001 foldnestmax=20
+  autocmd BufNewFile,BufRead *.fx,*.fxl,*.fxh,*.hlsl setlocal filetype=fx foldnestmax=20
 augroup END
 " }}}
 
 " Java {{{
-
 augroup ft_java
     au!
     au FileType java setlocal foldmethod=marker foldmarker={,}
 augroup END
-
 " }}}
 " Javascript {{{
-
 augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker foldmarker={,}
 augroup END
-
 " }}}
 " vimrc {{{
 augroup vimrc
@@ -1224,6 +1293,7 @@ let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 3
 let g:acp_completeoptPreview = 0
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
+let g:acp_mappingDriven = 0
 "}}}
 " Command-T {{{
 let g:CommandTMaxHeight=16

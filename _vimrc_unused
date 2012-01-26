@@ -1,3 +1,26 @@
+function! OldGetFunctionSignatures(keyword)
+    let results = taglist("^" . a:keyword . "$")
+    let b:possible_function_signatures = []
+    for item in results
+      if (has_key(item, 'signature'))
+        let entry = {}
+        let signature = item['signature']
+        let entry.word = signature
+
+        let class = '-'
+        if (has_key(item, 'class'))
+          let class = item['class']
+        endif
+
+        let abbr = class . '::' . a:keyword . signature
+        let entry.abbr = abbr
+        call add(b:possible_function_signatures, entry)
+      endif
+    endfor
+
+    return len(b:possible_function_signatures)
+endfunction
+
 " neocomplcache {
 let g:neocomplcache_enable_at_startup = 1
 
@@ -31,7 +54,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 }
-	
+
 
 " MiniBufExpl {
 let g:miniBufExplorerMoreThanOne = 0
