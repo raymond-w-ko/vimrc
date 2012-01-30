@@ -64,6 +64,7 @@ augroup END
 augroup vimrc
   au!
   au BufWritePost _vimrc source $MYVIMRC
+  au BufWritePost */vimfiles/config/* source $MYVIMRC
 augroup END
 " }}}
 " git {{{

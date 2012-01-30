@@ -1,9 +1,6 @@
-" Destroy infuriating / ??? keys {{{
-
-" Fuck you too, manual key.
+" disable crazy keys keys
 nnoremap K <nop>
 
-" }}}
 " General {{{
 " Substitute
 nnoremap <leader>s :%s//<left>
@@ -30,21 +27,21 @@ function! CommandTProject()
 endfunction
 nnoremap <leader>t :call CommandTProject()<CR>
 nnoremap <leader>b :FufBuffer<CR>
-nnoremap <leader>l :LustyJuggler<CR>
+"nnoremap <leader>l :LustyJuggler<CR>
 nnoremap <leader>a :A<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
-nnoremap <leader>C<space> :botright cwindow<CR>
-nnoremap <leader>Cc :cclose<CR>
-nnoremap <leader>CC :cclose<CR>
-nnoremap <leader>L<space> :lopen<CR>
-nnoremap <leader>LL :lclose<CR>
+"nnoremap <leader>C<space> :botright cwindow<CR>
+"nnoremap <leader>Cc :cclose<CR>
+"nnoremap <leader>CC :cclose<CR>
+"nnoremap <leader>L<space> :lopen<CR>
+"nnoremap <leader>LL :lclose<CR>
 function! MyPasteToggle()
     if (&paste)
-        echom "paste mode set"
+        echom "paste mode TRUE"
         set nopaste
     else
-        echom "nopaste mode set"
+        echom "paste mode FALSE"
         set paste
     endif
 endfunction
@@ -72,7 +69,6 @@ endfunction
 inoremap <expr> { MyLazyBraces()
 
 " lazy .. to ->
-"inoremap <C-.> ->
 "autocmd CursorMovedI * call MyLazyDotDotToArrow()
 "function! MyLazyDotDotToArrow()
     "let line = strpart(getline('.'), 0, col('.') - 1)
@@ -95,10 +91,10 @@ inoremap <expr> { MyLazyBraces()
 
 " these are sort of necessary since you usually have
 " to move right of the surrounds
-inoremap <A-h> <Left>
-inoremap <A-l> <Right>
-inoremap <A-k> <Up>
-inoremap <A-j> <Down>
+"inoremap <A-h> <Left>
+"inoremap <A-l> <Right>
+"inoremap <A-k> <Up>
+"inoremap <A-j> <Down>
 "}}}
 " Splits {{{
 nnoremap <C-h> <C-w>h
@@ -280,17 +276,6 @@ function! GetFunctionSignatures(keyword)
     return possible_function_signatures
 endfunction
 
-function! MySuperEnter()
-  if pumvisible()
-      return " \<CR>"
-      " sometimes glitches, it is not perfect
-      " using space instead since I strip whitespace at save
-      " return "⣿\<CR>⣿\<ESC>k:s/⣿//g\<CR>j0f⣿s"
-  else
-    return "\<CR>"
-  endif
-endfunction
-
 function! WriteArgListToScratch()
     " get current line up to where cursor is located
     let line = strpart(getline('.'), 0, col('.'))
@@ -336,7 +321,8 @@ function! MySuperLeftParen()
     return "⣿\<ESC>:call WriteArgListToScratch()\<CR>a\<BS>("
 endfunction
 
-inoremap <expr> <CR>        MySuperEnter()
+" <CR> should not autoaccept what the popup menu has selected
+inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
 inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : ""
 inoremap <expr> (           MySuperLeftParen()
 

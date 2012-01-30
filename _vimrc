@@ -425,7 +425,6 @@ nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 
 " }}}
 
-
 source ~/vimfiles/config/library.vim
 
 source ~/vimfiles/config/keybindings.vim

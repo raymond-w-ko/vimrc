@@ -1,3 +1,5 @@
+" traverses up directories until it finds one what has 'root.dir'
+" it then returns that directory
 function! GetProjectDirectory()
   let directory = getcwd()
   let depth_max = 10
@@ -21,7 +23,7 @@ function! GetProjectDirectory()
   endif
 endfunction
 
-command! DeleteEmptyBuffers call DeleteEmptyBuffers()
+" command to delete all empty buffers in case you have over 9000 of them
 function! DeleteEmptyBuffers()
   let empty = []
   let [i, nbuf] = [1, bufnr('$')]
@@ -35,17 +37,20 @@ function! DeleteEmptyBuffers()
       execute 'bdelete ' . join(empty, ' ')
   endif
 endfunction
+command! DeleteEmptyBuffers call DeleteEmptyBuffers()
 
+" escape pathname with spaces so it doesn't break other commands and functions
 function! EscapePathname(pathname)
   return substitute(a:pathname, "\\ ", "\\\\ ", "g")
 endfunction
 
+" executes the specificed autohotkey script
 function! AutoHotkeyMake(makefile)
   execute ':!start cmd /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" ' . a:makefile
 endfunction
 
 " ex command for toggling hex mode - define mapping if desired
-command! -bar Hexmode call ToggleHex()
+command! -bar HexMode call ToggleHex()
 
 " helper function to toggle hex mode
 function! ToggleHex()
