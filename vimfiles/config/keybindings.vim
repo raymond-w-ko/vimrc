@@ -77,8 +77,18 @@ function! MyLazyDotDotToArrow()
         return
     endif
 
-    if (line[line_len - 1] == '.' && line[line_len - 2] == '.')
+    if (line[line_len - 3] != '.' &&
+      \ line[line_len - 3] != '/' &&
+      \ line[line_len - 3] != '\' &&
+      \ line[line_len - 2] == '.' &&
+      \ line[line_len - 1] == '.')
         call feedkeys("\<BS>\<BS>->", 't')
+    endif
+
+    if (line[line_len - 3] == '-' &&
+      \ line[line_len - 2] == '>' &&
+      \ line[line_len - 1] == '.')
+        call feedkeys("\<BS>\<BS>\<BS>...", 't')
     endif
 endfunction
 " lazy parentheses
