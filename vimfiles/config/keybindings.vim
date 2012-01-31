@@ -1,4 +1,4 @@
-" disable crazy keys keys
+" disable crazy keys
 nnoremap K <nop>
 
 " General {{{
@@ -69,18 +69,18 @@ endfunction
 inoremap <expr> { MyLazyBraces()
 
 " lazy .. to ->
-"autocmd CursorMovedI * call MyLazyDotDotToArrow()
-"function! MyLazyDotDotToArrow()
-    "let line = strpart(getline('.'), 0, col('.') - 1)
-    "let line_len = strlen(line)
-    "if (line_len < 2)
-        "return
-    "endif
+autocmd CursorMovedI * call MyLazyDotDotToArrow()
+function! MyLazyDotDotToArrow()
+    let line = strpart(getline('.'), 0, col('.') - 1)
+    let line_len = strlen(line)
+    if (line_len < 2)
+        return
+    endif
 
-    "if (line[line_len - 1] == '.' && line[line_len - 2] == '.')
-        "call feedkeys("\<BS>\<BS>->", 't')
-    "endif
-"endfunction
+    if (line[line_len - 1] == '.' && line[line_len - 2] == '.')
+        call feedkeys("\<BS>\<BS>->", 't')
+    endif
+endfunction
 " lazy parentheses
 "inoremap ( ()<Left>
 " lazy brackets
@@ -140,54 +140,39 @@ nnoremap <A-2> 2gt
 nnoremap <A-3> 3gt
 nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
-function! CreateAndSetupVsplits()
+function! CreateAndSetupVsplits(num_vsplits)
     if !exists("g:num_tabs")
         let g:num_tabs = 1
     endif
 
-    if g:num_tabs <= 1
-        call InitialVsplits()
-        let g:num_tabs = g:num_tabs + 1
-        return
+    if g:num_tabs > 1
+        tabnew
     endif
 
     let current_directory = expand("%:p:h")
 
-    tabnew
-    vsplit
-    40vsplit
-    set winfixwidth
-    wincmd r
-    wincmd =
+    5split
+    set winfixheight
     Scratch
-    wincmd l
-    exe "chdir " . current_directory
-    wincmd l
-    exe "chdir " . current_directory
-    wincmd h
+
+    wincmd k
+    for ii in range(a:num_vsplits)
+        vsplit
+        exe "chdir " . current_directory
+    endfor
+
+    wincmd =
+
+    for ii in range(a:num_vsplits)
+        wincmd h
+    endfor
 
     let g:num_tabs = g:num_tabs + 1
 
     return
 endfunction
-nnoremap <A-t> :call CreateAndSetupVsplits()<CR>
+nnoremap <A-t> :call CreateAndSetupVsplits(1)<CR>
 nnoremap <A-w> <ESC>:tabclose<CR>
-
-function! InitialVsplits()
-    if exists("g:already_did_initial_vsplits")
-        return
-    endif
-
-    vsplit
-    40vsplit
-    set winfixwidth
-    wincmd r
-    wincmd =
-    Scratch
-    wincmd l
-
-    let g:already_did_initial_vsplits=1
-endfunction
 
 " }}}
 " Finding stuff {{{
@@ -276,6 +261,27 @@ function! GetFunctionSignatures(keyword)
     return possible_function_signatures
 endfunction
 
+function! GetFunctionSignatures2(keyword)
+    let results = taglist("^" . a:keyword . "$")
+    let possible_function_signatures = []
+    for item in results
+      if (has_key(item, 'signature'))
+        let signature = item['signature']
+
+        let class = '-'
+        if (has_key(item, 'class'))
+          let class = item['class']
+        endif
+
+        let entry = class . '::' . a:keyword . signature
+
+        call add(possible_function_signatures, entry)
+      endif
+    endfor
+
+    return possible_function_signatures
+endfunction
+
 function! WriteArgListToScratch()
     " get current line up to where cursor is located
     let line = strpart(getline('.'), 0, col('.'))
@@ -290,7 +296,7 @@ function! WriteArgListToScratch()
     endif
 
     let last_word = words[-1]
-    let possible_function_signatures = GetFunctionSignatures(last_word)
+    let possible_function_signatures = GetFunctionSignatures2(last_word)
     let num_sig = len(possible_function_signatures)
 
     if (num_sig == 0)
@@ -302,27 +308,26 @@ function! WriteArgListToScratch()
     for item in possible_function_signatures
         let output .= item
         let output .= "\n"
-        let output .= "\n"
     endfor
 
-    let cur_buf_nr = bufnr('%')
-    let scratch_buf_nr = bufnr("__Scratch__")
-    normal mz
-    execute "buf " . scratch_buf_nr
+    let cur_win_nr = winnr()
+    let scratch_win_nr = bufwinnr('__Scratch__')
+
+    execute scratch_win_nr . "wincmd w"
     normal ggVGD
     :$put=output
     normal gg
-    execute "buf " . cur_buf_nr
-    normal `z
+    normal dd
+    execute cur_win_nr . "wincmd w"
     return
 endfunction
 
 function! MySuperLeftParen()
-    return "⣿\<ESC>:call WriteArgListToScratch()\<CR>a\<BS>("
+    return "\<ESC>:call WriteArgListToScratch()\<CR>a("
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
+inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
 inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : ""
 inoremap <expr> (           MySuperLeftParen()
 

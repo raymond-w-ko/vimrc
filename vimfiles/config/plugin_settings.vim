@@ -47,4 +47,4 @@ let g:ctrlp_working_path_mode = 2
 let g:indent_guides_enable_on_vim_startup=0
 " }}}
 
-" vim:fdm=marker:foldlevel=0
+" vim:fdm=marker:foldlevel=9001

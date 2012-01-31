@@ -69,6 +69,7 @@ set autochdir
 set nolist
 set listchars=tab:▸\ ,eol:¬
 set fillchars=diff:⣿
+set viewoptions=cursor,folds,options,slash,unix
 
 " Save when losing focus
 augroup SaveWhenLosingFocus
@@ -76,9 +77,14 @@ augroup SaveWhenLosingFocus
     au FocusLost * :silent! wall
 augroup END
 
+function! StripTrailingWhitespace()
+    let l:winview = winsaveview()
+    silent! %s/\s\+$//
+    call winrestview(l:winview)
+endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * call StripTrailingWhitespace()
 augroup END
 " }}}
 " Wildmenu completion {{{
@@ -127,6 +133,8 @@ set undolevels=8192   "maximum number of changes that can be undone
 set undoreload=65536  "maximum number lines to save for undo on a buffer reload
 
 set directory=~/vimtmp//
+
+set viewdir=~/vimview
 " }}}
 " Leader {{{
 
@@ -174,8 +182,8 @@ if (has("gui_running"))
         function! FullScreenVim()
             if !exists("g:already_fullscreen_vim")
                 call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 let g:already_fullscreen_vim=1
             endif
         endfunction
@@ -197,6 +205,13 @@ if (has("gui_running"))
 endif
 " }}}
 " Status line {{{
+function! MyStatusLineHelper()
+    if exists("b:orig_foldmethod")
+        return b:orig_foldmethod
+    endif
+
+    return "???"
+endfunction
 " buffer number and filename
 set statusline=\(%n\)\ %f
 " read-only, error highlighting, modified tag, restore highlighting
@@ -210,7 +225,7 @@ set statusline+=%=
 " [help] and [preview] flags
 set statusline+=%h%w
 " file type, foldmethod, and encoding, and fileformat
-set statusline+=\ %y\ [%{&foldmethod}]\ [%{&encoding}:%{&fileformat}]
+set statusline+=\ %y\ [%{MyStatusLineHelper()}]\ [%{&encoding}:%{&fileformat}]
 set statusline+=\ \ "two spaces so it doesn't crowd the vsplit
 " }}}
 " Searching and movement {{{
@@ -333,8 +348,16 @@ call SetFoldSettings()
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against
 " screwing up folding when switching between windows.
-autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+function! MySaveOrigFoldmethod()
+    if exists("b:orig_foldmethod")
+        return
+    endif
+
+    let b:orig_foldmethod=&foldmethod
+    setlocal foldmethod=manual
+endfunction
+autocmd InsertEnter * call MySaveOrigFoldmethod()
+"autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 " Space to toggle folds.
 nnoremap <Space> za
@@ -349,6 +372,8 @@ nnoremap <leader>z zMzvzz
 
 " enable syntax folding for XML (caution, this can be slow)
 let g:xml_syntax_folding=1
+
+nnoremap zM a<ESC>:setlocal foldmethod=<C-R>=b:orig_foldmethod<CR><CR>zM:setlocal foldmethod=manual<CR>
 " }}}
 " Text objects {{{
 
@@ -431,5 +456,10 @@ source ~/vimfiles/config/keybindings.vim
 source ~/vimfiles/config/ft_settings.vim
 source ~/vimfiles/config/projects.vim
 source ~/vimfiles/config/plugin_settings.vim
+
+augroup ScratchWindowResizer
+    au!
+    au BufEnter __Scratch__ resize 5
+augroup END
 
 " vim:fdm=marker:foldlevel=0
