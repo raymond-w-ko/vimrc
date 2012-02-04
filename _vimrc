@@ -45,7 +45,7 @@ set nocursorcolumn
 set ruler
 set backspace=indent,eol,start
 set nonumber
-set norelativenumber
+set relativenumber
 set laststatus=2
 set history=8192
 set lazyredraw

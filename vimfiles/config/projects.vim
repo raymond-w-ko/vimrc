@@ -1,5 +1,4 @@
-" no global tags by default
-set tags=
+set tags=./tags
 
 command! Dropbox cd C:/Users/root/Desktop/Dropbox
 command! Platform cd C:/SVN/Syandus_ALIVE3/Platform/Source

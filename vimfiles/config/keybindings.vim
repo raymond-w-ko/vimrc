@@ -284,8 +284,9 @@ function! GetFunctionSignatures2(keyword)
         endif
 
         let entry = class . '::' . a:keyword . signature
-
-        call add(possible_function_signatures, entry)
+        if (match(signature, '(\s*)') == -1)
+            call add(possible_function_signatures, entry)
+        endif
       endif
     endfor
 

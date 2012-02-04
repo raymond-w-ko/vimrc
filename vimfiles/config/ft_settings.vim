@@ -93,7 +93,7 @@ augroup Binary
   au!
 
   " set binary option for all binary files before reading them
-  au BufReadPre *.bin,*.hex,*.exe setlocal binary
+  au BufReadPre *.bin,*.hex,*.exe,*.dll setlocal binary
 
   " if on a fresh read the buffer variable is already set, it's wrong
   au BufReadPost *
@@ -103,7 +103,7 @@ augroup Binary
 
   " convert to hex on startup for binary files automatically
   au BufReadPost *
-  \ if &binary | Hexmode | endif
+  \ if &binary | HexMode | endif
 
   " When the text is freed, the next time the buffer is made active it will
   " re-read the text and thus not match the correct mode, we will need to
