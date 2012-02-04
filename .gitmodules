@@ -73,3 +73,6 @@
 [submodule "vimfiles/bundle/snipmate"]
 	path = vimfiles/bundle/snipmate
 	url = https://bitbucket.org/rko/snipmate.vim.git
+[submodule "vimfiles/bundle/Cpp11-Syntax-Support"]
+	path = vimfiles/bundle/Cpp11-Syntax-Support
+	url = https://github.com/vim-scripts/Cpp11-Syntax-Support.git
