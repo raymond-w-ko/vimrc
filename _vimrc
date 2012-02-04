@@ -15,6 +15,8 @@ call add(g:pathogen_disabled, "ctrlp")
 call add(g:pathogen_disabled, "neocomplcache")
 "call add(g:pathogen_disabled, "command-t")
 call add(g:pathogen_disabled, "lusty")
+call add(g:pathogen_disabled, "camelcasemotion")
+call add(g:pathogen_disabled, "vim-easymotion")
 call pathogen#infect()
 call pathogen#helptags()
 " }}}
@@ -72,37 +74,57 @@ set fillchars=diff:⣿
 set viewoptions=cursor,folds,options,slash,unix
 
 " Save when losing focus
-augroup SaveWhenLosingFocus
+augroup SaveAllBuffersWhenLosingFocus
     au!
-    au FocusLost * :silent! wall
+    au FocusLost * silent! wall
 augroup END
 
 function! StripTrailingWhitespace()
-    let l:winview = winsaveview()
+    let l:my_saved_winview = winsaveview()
     silent! %s/\s\+$//
-    call winrestview(l:winview)
+    call winrestview(l:my_saved_winview)
 endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-autocmd BufWritePre * call StripTrailingWhitespace()
+    au BufWritePre * call StripTrailingWhitespace()
 augroup END
 " }}}
 " Wildmenu completion {{{
 set wildmenu
-set wildmode=list:longest
+set wildmode=longest,list
 set wildchar=<Tab>
 
+" binaries with a 99.9% of not being edited
+set wildignore+=*.exe,*.dll
+
+" media files in a binary format
+set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.bmp,*.tga,*.mp3,*.ico,*.wav
+set wildignore+=*.bik,*.ani,*.mask
+
+" version control directories
 set wildignore+=.hg,.git,.svn
-set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.bmp,*.tga
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.dep,*.idb,*.ipch
-set wildignore+=*.ncb,*.suo,*.user,*.vcproj,*.vcxproj,*.out,*.sln
-set wildignore+=Debug,Release,Debug.bat,Release.bat
-set wildignore+=*.ccv,*.nif,*.kf,*.fls,*.pat,*.gsl,*.flt
-set wildignore+=*.asi,*.lnk,*.mp3,*.ico,*.wav
-set wildignore+=*.bik,*.NSB,*.pdb,*.ani,*.ID,*.mask
-set wildignore+=*.pdf
+
+" Visual Studio files
+set wildignore+=*.ncb,*.suo,*.user,*.vcproj,*.vcxproj,*.out,*.sln,*.pdb,*.manifest,*.dep,*.idb,*.ipch,*.o,*.obj
+
+" Gamebryo Binaries
+set wildignore+=*.nif,*.kf,*.kfm,*.NSB
+
+" compiled cached bytecodes
 set wildignore+=*.pyc,*.luac
+
+" binary document formats
+set wildignore+=*.pdf,*.doc,*.docx,*.xls,*.xlsx
+
+" Mac OS X metadata files
 set wildignore+=.DS_Store
+
+" Windows OS metadata files
+set wildignore+=*.lnk
+
+" Syandus Files
+set wildignore+=*.ID
+set wildignore+=*.ccv,*.fls,*.pat,*.gsl,*.flt,*.asi
 " }}}
 " Tabs, indents, spaces, wrapping {{{
 set autoindent
@@ -137,10 +159,8 @@ set directory=~/vimtmp//
 set viewdir=~/vimview
 " }}}
 " Leader {{{
-
 let mapleader = ","
 let maplocalleader = "\\"
-
 " }}}
 
 " Mouse & selection Behavior {{{
@@ -241,11 +261,11 @@ set gdefault    " inverts the meaning of the g-flag in s///g
 
 set scrolloff=9001        " always try to center current line
 set sidescroll=1
-set sidescrolloff=10
+set sidescrolloff=0
 
 set virtualedit+=block
 
-nnoremap <leader><space> :noh<cr>:call clearmatches()<cr>
+nnoremap <leader><space> :nohlsearch<cr>:call clearmatches()<cr>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
@@ -259,8 +279,6 @@ nnoremap D d$
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-"nnoremap n nzzzv
-"nnoremap N Nzzzv
 nnoremap n nzv
 nnoremap N Nzv
 
@@ -377,15 +395,13 @@ nnoremap zM a<ESC>:setlocal foldmethod=<C-R>=b:orig_foldmethod<CR><CR>zM:setloca
 " }}}
 " Text objects {{{
 
-" Shortcut for [] {{{
-
+" Shortcut for []
 onoremap id i[
 onoremap ad a[
 vnoremap id i[
 vnoremap ad a[
 
-" }}}
-" Next and Last {{{
+" Next and Last
 
 " Motion for "next/last object". For example, "din(" would go to the next "()" pair
 " and delete its contents.
@@ -415,8 +431,6 @@ function! s:NextTextObject(motion, dir)
 endfunction
 
 " }}}
-
-" }}}
 " Utils {{{
 
 " Synstack {{{
@@ -426,7 +440,7 @@ endfunction
 function! SynStack()
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
 endfunc
-"nnoremap <leader>ss :call SynStack()<CR>
+nnoremap <leader>S :call SynStack()<CR>
 
 " }}}
 " Toggle whitespace in diffs {{{

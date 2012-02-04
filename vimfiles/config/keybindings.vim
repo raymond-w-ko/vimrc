@@ -3,7 +3,7 @@ nnoremap K <nop>
 
 " General {{{
 " Substitute
-nnoremap <leader>s :%s//<left>
+nnoremap <leader>s :%s//c<left><left>
 
 " CTRL-V and are Paste
 inoremap <C-V> <C-r>=@+<CR>
@@ -91,20 +91,7 @@ function! MyLazyDotDotToArrow()
         call feedkeys("\<BS>\<BS>\<BS>...", 't')
     endif
 endfunction
-" lazy parentheses
-"inoremap ( ()<Left>
-" lazy brackets
-"inoremap [ []<Left>
-" lazy quotes
-"inoremap ' ''<Left>
-"inoremap " ""<Left>
 
-" these are sort of necessary since you usually have
-" to move right of the surrounds
-"inoremap <A-h> <Left>
-"inoremap <A-l> <Right>
-"inoremap <A-k> <Up>
-"inoremap <A-j> <Down>
 "}}}
 " Splits {{{
 nnoremap <C-h> <C-w>h
