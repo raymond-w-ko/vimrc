@@ -17,6 +17,9 @@ call add(g:pathogen_disabled, "neocomplcache")
 call add(g:pathogen_disabled, "lusty")
 call add(g:pathogen_disabled, "camelcasemotion")
 call add(g:pathogen_disabled, "vim-easymotion")
+call add(g:pathogen_disabled, "snipmate")
+call add(g:pathogen_disabled, "vim-smartusline")
+"call add(g:pathogen_disabled, "vim-powerline")
 call pathogen#infect()
 call pathogen#helptags()
 " }}}
@@ -106,6 +109,7 @@ set wildignore+=.hg,.git,.svn
 
 " Visual Studio files
 set wildignore+=*.ncb,*.suo,*.user,*.vcproj,*.vcxproj,*.out,*.sln,*.pdb,*.manifest,*.dep,*.idb,*.ipch,*.o,*.obj
+set wildignore+=Debug,Release
 
 " Gamebryo Binaries
 set wildignore+=*.nif,*.kf,*.kfm,*.NSB
@@ -191,6 +195,7 @@ if (has("gui_running"))
     elseif has("gui_macvim")
         set noantialias
         set guifont=Dina_TTF:h11
+        set linespace=0
     endif
 
     " GUI Configuration
@@ -201,9 +206,9 @@ if (has("gui_running"))
         nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
         function! FullScreenVim()
             if !exists("g:already_fullscreen_vim")
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 let g:already_fullscreen_vim=1
             endif
         endfunction
@@ -211,7 +216,7 @@ if (has("gui_running"))
             autocmd!
             autocmd BufEnter * call FullScreenVim()
         augroup END
-        "au GUIEnter * simalt ~x
+        au GUIEnter * simalt ~x
     elseif has("gui_macvim")
         " Full screen means FULL screen
         set fuoptions=maxvert,maxhorz
@@ -225,28 +230,28 @@ if (has("gui_running"))
 endif
 " }}}
 " Status line {{{
-function! MyStatusLineHelper()
-    if exists("b:orig_foldmethod")
-        return b:orig_foldmethod
-    endif
+"function! MyStatusLineHelper()
+    "if exists("b:orig_foldmethod")
+        "return b:orig_foldmethod
+    "endif
 
-    return "???"
-endfunction
-" buffer number and filename
-set statusline=\(%n\)\ %f
-" read-only, error highlighting, modified tag, restore highlighting
-set statusline+=\ %r%#Error#%m%*
-" current line number and column count
-set statusline+=\ (%l/%L,\ %c)
-" percentage through current file
-set statusline+=\ %P
-" left-right separator
-set statusline+=%=
-" [help] and [preview] flags
-set statusline+=%h%w
-" file type, foldmethod, and encoding, and fileformat
-set statusline+=\ %y\ [%{MyStatusLineHelper()}]\ [%{&encoding}:%{&fileformat}]
-set statusline+=\ \ "two spaces so it doesn't crowd the vsplit
+    "return "???"
+"endfunction
+"" buffer number and filename
+"set statusline=\(%n\)\ %f
+"" read-only, error highlighting, modified tag, restore highlighting
+"set statusline+=\ %r%#Error#%m%*
+"" current line number and column count
+"set statusline+=\ (%l/%L,\ %c)
+"" percentage through current file
+"set statusline+=\ %P
+"" left-right separator
+"set statusline+=%=
+"" [help] and [preview] flags
+"set statusline+=%h%w
+"" file type, foldmethod, and encoding, and fileformat
+"set statusline+=\ %y\ [%{MyStatusLineHelper()}]\ [%{&encoding}:%{&fileformat}]
+"set statusline+=\ \ "two spaces so it doesn't crowd the vsplit
 " }}}
 " Searching and movement {{{
 " Use sane regexes.
@@ -269,8 +274,8 @@ nnoremap <leader><space> :nohlsearch<cr>:call clearmatches()<cr>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
-nmap <tab> %
-vmap <tab> %
+"nmap <Tab> %
+"vmap <Tab> %
 
 " make D behave
 nnoremap D d$

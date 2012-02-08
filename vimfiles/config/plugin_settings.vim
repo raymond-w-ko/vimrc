@@ -10,7 +10,7 @@ let g:netrw_mousemaps=0
 " }}}
 " AutoComplPop {{{
 let g:acp_enableAtStartup = 1
-let g:acp_ignorecaseOption = 0
+let g:acp_ignorecaseOption = 1
 let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 3
 let g:acp_completeoptPreview = 0
@@ -45,6 +45,11 @@ let g:ctrlp_working_path_mode = 2
 " }}}
 " indent-guides {{{
 let g:indent_guides_enable_on_vim_startup=0
+" }}}
+
+
+" vim-powerline {{{
+let g:Powerline_symbols='fancy'
 " }}}
 
 " vim:fdm=marker:foldlevel=9001

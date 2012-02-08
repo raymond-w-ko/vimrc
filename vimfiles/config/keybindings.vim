@@ -31,6 +31,8 @@ nnoremap <leader>b :FufBuffer<CR>
 nnoremap <leader>a :A<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
+nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
+
 "nnoremap <leader>C<space> :botright cwindow<CR>
 "nnoremap <leader>Cc :cclose<CR>
 "nnoremap <leader>CC :cclose<CR>
@@ -327,6 +329,7 @@ endfunction
 " <CR> should not autoaccept what the popup menu has selected
 inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
 inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : ""
+inoremap <expr> <S-Space>   pumvisible() ? "\<C-y>" : ""
 inoremap <expr> (           MySuperLeftParen()
 
 function! MyChangeNextArg()

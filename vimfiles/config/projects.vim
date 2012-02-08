@@ -6,7 +6,7 @@ command! Platform cd C:/SVN/Syandus_ALIVE3/Platform/Source
 command! Carbon cd C:/SVN/Syandus_ALIVE3/Frameworks/Carbon
 command! Oxygen cd C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen
 
-command! Hub cd C:/SVN/Syandus_ALIVE3/Hub
+command! Hub cd C:/SVN/Syandus_ALIVE3/Hub/Source
 command! Metrics cd C:/SVN/Syandus_ALIVE3/Metrics
 
 command! Symlin cd C:/SVN/Syandus_Cores/C_Sym_DM_01
@@ -20,11 +20,6 @@ command! SyHandleGen cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen
 command! Mac cd S:/trunk/ALIVE Med/
 
 augroup SyandusIndents
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/*
-  \ setlocal tabstop=3 shiftwidth=3 softtabstop=3
-
   autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_ALIVE3/Metrics/*
   \ setlocal tabstop=2 shiftwidth=2 softtabstop=2
@@ -73,13 +68,28 @@ augroup Carbon
   \ call SetSettingsForCarbon()
 augroup END
 " }}}
+" Oxygen {{{
+function! SetSettingsForOxygen()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_carbon.ahk')<CR>
+  setlocal tags=
+  \C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/Source/Scripts/tags,
+  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
+endfunction
+augroup Oxygen
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/*
+  \ call SetSettingsForOxygen()
+augroup END
+" }}}
 " ImmunoSim {{{
 function! SetSettingsForImmunoSim()
   setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_immunosim.ahk')<CR>
+  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_immunosim.ahk')<CR>
   setlocal tags=
   \C:/SVN/Syandus_Cores/C_ImmunoSim_01/Source/Scripts/Content/tags,
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
+  \C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/Source/Scripts/tags,
   \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
 endfunction
 augroup ImmunoSim
