@@ -82,3 +82,6 @@
 [submodule "vimfiles/bundle/UltiSnips"]
 	path = vimfiles/bundle/UltiSnips
 	url = git://github.com/vim-scripts/UltiSnips.git
+[submodule "vimfiles/bundle/vim-powerline"]
+	path = vimfiles/bundle/vim-powerline
+	url = git://github.com/Lokaltog/vim-powerline.git
