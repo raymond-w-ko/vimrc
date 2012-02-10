@@ -32,6 +32,7 @@ nnoremap <leader>a :A<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
 nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
+nnoremap <leader>gp :CommandT C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
 
 "nnoremap <leader>C<space> :botright cwindow<CR>
 "nnoremap <leader>Cc :cclose<CR>
@@ -327,10 +328,9 @@ function! MySuperLeftParen()
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
-inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : ""
-inoremap <expr> <S-Space>   pumvisible() ? "\<C-y>" : ""
-inoremap <expr> (           MySuperLeftParen()
+inoremap <expr> <CR>  " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
+inoremap <expr> <F13> pumvisible() ? "\<C-y>" : ""
+inoremap <expr> (     MySuperLeftParen()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
