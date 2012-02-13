@@ -85,3 +85,6 @@
 [submodule "vimfiles/bundle/vim-powerline"]
 	path = vimfiles/bundle/vim-powerline
 	url = git://github.com/Lokaltog/vim-powerline.git
+[submodule "vimfiles/bundle/Decho"]
+	path = vimfiles/bundle/Decho
+	url = git://github.com/vim-scripts/Decho.git
