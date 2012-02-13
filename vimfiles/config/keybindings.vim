@@ -1,6 +1,8 @@
 " disable crazy keys
 nnoremap K <nop>
 
+nnoremap <F1> :e scp://chunkyvac/<CR>
+
 " General {{{
 " Substitute
 nnoremap <leader>s :%s//c<left><left>
@@ -158,7 +160,7 @@ function! CreateAndSetupVsplits(num_vsplits)
     wincmd k
     for ii in range(a:num_vsplits)
         vsplit
-        exe "chdir " . current_directory
+        silent! exe "chdir " . current_directory
     endfor
 
     wincmd =

@@ -51,5 +51,9 @@ let g:indent_guides_enable_on_vim_startup=0
 " vim-powerline {{{
 let g:Powerline_symbols='fancy'
 " }}}
+" netrw {{{
+let g:netrw_cygwin = 1
+"let g:netrw_scp_cmd = "\"C:\\Program Files (x86)\\PuTTY\\pscp.exe\" -q -agent"
+" }}}
 
 " vim:fdm=marker:foldlevel=9001

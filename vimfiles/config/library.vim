@@ -46,7 +46,7 @@ endfunction
 
 " executes the specificed autohotkey script
 function! AutoHotkeyMake(makefile)
-  execute ':!start /min cmd.exe /c "C:\Program Files\AutoHotkey\AutoHotkey.exe" ' . a:makefile
+  execute ':!start "C:\Program Files\AutoHotkey\AutoHotkey.exe" ' . a:makefile
 endfunction
 
 " ex command for toggling hex mode - define mapping if desired

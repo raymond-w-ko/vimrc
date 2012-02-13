@@ -34,7 +34,7 @@ if !exists("g:already_syntax_on")
     let g:already_syntax_on=1
 endif
 set fileformats=unix,dos,mac        " order of support
-set shellslash                      " '/' is so much easier to type
+set noshellslash                    " unfortunately shellslash breaks netrw
 " }}}
 
 " General {{{
@@ -159,8 +159,9 @@ set undolevels=8192   "maximum number of changes that can be undone
 set undoreload=65536  "maximum number lines to save for undo on a buffer reload
 
 set directory=~/vimtmp//
-
 set viewdir=~/vimview
+set backup
+set backupdir=~/vimbackup//
 " }}}
 " Leader {{{
 let mapleader = ","
