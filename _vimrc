@@ -13,13 +13,12 @@ call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "taglist")
 call add(g:pathogen_disabled, "ctrlp")
 call add(g:pathogen_disabled, "neocomplcache")
-"call add(g:pathogen_disabled, "command-t")
 call add(g:pathogen_disabled, "lusty")
 call add(g:pathogen_disabled, "camelcasemotion")
 call add(g:pathogen_disabled, "vim-easymotion")
 call add(g:pathogen_disabled, "snipmate")
 call add(g:pathogen_disabled, "vim-smartusline")
-"call add(g:pathogen_disabled, "vim-powerline")
+call add(g:pathogen_disabled, "Decho")
 call pathogen#infect()
 call pathogen#helptags()
 " }}}
@@ -68,13 +67,14 @@ set title
 set showtabline=2
 set cmdheight=2
 set complete=.,w,b,u,t
-set completeopt=menu,menuone
+set completeopt=menu,menuone,preview
 set pumheight=16
 set autochdir
 set nolist
 set listchars=tab:▸\ ,eol:¬
 set fillchars=diff:⣿
 set viewoptions=cursor,folds,options,slash,unix
+set previewheight=16
 
 " Save when losing focus
 augroup SaveAllBuffersWhenLosingFocus
@@ -207,9 +207,10 @@ if (has("gui_running"))
         nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
         function! FullScreenVim()
             if !exists("g:already_fullscreen_vim")
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                "au GUIEnter * simalt ~x
                 let g:already_fullscreen_vim=1
             endif
         endfunction
@@ -217,7 +218,6 @@ if (has("gui_running"))
             autocmd!
             autocmd BufEnter * call FullScreenVim()
         augroup END
-        au GUIEnter * simalt ~x
     elseif has("gui_macvim")
         " Full screen means FULL screen
         set fuoptions=maxvert,maxhorz
@@ -479,7 +479,7 @@ source ~/vimfiles/config/plugin_settings.vim
 
 augroup ScratchWindowResizer
     au!
-    au BufEnter __Scratch__ resize 5
+    "au BufEnter __Scratch__ resize 6
 augroup END
 
 " vim:fdm=marker:foldlevel=0

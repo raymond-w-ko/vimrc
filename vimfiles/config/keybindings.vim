@@ -108,6 +108,8 @@ nnoremap <leader>wv :vsplit<CR>
 nnoremap <leader>wn :split<CR>
 nnoremap <leader>wc :close<CR>
 nnoremap <leader>wo :wincmd o<CR>
+nnoremap <leader>w} :wincmd }<CR>
+nnoremap <leader>wg} :wincmd g}<CR>
 
 nnoremap <C-Up> :resize +1<CR>
 nnoremap <C-Down> :resize -1<CR>
@@ -135,6 +137,9 @@ endfunction
 
 nnoremap <silent> <leader>wm :call MarkWindowSwap()<CR>
 nnoremap <silent> <leader>wp :call DoWindowSwap()<CR>
+
+nnoremap <silent> <Left> :call MarkWindowSwap()<CR><C-w>h:call DoWindowSwap()<CR>
+nnoremap <silent> <Right> :call MarkWindowSwap()<CR><C-w>l:call DoWindowSwap()<CR>
 " }}}
 " Tabs {{{
 nnoremap <A-1> 1gt
@@ -147,30 +152,34 @@ function! CreateAndSetupVsplits(num_vsplits)
         let g:num_tabs = 1
     endif
 
+    " set up our initial tab if this is our first time
     if g:num_tabs > 1
         tabnew
     endif
 
     let current_directory = expand("%:p:h")
 
-    5split
-    set winfixheight
-    Scratch
-
-    wincmd k
+    " create number of vsplits based off of argument passwd
     for ii in range(a:num_vsplits)
         vsplit
         silent! exe "chdir " . current_directory
     endfor
 
-    wincmd =
+    " create scratch buffer window
+    6split
+    set winfixheight
+    Scratch
 
-    for ii in range(a:num_vsplits)
-        wincmd h
-    endfor
+    " create preview window
+    silent! pedit!
+
+    " move back to left vsplit
+    wincmd h
+    wincmd h
+    wincmd h
+    wincmd h
 
     let g:num_tabs = g:num_tabs + 1
-
     return
 endfunction
 nnoremap <A-t> :call CreateAndSetupVsplits(1)<CR>
@@ -322,6 +331,7 @@ function! WriteArgListToScratch()
     normal gg
     normal dd
     execute cur_win_nr . "wincmd w"
+    execute "ptag ". last_word
     return
 endfunction
 
@@ -332,6 +342,7 @@ endfunction
 " <CR> should not autoaccept what the popup menu has selected
 inoremap <expr> <CR>  " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
 inoremap <expr> <F13> pumvisible() ? "\<C-y>" : ""
+inoremap <expr> <C-Space> pumvisible() ? "\<C-y>" : ""
 inoremap <expr> (     MySuperLeftParen()
 
 function! MyChangeNextArg()
@@ -376,7 +387,7 @@ endfunction
 inoremap <expr> <S-A-l> MyChangeNextArg()
 " }}}
 
-" Handle URL {{{
+" Handle URL
 " Stolen from https://github.com/askedrelic/homedir/blob/master/.vimrc
 " OSX only: Open a web-browser with the URL in the current line
 function! HandleURI()
@@ -389,8 +400,8 @@ function! HandleURI()
     endif
 endfunction
 map <leader>u :call HandleURI()<CR>
-" }}}
-" Split/Join {{{
+
+" Split/Join
 "
 " Basically this splits the current line into two new ones at the cursor position,
 " then joins the second one with whatever comes next.
@@ -408,6 +419,6 @@ map <leader>u :call HandleURI()<CR>
 "
 " Especially useful for adding items in the middle of long lists/tuples in Python
 " while maintaining a sane text width.
-nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
-" }}}
+"nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
+"
 " vim:fdm=marker:foldlevel=0

@@ -13,7 +13,7 @@ let g:acp_enableAtStartup = 1
 let g:acp_ignorecaseOption = 1
 let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 3
-let g:acp_completeoptPreview = 0
+let g:acp_completeoptPreview = 1
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
 let g:acp_mappingDriven = 0
 "}}}
