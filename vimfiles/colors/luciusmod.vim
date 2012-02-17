@@ -1,5 +1,5 @@
 "=============================================================================
-" Name:   luciusmod 
+" Name:   luciusmod
 " Author: Takeshi NISHIDA <ns9tks@DELETE-ME.gmail.com>
 "
 " This is derived from lucius.vim.
@@ -272,10 +272,10 @@ hi DiffText         ctermfg=203             ctermbg=52              cterm=bold
 " Folds
 " -----
 " line used for closed folds
-hi Folded           guifg=#c0c0c0           guibg=#005f5f           gui=none
+hi Folded           guifg=#c0c0c0           guibg=#004848           gui=none
 hi Folded           ctermfg=249             ctermbg=23              cterm=none
 " column on side used to indicated open and closed folds
-hi FoldColumn       guifg=#c0c0c0           guibg=#005f5f           gui=none
+hi FoldColumn       guifg=#c0c0c0           guibg=#004848           gui=none
 hi FoldColumn       ctermfg=249             ctermbg=23              cterm=none
 
 
