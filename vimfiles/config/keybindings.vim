@@ -331,7 +331,7 @@ function! WriteArgListToScratch()
     normal gg
     normal dd
     execute cur_win_nr . "wincmd w"
-    execute "ptag ". last_word
+    execute "silent! ptag ". last_word
     return
 endfunction
 
