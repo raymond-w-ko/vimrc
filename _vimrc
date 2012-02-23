@@ -5,6 +5,7 @@ set nocompatible
 if has("win32")
     let g:ruby_path='C:/Ruby193/bin'
 endif
+
 filetype off
 
 let g:pathogen_disabled = []

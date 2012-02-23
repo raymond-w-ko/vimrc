@@ -15,7 +15,6 @@ let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 3
 let g:acp_completeoptPreview = 1
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
-let g:acp_mappingDriven = 0
 "}}}
 " Command-T {{{
 let g:CommandTMaxHeight=16
