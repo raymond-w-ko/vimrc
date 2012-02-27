@@ -77,7 +77,7 @@ augroup END
 augroup ft_python
   au!
   au BufNewFile,BufRead *.py setlocal foldmethod=syntax foldlevel=1
-  au BufNewFile,BufRead *.py setlocal omnifunc=python3complete#Complete
+  au BufNewFile,BufRead *.py setlocal omnifunc=pythoncomplete#Complete
 augroup END
 "}}}
 " autohotkey {{{
