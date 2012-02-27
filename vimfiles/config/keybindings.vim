@@ -152,12 +152,12 @@ function! CreateAndSetupVsplits(num_vsplits)
         let g:num_tabs = 1
     endif
 
+    let current_directory = expand("%:p:h")
+
     " set up our initial tab if this is our first time
     if g:num_tabs > 1
         tabnew
     endif
-
-    let current_directory = expand("%:p:h")
 
     " create number of vsplits based off of argument passwd
     for ii in range(a:num_vsplits)
@@ -169,9 +169,11 @@ function! CreateAndSetupVsplits(num_vsplits)
     6split
     set winfixheight
     Scratch
+    silent! exe "chdir " . current_directory
 
     " create preview window
     silent! pedit!
+    silent! exe "chdir " . current_directory
 
     " move back to left vsplit
     wincmd h
