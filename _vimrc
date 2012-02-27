@@ -178,59 +178,6 @@ set selection=inclusive
 set mouse=a
 set mousehide
 "}}}
-" Environments (GUI/Console) {{{
-if (has("gui_running"))
-    if !exists("g:already_set_color_scheme")
-        colorscheme luciusmod
-
-        let g:already_set_color_scheme=1
-    endif
-
-    " Font
-    if has("win32")
-        if !exists("g:already_set_font")
-            set guifont=Dina_TTF:h8
-            "set guifont=Consolas:h10
-            set linespace=0
-            let g:already_set_font=1
-        endif
-    elseif has("gui_macvim")
-        set noantialias
-        set guifont=Dina_TTF:h11
-        set linespace=0
-    endif
-
-    " GUI Configuration
-    set guioptions=a          " disable everything except synced clipboard
-
-    " Maximize in Windows automatically
-    if has("win32")
-        nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
-        function! FullScreenVim()
-            if !exists("g:already_fullscreen_vim")
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
-                let g:already_fullscreen_vim=1
-            endif
-        endfunction
-        augroup FullScreenOnStartup
-            autocmd!
-            autocmd BufEnter * call FullScreenVim()
-            autocmd GUIEnter * simalt ~x
-        augroup END
-    elseif has("gui_macvim")
-        " Full screen means FULL screen
-        set fuoptions=maxvert,maxhorz
-    endif
-
-    " Remove cursor blink
-    set guicursor+=a:blinkon0
-
-    " pretty vertical Splits
-    set fillchars+=vert:│
-endif
-" }}}
 " Status line {{{
 "function! MyStatusLineHelper()
     "if exists("b:orig_foldmethod")
@@ -471,12 +418,7 @@ nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 
 " }}}
 
-source ~/vimfiles/config/library.vim
-
-source ~/vimfiles/config/keybindings.vim
-source ~/vimfiles/config/ft_settings.vim
-source ~/vimfiles/config/projects.vim
-source ~/vimfiles/config/plugin_settings.vim
+runtime! config/**/*.vim
 
 augroup ScratchWindowResizer
     au!
