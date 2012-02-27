@@ -1,7 +1,9 @@
 " disable crazy keys
 nnoremap K <nop>
 
-nnoremap <F1> :e scp://chunkyvac/<CR>
+inoremap <F1> <nop>
+nnoremap <F1> <nop>
+vnoremap <F1> <nop>
 
 " General {{{
 " Substitute
