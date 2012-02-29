@@ -344,10 +344,10 @@ function! MySuperLeftParen()
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <CR>  " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
-inoremap <expr> <F13> pumvisible() ? "\<C-y>" : ""
-inoremap <expr> <C-Space> pumvisible() ? "\<C-y>" : ""
-inoremap <expr> (     MySuperLeftParen()
+inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
+inoremap <expr> <F13>       pumvisible() ? "\<C-y>" : ""
+inoremap <expr> <S-Space>   pumvisible() ? "\<C-y>" : " "
+inoremap <expr> (           MySuperLeftParen()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
