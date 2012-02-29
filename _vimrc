@@ -207,6 +207,9 @@ set mousehide
 nnoremap / /\v
 vnoremap / /\v
 
+nnoremap ? ?\v
+vnoremap ? ?\v
+
 set ignorecase
 set smartcase
 set hlsearch
