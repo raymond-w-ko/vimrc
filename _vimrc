@@ -423,9 +423,23 @@ nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 
 runtime! config/**/*.vim
 
+function! ResizeFixer()
+    if &previewwindow
+        echom "is preview"
+        resize 16
+        return
+    endif
+
+    if bufname("%") == '__Scratch__'
+        resize 6
+        return
+    endif
+
+    return
+endfunction
 augroup ScratchWindowResizer
     au!
-    "au BufEnter __Scratch__ resize 6
+    au WinEnter * call ResizeFixer()
 augroup END
 
 " vim:fdm=marker:foldlevel=0

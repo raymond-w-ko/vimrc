@@ -58,7 +58,8 @@ nnoremap <leader>p :call MyPasteToggle()<CR>
 function! MyLazyBraces()
     let cur_ft = &filetype
     if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' ||
-      \ cur_ft == 'php' || cur_ft == 'fx' || cur_ft == 'cs')
+      \ cur_ft == 'php' || cur_ft == 'fx' || cur_ft == 'cs' ||
+      \ cur_ft == 'css' )
         call feedkeys("{\<CR>\<TAB>⣿\<CR>", 'n')
         for ii in range(1)
           call feedkeys("\<BS>", 'n')
@@ -346,7 +347,7 @@ endfunction
 " <CR> should not autoaccept what the popup menu has selected
 inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
 inoremap <expr> <F13>       pumvisible() ? "\<C-y>" : ""
-inoremap <expr> <S-Space>   pumvisible() ? "\<C-y>" : " "
+inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : " "
 inoremap <expr> (           MySuperLeftParen()
 
 function! MyChangeNextArg()
