@@ -5,6 +5,12 @@ inoremap <F1> <nop>
 nnoremap <F1> <nop>
 vnoremap <F1> <nop>
 
+" nobody uses EX mode, use Q for formatting instead
+map Q gq
+
+" in case I make this typo
+command! W :w
+
 " General {{{
 " Substitute
 nnoremap <leader>s :%s//c<left><left>

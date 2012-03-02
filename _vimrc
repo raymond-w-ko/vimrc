@@ -1,7 +1,7 @@
 " Preamble {{{
 set nocompatible
 
-" paths
+" paths so vim doesn't complain when opening ruby files
 if has("win32")
     let g:ruby_path='C:/Ruby193/bin'
 endif
@@ -22,6 +22,10 @@ call add(g:pathogen_disabled, "vim-smartusline")
 call add(g:pathogen_disabled, "Decho")
 call pathogen#infect()
 call pathogen#helptags()
+
+if v:progname =~? "evim"
+    finish
+endif
 " }}}
 
 " File options {{{
@@ -38,14 +42,13 @@ set noshellslash                    " unfortunately shellslash breaks netrw
 " }}}
 
 " General {{{
-set shortmess+=aI    " no intro message
 set encoding=utf-8
+set shortmess+=aI    " no intro message
 set showmode
 set showcmd
 set hidden
 set novisualbell
 set noerrorbells
-set cursorline
 set nocursorcolumn
 set ruler
 set backspace=indent,eol,start
@@ -74,14 +77,34 @@ set autochdir
 set nolist
 set listchars=tab:▸\ ,eol:¬
 set fillchars=diff:⣿
+" for vim-powerline
 set viewoptions=cursor,folds,options,slash,unix
 set previewheight=16
 
-" Save when losing focus
 augroup SaveAllBuffersWhenLosingFocus
     au!
     au FocusLost * silent! wall
 augroup END
+
+augroup CursorLineOnlyOnCurrentSplit
+    au!
+    autocmd WinLeave * setlocal nocursorline
+    autocmd WinEnter * setlocal cursorline
+augroup END
+
+" Line Return {{{
+
+" Make sure Vim returns to the same line when you reopen a file.
+" Thanks, Amit
+augroup ReturnToSameLineWhenReopeningFile
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" }}}
 
 function! StripTrailingWhitespace()
     let l:my_saved_winview = winsaveview()
@@ -222,7 +245,8 @@ set sidescrolloff=0
 
 set virtualedit+=block
 
-nnoremap <leader><space> :nohlsearch<cr>:call clearmatches()<cr>
+nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
+nnoremap <CR>            :nohlsearch<CR>:call clearmatches()<CR>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
@@ -343,7 +367,7 @@ vnoremap <Space> za
 nnoremap zO zCzO
 
 " Use <leader>z to "focus" the current fold.
-nnoremap <leader>z zMzvzz
+"nnoremap <leader>z zMzvzz
 
 " enable syntax folding for XML (caution, this can be slow)
 let g:xml_syntax_folding=1
@@ -421,6 +445,7 @@ nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 
 " }}}
 
+" source all other files in the vimfiles/config directory
 runtime! config/**/*.vim
 
 function! ResizeFixer()
@@ -434,8 +459,6 @@ function! ResizeFixer()
         resize 6
         return
     endif
-
-    return
 endfunction
 augroup ScratchWindowResizer
     au!
