@@ -33,7 +33,7 @@ elseif has("win32")
 endif
 
 function! CommandTProject()
-  execute ":CommandT " . EscapePathname(GetProjectDirectory())
+  execute ":CtrlP " . EscapePathname(GetProjectDirectory())
 endfunction
 nnoremap <leader>t :call CommandTProject()<CR>
 nnoremap <leader>b :FufBuffer<CR>
@@ -41,8 +41,8 @@ nnoremap <leader>b :FufBuffer<CR>
 nnoremap <leader>a :A<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
-nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
-nnoremap <leader>gp :CommandT C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
+nnoremap <leader>gc :CtrlP C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
+nnoremap <leader>gp :CtrlP C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
 
 "nnoremap <leader>C<space> :botright cwindow<CR>
 "nnoremap <leader>Cc :cclose<CR>
@@ -51,10 +51,8 @@ nnoremap <leader>gp :CommandT C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
 "nnoremap <leader>LL :lclose<CR>
 function! MyPasteToggle()
     if (&paste)
-        echom "paste mode TRUE"
         set nopaste
     else
-        echom "paste mode FALSE"
         set paste
     endif
 endfunction
@@ -161,6 +159,8 @@ function! CreateAndSetupVsplits(num_vsplits)
         let g:num_tabs = 1
     endif
 
+    " get the current directory because we want to replicate this
+    " in the new tab
     let current_directory = expand("%:p:h")
 
     " set up our initial tab if this is our first time
@@ -168,27 +168,34 @@ function! CreateAndSetupVsplits(num_vsplits)
         tabnew
     endif
 
+    7split
+
+    " create preview window
+    set winfixheight
+    silent! vertical pedit!
+    silent! exe "chdir " . current_directory
+
+    wincmd h
+    set winfixheight
+    Scratch
+    setlocal nowrap
+    silent! exe "chdir " . current_directory
+
+    wincmd k
+
     " create number of vsplits based off of argument passwd
     for ii in range(a:num_vsplits)
         vsplit
         silent! exe "chdir " . current_directory
     endfor
 
-    " create scratch buffer window
-    6split
-    set winfixheight
-    Scratch
-    silent! exe "chdir " . current_directory
-
-    " create preview window
-    silent! pedit!
-    silent! exe "chdir " . current_directory
-
     " move back to left vsplit
     wincmd h
     wincmd h
     wincmd h
     wincmd h
+
+    wincmd =
 
     let g:num_tabs = g:num_tabs + 1
     return

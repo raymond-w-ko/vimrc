@@ -9,17 +9,24 @@ endif
 filetype off
 
 let g:pathogen_disabled = []
-call add(g:pathogen_disabled, "cocoa")
+call add(g:pathogen_disabled, "command-t")
+
 call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "taglist")
-call add(g:pathogen_disabled, "ctrlp")
+
+call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "neocomplcache")
 call add(g:pathogen_disabled, "lusty")
+
 call add(g:pathogen_disabled, "camelcasemotion")
 call add(g:pathogen_disabled, "vim-easymotion")
+
 call add(g:pathogen_disabled, "snipmate")
+
 call add(g:pathogen_disabled, "vim-smartusline")
+
 call add(g:pathogen_disabled, "Decho")
+
 call pathogen#infect()
 call pathogen#helptags()
 
@@ -62,7 +69,6 @@ set showmatch
 set matchtime=0
 set splitbelow
 set splitright
-"set timeoutlen=300
 set notimeout
 set nottimeout
 set autoread
@@ -77,9 +83,8 @@ set autochdir
 set nolist
 set listchars=tab:▸\ ,eol:¬
 set fillchars=diff:⣿
-" for vim-powerline
 set viewoptions=cursor,folds,options,slash,unix
-set previewheight=16
+set previewheight=7
 
 augroup SaveAllBuffersWhenLosingFocus
     au!
@@ -187,12 +192,11 @@ set viewdir=~/vimview
 set backup
 set backupdir=~/vimbackup//
 " }}}
-" Leader {{{
+" Leader
 let mapleader = ","
 let maplocalleader = "\\"
-" }}}
 
-" Mouse & selection Behavior {{{
+" Mouse & selection Behavior
 behave xterm                " of course xterm is better
 set selectmode=""           " never want SELECT mode
 set mousemodel=popup
@@ -200,31 +204,7 @@ set keymodel=""
 set selection=inclusive
 set mouse=a
 set mousehide
-"}}}
-" Status line {{{
-"function! MyStatusLineHelper()
-    "if exists("b:orig_foldmethod")
-        "return b:orig_foldmethod
-    "endif
 
-    "return "???"
-"endfunction
-"" buffer number and filename
-"set statusline=\(%n\)\ %f
-"" read-only, error highlighting, modified tag, restore highlighting
-"set statusline+=\ %r%#Error#%m%*
-"" current line number and column count
-"set statusline+=\ (%l/%L,\ %c)
-"" percentage through current file
-"set statusline+=\ %P
-"" left-right separator
-"set statusline+=%=
-"" [help] and [preview] flags
-"set statusline+=%h%w
-"" file type, foldmethod, and encoding, and fileformat
-"set statusline+=\ %y\ [%{MyStatusLineHelper()}]\ [%{&encoding}:%{&fileformat}]
-"set statusline+=\ \ "two spaces so it doesn't crowd the vsplit
-" }}}
 " Searching and movement {{{
 " Use sane regexes.
 nnoremap / /\v
@@ -246,7 +226,6 @@ set sidescrolloff=0
 set virtualedit+=block
 
 nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
-nnoremap <CR>            :nohlsearch<CR>:call clearmatches()<CR>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
@@ -451,12 +430,12 @@ runtime! config/**/*.vim
 function! ResizeFixer()
     if &previewwindow
         echom "is preview"
-        resize 16
+        resize 7
         return
     endif
 
     if bufname("%") == '__Scratch__'
-        resize 6
+        resize 7
         return
     endif
 endfunction

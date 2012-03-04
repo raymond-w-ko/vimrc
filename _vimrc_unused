@@ -107,5 +107,30 @@ set grepprg=grep\ -nH\ $*
 "let g:tex_flavor='latex'
 " }
 " }
-"
+
+" Status line {{{
+"function! MyStatusLineHelper()
+    "if exists("b:orig_foldmethod")
+        "return b:orig_foldmethod
+    "endif
+
+    "return "???"
+"endfunction
+"" buffer number and filename
+"set statusline=\(%n\)\ %f
+"" read-only, error highlighting, modified tag, restore highlighting
+"set statusline+=\ %r%#Error#%m%*
+"" current line number and column count
+"set statusline+=\ (%l/%L,\ %c)
+"" percentage through current file
+"set statusline+=\ %P
+"" left-right separator
+"set statusline+=%=
+"" [help] and [preview] flags
+"set statusline+=%h%w
+"" file type, foldmethod, and encoding, and fileformat
+"set statusline+=\ %y\ [%{MyStatusLineHelper()}]\ [%{&encoding}:%{&fileformat}]
+"set statusline+=\ \ "two spaces so it doesn't crowd the vsplit
+" }}}
+
 " vim: fdl=0
