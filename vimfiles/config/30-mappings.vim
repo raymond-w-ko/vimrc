@@ -33,16 +33,16 @@ elseif has("win32")
 endif
 
 function! CommandTProject()
-  execute ":CtrlP " . EscapePathname(GetProjectDirectory())
+  execute ":CommandT " . EscapePathname(GetProjectDirectory())
 endfunction
 nnoremap <leader>t :call CommandTProject()<CR>
-nnoremap <leader>b :FufBuffer<CR>
+nnoremap <leader>b :CommandTBuffer<CR>
 "nnoremap <leader>l :LustyJuggler<CR>
 nnoremap <leader>a :A<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
-nnoremap <leader>gc :CtrlP C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
-nnoremap <leader>gp :CtrlP C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
+nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
+nnoremap <leader>gp :CommandT C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
 
 "nnoremap <leader>C<space> :botright cwindow<CR>
 "nnoremap <leader>Cc :cclose<CR>

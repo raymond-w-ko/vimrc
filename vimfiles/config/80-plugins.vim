@@ -12,7 +12,7 @@ let g:netrw_mousemaps=0
 let g:acp_enableAtStartup = 1
 let g:acp_ignorecaseOption = 0
 let g:acp_completeOption = '.,w,b,u,t'
-let g:acp_behaviorKeywordLength = 3
+let g:acp_behaviorKeywordLength = 2
 let g:acp_completeoptPreview = 1
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
 "}}}

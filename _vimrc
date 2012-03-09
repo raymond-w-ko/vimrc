@@ -9,7 +9,7 @@ endif
 filetype off
 
 let g:pathogen_disabled = []
-call add(g:pathogen_disabled, "command-t")
+call add(g:pathogen_disabled, "ctrlp")
 
 call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "taglist")
@@ -84,20 +84,24 @@ set nolist
 set listchars=tab:▸\ ,eol:¬
 set fillchars=diff:⣿
 set viewoptions=cursor,folds,options,slash,unix
+set winwidth=80
 set previewheight=7
-
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
 augroup SaveAllBuffersWhenLosingFocus
     au!
     au FocusLost * silent! wall
 augroup END
 
+set cursorline
 augroup CursorLineOnlyOnCurrentSplit
     au!
-    autocmd WinLeave * setlocal nocursorline
-    autocmd WinEnter * setlocal cursorline
+    au WinLeave * set nocursorline
+    au WinEnter * set cursorline
+    au InsertEnter * set nocursorline
+    au InsertLeave * set cursorline
 augroup END
-
-" Line Return {{{
 
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
@@ -108,8 +112,6 @@ augroup ReturnToSameLineWhenReopeningFile
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
-
-" }}}
 
 function! StripTrailingWhitespace()
     let l:my_saved_winview = winsaveview()
@@ -164,11 +166,11 @@ set autoindent
 set nocindent
 set nosmartindent
 
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set shiftround
-set expandtab
 set nosmarttab
 set textwidth=0           " no automatic text wrapping
 set colorcolumn=""
@@ -220,7 +222,7 @@ set incsearch
 set gdefault    " inverts the meaning of the g-flag in s///g
 
 set scrolloff=9001        " always try to center current line
-set sidescroll=1
+set sidescroll=0
 set sidescrolloff=0
 
 set virtualedit+=block
