@@ -1,6 +1,11 @@
 if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
-        colorscheme luciusmod
+        "colorscheme luciusmod
+
+        set background=dark
+        " font is too small to properly display good italics
+        let g:solarized_italic=0
+        colorscheme solarized
 
         let g:already_set_color_scheme=1
     endif

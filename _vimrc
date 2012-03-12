@@ -60,7 +60,7 @@ set nocursorcolumn
 set ruler
 set backspace=indent,eol,start
 set nonumber
-set relativenumber
+set norelativenumber
 set laststatus=2
 set history=8192
 set lazyredraw
@@ -120,7 +120,7 @@ function! StripTrailingWhitespace()
 endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-    au BufWritePre * call StripTrailingWhitespace()
+    "au BufWritePre * call StripTrailingWhitespace()
 augroup END
 " }}}
 " Wildmenu completion {{{
