@@ -51,8 +51,8 @@ let g:indent_guides_enable_on_vim_startup=0
 " vim-powerline {{{
 let g:Powerline_symbols='fancy'
 let g:Powerline_stl_path_style='short'
-let g:Powerline_theme='skwp'
-let g:Powerline_colorscheme='skwp'
+"let g:Powerline_theme='skwp'
+"let g:Powerline_colorscheme='skwp'
 " }}}
 " netrw {{{
 let g:netrw_cygwin = 1
