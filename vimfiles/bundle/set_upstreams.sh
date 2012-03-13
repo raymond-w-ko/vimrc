@@ -12,7 +12,7 @@ git remote set-url origin git://github.com/wincent/Command-T.git
 cd ..
 
 cd vim-colors-solarized
-git remote set-url origin git://github.com/altercation/vim-colors-solarized.git
+git remote set-url origin git://github.com/skwp/vim-colors-solarized.git
 cd ..
 
 cd bufkill
@@ -31,6 +31,7 @@ cd vim-surround
 git remote set-url origin git://github.com/tpope/vim-surround.git
 cd ..
 
-cd snipmate
-git remote set-url origin git://github.com/msanders/snipmate.vim.git
+cd vim-powerline
+git remote set-url origin git://github.com/Lokaltog/vim-powerline.git
+git remote set-url --push origin git@github.com:raymond-w-ko/vim-powerline.git
 cd ..
