@@ -1,11 +1,10 @@
 if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
-        "colorscheme luciusmod
+        colorscheme luciusmod
 
-        set background=dark
-        " font is too small to properly display good italics
-        let g:solarized_italic=0
-        colorscheme solarized
+        "set background=dark
+        "let g:solarized_italic=0        " font is too small to properly display good italics
+        "colorscheme solarized
 
         let g:already_set_color_scheme=1
     endif
@@ -13,9 +12,11 @@ if (has("gui_running"))
     " Font
     if has("win32")
         if !exists("g:already_set_font")
-            set guifont=Dina_TTF:h8
-            "set guifont=Consolas:h10
+            "set guifont=Dina_TTF:h8
+            set guifont=Consolas:h10
+
             set linespace=0
+
             let g:already_set_font=1
         endif
     elseif has("gui_macvim")
