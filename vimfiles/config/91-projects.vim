@@ -16,6 +16,10 @@ command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 command! Sutent cd C:/SVN/Syandus_Cores/C_Sut_AE_01
 command! SyLogParser cd C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser
 command! SyHandleGen cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen
+command! Groundhog cd C:\SVN\Syandus_ALIVE3\Groundhog
+command! GroundhogClient cd C:\SVN\Syandus_ALIVE3\Groundhog\Client
+command! GroundhogServer cd C:\SVN\Syandus_ALIVE3\Groundhog\Server
+command! GroundhogShared cd C:\SVN\Syandus_ALIVE3\Groundhog\Shared
 
 command! Mac cd S:/trunk/ALIVE Med/
 
@@ -200,4 +204,20 @@ augroup SyLogParser
     \ call SetSettingsForSyHandleGen()
 augroup END
 "}}}
+" Groundhog {{{
+function! SetSettingsForGroundhog()
+  setlocal tabstop=3 shiftwidth=3 softtabstop=3
+  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_groundhog.ahk')<CR>
+  "setlocal tags=
+  "\C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/tags,
+  "\C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
+  "\C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
+endfunction
+augroup Groundhog
+  autocmd!
+  autocmd BufNewFile,BufRead,BufEnter
+  \ C:/SVN/Syandus_ALIVE3/Groundhog/*
+  \ call SetSettingsForGroundhog()
+augroup END
+" }}}
 " vim:fdm=marker:foldlevel=0
