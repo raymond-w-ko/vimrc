@@ -58,12 +58,20 @@ function! MyPasteToggle()
 endfunction
 nnoremap <leader>p :call MyPasteToggle()<CR>
 
+" This allows for change paste motion cp{motion}
+" http://stackoverflow.com/questions/2471175/vim-replace-word-with-contents-of-paste-buffer
+nmap <silent> cp :set opfunc=ChangePaste<CR>g@
+function! ChangePaste(type, ...)
+    silent exe "normal! `[v`]\"_c"
+    silent exe "normal! p"
+endfunction
+
 " lazy braces
 function! MyLazyBraces()
     let cur_ft = &filetype
     if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' ||
       \ cur_ft == 'php' || cur_ft == 'fx' || cur_ft == 'cs' ||
-      \ cur_ft == 'css' )
+      \ cur_ft == 'css' || cur_ft == 'javascript' )
         call feedkeys("{\<CR>\<TAB>⣿\<CR>", 'n')
         for ii in range(1)
           call feedkeys("\<BS>", 'n')
