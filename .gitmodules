@@ -79,3 +79,6 @@
 [submodule "vimfiles/bundle/Decho"]
 	path = vimfiles/bundle/Decho
 	url = git://github.com/vim-scripts/Decho.git
+[submodule "vimfiles/bundle/Rename"]
+	path = vimfiles/bundle/Rename
+	url = git://github.com/vim-scripts/Rename.git
