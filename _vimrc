@@ -120,7 +120,7 @@ function! StripTrailingWhitespace()
 endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-    "au BufWritePre * call StripTrailingWhitespace()
+    au BufWritePre C:\SVN\* call StripTrailingWhitespace()
 augroup END
 " }}}
 " Wildmenu completion {{{
