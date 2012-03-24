@@ -88,6 +88,20 @@ function! MyLazyBraces()
 endfunction
 inoremap <expr> { MyLazyBraces()
 
+function! CreateCppMethodImplementation()
+    let filename = expand('%')
+    execute "normal Y,aGo\<ESC>Gp<<"
+    let result = ""
+    return result
+endfunction
+
+function! GetCppClassName()
+    let classname = expand('%:r')
+    return classname
+endfunction
+
+nmap <leader>rci :call CreateCppMethodImplementation()<CR>0Wi<C-R>=GetCppClassName()<CR>::<ESC>$s<CR>{
+
 " lazy .. to ->
 autocmd CursorMovedI * call MyLazyDotDotToArrow()
 function! MyLazyDotDotToArrow()
@@ -162,6 +176,8 @@ nnoremap <A-2> 2gt
 nnoremap <A-3> 3gt
 nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
+nnoremap <A-6> 6gt
+nnoremap <A-7> 7gt
 function! CreateAndSetupVsplits(num_vsplits)
     if !exists("g:num_tabs")
         let g:num_tabs = 1
