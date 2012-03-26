@@ -178,7 +178,8 @@ nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
 nnoremap <A-6> 6gt
 nnoremap <A-7> 7gt
-function! CreateAndSetupVsplits(num_vsplits)
+function! CreateAndSetupVsplits()
+    let num_vsplits = (&columns / 80) - 1
     if !exists("g:num_tabs")
         let g:num_tabs = 1
     endif
@@ -208,7 +209,7 @@ function! CreateAndSetupVsplits(num_vsplits)
     wincmd k
 
     " create number of vsplits based off of argument passwd
-    for ii in range(a:num_vsplits)
+    for ii in range(num_vsplits)
         vsplit
         silent! exe "chdir " . current_directory
     endfor
@@ -224,7 +225,7 @@ function! CreateAndSetupVsplits(num_vsplits)
     let g:num_tabs = g:num_tabs + 1
     return
 endfunction
-nnoremap <A-t> :call CreateAndSetupVsplits(1)<CR>
+nnoremap <A-t> :call CreateAndSetupVsplits()<CR>
 nnoremap <A-w> <ESC>:tabclose<CR>
 
 " }}}
