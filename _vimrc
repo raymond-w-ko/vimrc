@@ -12,11 +12,9 @@ let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "ctrlp")
 
 call add(g:pathogen_disabled, "tagbar")
-call add(g:pathogen_disabled, "taglist")
 
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "neocomplcache")
-call add(g:pathogen_disabled, "lusty")
 
 call add(g:pathogen_disabled, "camelcasemotion")
 call add(g:pathogen_disabled, "vim-easymotion")
@@ -24,8 +22,6 @@ call add(g:pathogen_disabled, "vim-easymotion")
 call add(g:pathogen_disabled, "snipmate")
 
 call add(g:pathogen_disabled, "vim-smartusline")
-
-call add(g:pathogen_disabled, "Decho")
 
 call pathogen#infect()
 call pathogen#helptags()
@@ -82,7 +78,6 @@ set pumheight=16
 set autochdir
 set nolist
 set listchars=tab:▸\ ,eol:¬
-set fillchars=diff:⣿
 set viewoptions=cursor,folds,options,slash,unix
 set winwidth=80
 set previewheight=7
