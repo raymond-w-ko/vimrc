@@ -4,9 +4,6 @@
 [submodule "vimfiles/bundle/command-t"]
 	path = vimfiles/bundle/command-t
 	url = https://bitbucket.org/rko/command-t.git
-[submodule "vimfiles/bundle/taglist"]
-	path = vimfiles/bundle/taglist
-	url = git://github.com/vim-scripts/taglist.vim.git
 [submodule "vimfiles/bundle/ctrlp"]
 	path = vimfiles/bundle/ctrlp
 	url = git://github.com/kien/ctrlp.vim.git
@@ -16,9 +13,6 @@
 [submodule "vimfiles/bundle/tagbar"]
 	path = vimfiles/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
-[submodule "vimfiles/bundle/lusty"]
-	path = vimfiles/bundle/lusty
-	url = https://bitbucket.org/rko/lusty.git
 [submodule "vimfiles/bundle/a.vim"]
 	path = vimfiles/bundle/a.vim
 	url = https://bitbucket.org/rko/a.vim.git
@@ -37,9 +31,6 @@
 [submodule "vimfiles/bundle/ack.vim"]
 	path = vimfiles/bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
-[submodule "vimfiles/bundle/vim-colors-solarized"]
-	path = vimfiles/bundle/vim-colors-solarized
-	url = https://bitbucket.org/rko/vim-colors-solarized
 [submodule "vimfiles/bundle/nerdcommenter"]
 	path = vimfiles/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
@@ -76,9 +67,3 @@
 [submodule "vimfiles/bundle/vim-powerline"]
 	path = vimfiles/bundle/vim-powerline
     url = git@github.com:raymond-w-ko/vim-powerline.git
-[submodule "vimfiles/bundle/Decho"]
-	path = vimfiles/bundle/Decho
-	url = git://github.com/vim-scripts/Decho.git
-[submodule "vimfiles/bundle/Rename"]
-	path = vimfiles/bundle/Rename
-	url = git://github.com/vim-scripts/Rename.git
