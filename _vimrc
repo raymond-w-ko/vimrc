@@ -80,7 +80,6 @@ set nolist
 set listchars=tab:▸\ ,eol:¬
 set viewoptions=cursor,folds,options,slash,unix
 set winwidth=80
-set previewheight=7
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
@@ -216,8 +215,8 @@ set hlsearch
 set incsearch
 set gdefault    " inverts the meaning of the g-flag in s///g
 
-"set scrolloff=9001        " always try to center current line
-set scrolloff=4
+set scrolloff=9001        " always try to center current line
+"set scrolloff=4
 set sidescroll=0
 set sidescrolloff=0
 
@@ -302,7 +301,7 @@ vnoremap # :<C-u>call <SID>VisualModeSetSearch()<CR>??<CR><c-o>
 function! MyFoldText()
     let line = getline(v:foldstart)
     let sub = substitute(line, '^"\s\=\|/\*\|\*/\|{{{\d\=', '', 'g') "}}}
-    let remaining = 80 - len(sub)
+    let remaining = &columns - len(sub)
     return sub . repeat(' ', remaining)
 endfunction
 function! SetFoldSettings()
@@ -425,21 +424,23 @@ nnoremap <leader>dw :call ToggleDiffWhitespace()<CR>
 " source all other files in the vimfiles/config directory
 runtime! config/**/*.vim
 
+set previewheight=1
+
 function! ResizeFixer()
     if &previewwindow
         echom "is preview"
-        resize 7
+        resize 1
         return
     endif
 
     if bufname("%") == '__Scratch__'
-        resize 7
+        resize 1
         return
     endif
 endfunction
 augroup ScratchWindowResizer
     au!
-    au WinEnter * call ResizeFixer()
+    "au WinEnter * call ResizeFixer()
 augroup END
 
 " vim:fdm=marker:foldlevel=0
