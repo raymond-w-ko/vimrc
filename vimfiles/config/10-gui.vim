@@ -54,4 +54,5 @@ if (has("gui_running"))
 
     " pretty vertical Splits
     set fillchars+=vert:│
+    "set fillchars=vert:\|,fold:-
 endif
