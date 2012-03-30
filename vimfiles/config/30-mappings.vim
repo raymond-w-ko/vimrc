@@ -1,5 +1,6 @@
 " disable crazy keys
 nnoremap K <nop>
+vnoremap K <nop>
 
 inoremap <F1> <nop>
 nnoremap <F1> <nop>
@@ -68,11 +69,8 @@ endfunction
 
 " lazy braces
 function! MyLazyBraces()
-    let cur_ft = &filetype
-    if (cur_ft == 'c' || cur_ft == 'cpp' || cur_ft == 'objc' ||
-      \ cur_ft == 'php' || cur_ft == 'fx' || cur_ft == 'cs' ||
-      \ cur_ft == 'css' || cur_ft == 'javascript' )
-        call feedkeys("{\<CR>\<TAB>⣿\<CR>", 'n')
+    if (!empty(matchstr(&filetype, '\vc|cpp|objc|php|fx|cs|css|javascript')))
+        call feedkeys("{\<CR>\<TAB>X\<CR>", 'n')
         for ii in range(1)
           call feedkeys("\<BS>", 'n')
         endfor
@@ -131,7 +129,7 @@ endfunction
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l<C-w>k<C-w>k
+nnoremap <C-l> <C-w>l
 
 nnoremap <leader>wv :vsplit<CR>
 nnoremap <leader>wn :split<CR>
@@ -178,22 +176,8 @@ nnoremap <A-4> 4gt
 nnoremap <A-5> 5gt
 nnoremap <A-6> 6gt
 nnoremap <A-7> 7gt
-function! CreateAndSetupVsplits()
-    let num_vsplits = (&columns / 80) - 1
-    if !exists("g:num_tabs")
-        let g:num_tabs = 1
-    endif
-
-    " get the current directory because we want to replicate this
-    " in the new tab
-    let current_directory = expand("%:p:h")
-
-    " set up our initial tab if this is our first time
-    if g:num_tabs > 1
-        tabnew
-    endif
-
-    7split
+function! CreateScratchAndPreview()
+    1split
 
     " create preview window
     set winfixheight
@@ -205,8 +189,32 @@ function! CreateAndSetupVsplits()
     Scratch
     setlocal nowrap
     silent! exe "chdir " . current_directory
+    
+    wincmd l
+    vertical resize 80
+    set winfixwidth
+    wincmd h
 
     wincmd k
+endfunction
+function! CreateAndSetupVsplits()
+    let num_vsplits = (&columns / 80) - 1
+
+    if !exists("g:num_tabs")
+        let g:num_tabs = 1
+    endif
+
+    " get the current directory because we want to replicate this
+    " in the new tab
+    let current_directory = expand("%:p:h")
+
+    " set up our initial tab if this is our first time
+    if g:num_tabs > 1
+        tabnew
+        silent! exe "chdir " . current_directory
+    endif
+    
+    call CreateScratchAndPreview()
 
     " create number of vsplits based off of argument passwd
     for ii in range(num_vsplits)
@@ -215,10 +223,9 @@ function! CreateAndSetupVsplits()
     endfor
 
     " move back to left vsplit
-    wincmd h
-    wincmd h
-    wincmd h
-    wincmd h
+    for ii in range(num_vsplits)
+        wincmd h
+    endfor
 
     wincmd =
 
@@ -272,19 +279,21 @@ nnoremap <leader>fl :FufLine<CR>
 "nnoremap <C-Space> :FufTagWithCursorWord!<CR>
 
 " }}}
+
 " Fancy Tag Completion {{{
 
-function! MySuperCtrlSpaceUserCompletion(findstart, base)
-  if a:findstart
-    if (!exists("b:possible_function_signatures"))
-      return -1;
+function! MyCppCompleteFunc(findstart, base)
+    " get current line up to where cursor is located
+    let line = strpart(getline('.'), 0, col('.'))
+    let words = split(line, '\W\+')
+
+    if a:findstart
+        " start after the '(' of course
+        return col('.') - 1
     else
-      let start = col('.') - 1
-      return start
+        let matches = GetFunctionSignatures3(words[-1])
+        return { 'words' : matches, 'refresh' : 'always' }
     endif
-  else
-    return { 'words' : b:possible_function_signatures, 'refresh' : 'always' }
-  endif
 endfunction
 
 function! GetFunctionSignatures(keyword)
@@ -327,7 +336,7 @@ function! GetFunctionSignatures2(keyword)
           let class = item['class']
         endif
 
-        let entry = class . '::' . a:keyword . signature
+        let entry = class . '::' . signature
         if (match(signature, '(\s*)') == -1)
             call add(possible_function_signatures, entry)
         endif
@@ -337,7 +346,30 @@ function! GetFunctionSignatures2(keyword)
     return possible_function_signatures
 endfunction
 
-function! WriteArgListToScratch()
+function! GetFunctionSignatures3(keyword)
+    let results = taglist("^" . a:keyword . "$")
+    let possible_function_signatures = []
+    for item in results
+      if (has_key(item, 'signature'))
+        let entry = {}
+
+        let signature = item['signature']
+
+        let class = '-'
+        if (has_key(item, 'class'))
+          let class = item['class']
+        endif
+
+        let entry['word'] = signature
+        let entry['abbr'] = class
+        call add(possible_function_signatures, entry)
+      endif
+    endfor
+
+    return possible_function_signatures
+endfunction
+
+function! WritePossibleFunctionCompletionsToScratch()
     " get current line up to where cursor is located
     let line = strpart(getline('.'), 0, col('.'))
 
@@ -365,6 +397,11 @@ function! WriteArgListToScratch()
         let output .= "\n"
     endfor
 
+    let new_scratch_window_size = len(possible_function_signatures)
+    if (new_scratch_window_size > 10)
+        let new_scratch_window_size = 10
+    endif
+
     let cur_win_nr = winnr()
     let scratch_win_nr = bufwinnr('__Scratch__')
 
@@ -373,20 +410,50 @@ function! WriteArgListToScratch()
     :$put=output
     normal gg
     normal dd
+    execute "resize " . new_scratch_window_size
     execute cur_win_nr . "wincmd w"
     execute "silent! ptag ". last_word
     return
 endfunction
 
-function! MySuperLeftParen()
-    return "\<ESC>:call WriteArgListToScratch()\<CR>a("
+function! MySuperLeftParenScratchAndPreview()
+    return ";\<ESC>:silent! call WritePossibleFunctionCompletionsToScratch()\<CR>s("
+endfunction
+
+function! MySuperLeftParenPopupCompletion()
+    if (!empty( matchstr(&filetype, '\vc|cpp') ))
+        setlocal completefunc=MyCppCompleteFunc
+    else
+        setlocal completefunc=
+    endif
+    
+    let result = '('
+    if (!empty(&completefunc))
+        let result .= "\<C-X>\<C-U>"
+    endif
+
+    return result
+endfunction
+
+function! CollapseScratchAndPreview()
+    let cur_win_nr = winnr()
+    let scratch_win_nr = bufwinnr('__Scratch__')
+ 
+    execute scratch_win_nr . "wincmd w"
+    resize 1
+    execute cur_win_nr . "wincmd w"
+endfunction
+
+function! MySuperRightParen()
+    return ";\<ESC>:silent! call CollapseScratchAndPreview()\<CR>s)"
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
 inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
 inoremap <expr> <F13>       pumvisible() ? "\<C-y>" : ""
 inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : " "
-inoremap <expr> (           MySuperLeftParen()
+inoremap <expr> (           MySuperLeftParenScratchAndPreview()
+inoremap <expr> )           MySuperRightParen()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
