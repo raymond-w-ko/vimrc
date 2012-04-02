@@ -59,4 +59,7 @@ let g:netrw_cygwin = 1
 "let g:netrw_scp_cmd = "\"C:\\Program Files (x86)\\PuTTY\\pscp.exe\" -q -agent"
 " }}}
 
+" omegacomplete
+let g:omegacomplete_loaded = 1
+
 " vim:fdm=marker:foldlevel=9001
