@@ -3,16 +3,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIR"
 
-cd inkpot
-git remote set-url origin git://github.com/ciaranm/inkpot.git
-cd ..
-
 cd command-t
 git remote set-url origin git://github.com/wincent/Command-T.git
-cd ..
-
-cd vim-colors-solarized
-git remote set-url origin git://github.com/skwp/vim-colors-solarized.git
 cd ..
 
 cd bufkill
@@ -23,10 +15,6 @@ cd camelcasemotion
 git remote set-url origin git://github.com/vim-scripts/camelcasemotion.git
 cd ..
 
-cd lusty
-git remote set-url origin git://github.com/sjbach/lusty.git
-cd ..
-
 cd vim-surround
 git remote set-url origin git://github.com/tpope/vim-surround.git
 cd ..
@@ -34,4 +22,8 @@ cd ..
 cd vim-powerline
 git remote set-url origin git://github.com/Lokaltog/vim-powerline.git
 git remote set-url --push origin git@github.com:raymond-w-ko/vim-powerline.git
+cd ..
+
+cd Lucius
+git remote set-url --push origin git@github.com:raymond-w-ko/Lucius.git
 cd ..
