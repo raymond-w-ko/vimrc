@@ -166,9 +166,9 @@ set shiftwidth=4
 set softtabstop=4
 set shiftround
 set nosmarttab
-set textwidth=0           " no automatic text wrapping
+set textwidth=80           " no automatic text wrapping
 set colorcolumn=""
-set formatoptions=qn1
+set formatoptions=qn1t
 set wrap
 set wrapscan
 if exists("&breakindent")
@@ -200,6 +200,7 @@ set keymodel=""
 set selection=inclusive
 set mouse=a
 set mousehide
+set nomousefocus
 
 " Searching and movement {{{
 " Use sane regexes.
