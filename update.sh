@@ -1,4 +1,12 @@
 #! /bin/bash
+
+TIME=15
+
+if [ $1 ]
+then
+    TIME="$1"
+fi
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIR"
 cd vimfiles/bundle
@@ -10,7 +18,7 @@ do
 
     cd $D
     git pull
-    sleep 15
+    sleep "$TIME"
     cd ..
 done
 
