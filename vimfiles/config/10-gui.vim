@@ -2,9 +2,9 @@ if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
         set background=dark
 
+        let g:lucius_style="dark_dim"
         colorscheme lucius
 
-        "let g:solarized_italic=0        " font is too small to properly display good italics
         "colorscheme solarized
 
         let g:already_set_color_scheme=1

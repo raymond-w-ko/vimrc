@@ -114,7 +114,7 @@ function! StripTrailingWhitespace()
 endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-    au BufWritePre C:\SVN\* call StripTrailingWhitespace()
+    au BufWritePre C:/SVN/* call StripTrailingWhitespace()
 augroup END
 " }}}
 " Wildmenu completion {{{
@@ -166,9 +166,9 @@ set shiftwidth=4
 set softtabstop=4
 set shiftround
 set nosmarttab
-set textwidth=80           " no automatic text wrapping
+set textwidth=0           " no automatic text wrapping
 set colorcolumn=""
-set formatoptions=qn1t
+set formatoptions=qn1
 set wrap
 set wrapscan
 if exists("&breakindent")
@@ -237,8 +237,8 @@ nnoremap D d$
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap n nzv
+nnoremap N Nzv
 
 " Don't move on *
 nnoremap * *<c-o>

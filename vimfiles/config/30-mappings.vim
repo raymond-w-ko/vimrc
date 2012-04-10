@@ -87,22 +87,91 @@ endfunction
 inoremap <expr> { MyLazyBraces()
 
 function! CreateCppMethodImplementation()
-    let filename = expand('%')
-    execute "normal Y,aGo\<ESC>Gp<<"
-    let result = ""
-    return result
+    " determine the complete function definition
+    let line_num = line('.')
+    
+    " find the line with '(', this marks the beginning
+    while (1)
+        let cur_line = getline(line_num)
+        if (match(cur_line, '\v\(') != -1)
+            break
+        endif
+
+        let line_num = line_num - 1
+    endwhile
+    
+    let begin_line_num = line_num
+    
+    " find the line with ')', this marks the end
+    while (1)
+        let cur_line = getline(line_num)
+        if (match(cur_line, '\v\)') != -1)
+            break
+        endif
+
+        let line_num = line_num + 1
+    endwhile
+
+    let end_line_num = line_num
+    
+    if (exists('g:RefactorCppFunctionDefinition'))
+        unlet g:RefactorCppFunctionDefinition
+    endif
+    let g:RefactorCppFunctionDefinition = getline(begin_line_num, end_line_num)
+    
+    " determine the class name
+    " we will just go up until we see a line begin with 'class'
+    let line_num = begin_line_num - 1
+    while (1)
+        let cur_line = getline(line_num)
+        let words = split(cur_line, '\W\+')
+        
+        if (len(words) >= 2)
+            if (words[0] == 'class')
+                if (exists('g:RefactorCppClassName'))
+                    unlet g:RefactorCppClassName
+                endif
+                let g:RefactorCppClassName = words[1]
+                break
+            endif
+        endif
+        
+        let line_num = line_num - 1
+    endwhile
+
+    normal ,a
+    execute "normal Go\<ESC>G"
+    call append('$', g:RefactorCppFunctionDefinition)
+    normal j
+    normal VVG<
+    
+    
+    "check if have virtual keyword, if so delete it since function declarations 
+    "don't have that, only in the function definition
+    if (expand('<cword>') == "virtual")
+        normal dw
+    endif
+
+    " TODO check if we have a constructor or destructor, which has no return type
+    
+    "insert class name
+    if (expand('<cword>') != g:RefactorCppClassName)
+        normal W
+    endif
+
+    execute "normal i\<C-r>=g:RefactorCppClassName\<CR>::\<ESC>G$s\<CR>\<ESC>xxxxxxxx"
 endfunction
 
-function! GetCppClassName()
-    let classname = expand('%:r')
-    return classname
-endfunction
-
-nmap <leader>rci :call CreateCppMethodImplementation()<CR>0Wi<C-R>=GetCppClassName()<CR>::<ESC>$s<CR>{
+nmap <leader>rci :call CreateCppMethodImplementation()<CR>G$s<CR><BS>{
+nmap <leader>rci :call CreateCppMethodImplementation()<CR>i{
 
 " lazy .. to ->
 autocmd CursorMovedI * call MyLazyDotDotToArrow()
 function! MyLazyDotDotToArrow()
+    if (empty(matchstr(&filetype, '\vc|cpp|objc|php|fx|cs|css|javascript')))
+        return
+    endif
+
     let line = strpart(getline('.'), 0, col('.') - 1)
     let line_len = strlen(line)
     if (line_len < 2)
@@ -329,7 +398,7 @@ function! GetFunctionSignatures2(keyword)
     let possible_function_signatures = []
     for item in results
       if (has_key(item, 'signature'))
-        let signature = item['signature']
+        let signature = iconv(item['signature'], 'latin1', &encoding)
 
         let class = '-'
         if (has_key(item, 'class'))
@@ -390,11 +459,10 @@ function! WritePossibleFunctionCompletionsToScratch()
         return ""
     endif
 
-    let output = ""
+    let output = []
 
     for item in possible_function_signatures
-        let output .= item
-        let output .= "\n"
+        call add(output, item)
     endfor
 
     let new_scratch_window_size = len(possible_function_signatures)
@@ -407,9 +475,7 @@ function! WritePossibleFunctionCompletionsToScratch()
 
     execute scratch_win_nr . "wincmd w"
     normal ggVGD
-    :$put=output
-    normal gg
-    normal dd
+    call setline(line('.'), output)
     execute "resize " . new_scratch_window_size
     execute cur_win_nr . "wincmd w"
     execute "silent! ptag ". last_word
