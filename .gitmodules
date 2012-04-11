@@ -67,3 +67,6 @@
 [submodule "vimfiles/bundle/Lucius"]
 	path = vimfiles/bundle/Lucius
 	url = https://github.com/vim-scripts/Lucius.git
+[submodule "vimfiles/bundle/skittles_berry"]
+	path = vimfiles/bundle/skittles_berry
+	url = git://github.com/shawncplus/skittles_berry.git
