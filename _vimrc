@@ -83,18 +83,45 @@ set winwidth=80
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
+" }}}
+" AutoCommands {{{
 augroup SaveAllBuffersWhenLosingFocus
     au!
     au FocusLost * silent! wall
 augroup END
 
 set cursorline
+" wow this whole thing is necessary because there is a bug in Command-T of VIM
+" which doesn't restore cursorline properly and if I always set cursorlines,
+" then it loses it nice hightling color when I open Command-T again
+
+" apparently setting cursorline also clears current cursor column
+" when you move between lines, so we need more hacks
+function! CursorMovedDecideCursorline()
+    let current_buffer = bufname('%') 
+    let result = match(current_buffer, '\(GoToFile\)\@!')
+    if (result == 0)
+        if exists("g:last_buffer_set_cursorline")
+            if g:last_buffer_set_cursorline == current_buffer
+                return
+            endif
+        endif
+
+        let g:last_buffer_set_cursorline = current_buffer
+        set cursorline
+    else
+        if exists("g:last_buffer_set_cursorline")
+            unlet g:last_buffer_set_cursorline
+        endif
+    endif
+endfunction
 augroup CursorLineOnlyOnCurrentSplit
     au!
     au WinLeave * set nocursorline
     au WinEnter * set cursorline
     au InsertEnter * set nocursorline
     au InsertLeave * set cursorline
+    au CursorMoved * call CursorMovedDecideCursorline()
 augroup END
 
 " Make sure Vim returns to the same line when you reopen a file.
