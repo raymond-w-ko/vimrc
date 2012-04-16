@@ -13,7 +13,7 @@ augroup END
 " C++ {{{
 augroup ft_cpp
   autocmd!
-  autocmd BufNewFile,BufRead *.cpp setlocal foldnestmax=1
+  autocmd BufNewFile,BufRead *.cpp,*.cc setlocal foldnestmax=1
 augroup END
 " }}}
 " Objective-C {{{
