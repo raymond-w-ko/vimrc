@@ -60,6 +60,6 @@ let g:netrw_cygwin = 1
 " }}}
 
 " omegacomplete
-let g:omegacomplete_loaded = 1
+"let g:omegacomplete_loaded = 1
 
 " vim:fdm=marker:foldlevel=9001
