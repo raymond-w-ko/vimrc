@@ -68,23 +68,33 @@ function! ChangePaste(type, ...)
 endfunction
 
 " lazy braces
-function! MyLazyBraces()
-    if (!empty(matchstr(&filetype, '\vc|cpp|objc|php|fx|cs|css|javascript')))
-        call feedkeys("{\<CR>\<TAB>X\<CR>", 'n')
-        for ii in range(1)
-          call feedkeys("\<BS>", 'n')
-        endfor
-        call feedkeys("}\<Up>", 'n')
-        for ii in range(&tabstop)
-          call feedkeys("\<Right>", 'n')
-        endfor
-        call feedkeys("\<BS>", 'n')
-    else
-        call feedkeys('{', 'n')
+function! MyDoubleBracesExpander()
+    let line = strpart(getline('.'), 0, col('.') - 1)
+    let line_len = strlen(line)
+    if (line_len < 2)
+        return
     endif
-    return ""
+
+	echom '#' . line[line_len - 2] . '#' . line[line_len - 1] . '#'
+    if ( line[line_len - 2] != '{' ||
+       \ line[line_len - 1] != '{' )
+		echom "miss"
+        return
+    endif
+	echom "hit"
+
+	call feedkeys("\<BS>\<BS>{\<CR>\<TAB>X\<CR>", 'n')
+	call feedkeys("\<BS>", 'n')
+	call feedkeys("}\<Up>", 'n')
+	for ii in range(&tabstop)
+	  call feedkeys("\<Right>", 'n')
+	endfor
+	call feedkeys("\<BS>", 'n')
 endfunction
-inoremap <expr> { MyLazyBraces()
+augroup ExpandDoubleBraces
+	au!
+	au CursorMovedI * call MyDoubleBracesExpander()
+augroup END
 
 function! CreateCppMethodImplementation()
     " determine the complete function definition
@@ -166,7 +176,6 @@ nmap <leader>rci :call CreateCppMethodImplementation()<CR>G$s<CR><BS>{
 nmap <leader>rci :call CreateCppMethodImplementation()<CR>i{
 
 " lazy .. to ->
-autocmd CursorMovedI * call MyLazyDotDotToArrow()
 function! MyLazyDotDotToArrow()
     if (empty(matchstr(&filetype, '\vc|cpp|objc|php|fx|cs|css|javascript')))
         return
@@ -192,6 +201,10 @@ function! MyLazyDotDotToArrow()
         call feedkeys("\<BS>\<BS>\<BS>...", 't')
     endif
 endfunction
+augroup ConvertTwoDotsToArrow
+	au!
+	au CursorMovedI * call MyLazyDotDotToArrow()
+augroup END
 
 "}}}
 " Splits {{{
