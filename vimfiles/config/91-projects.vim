@@ -25,6 +25,14 @@ command! GroundhogShared cd C:\SVN\Syandus_ALIVE3\Groundhog\Shared
 
 command! Mac cd S:/trunk/ALIVE Med/
 
+function! SetSettingsForProject(size_of_tab, autohotkey_file, tags)
+	execute 'setlocal tabstop=' . a:size_of_tab
+	execute 'setlocal shiftwidth=' . a:size_of_tab 
+	execute 'setlocal softtabstop=' . a:size_of_tab
+	nnoremap <buffer> <leader>m :call AutoHotkeyMake(a:autohotkey_file)<CR>
+	execute 'setlocal tags=' . a:tags
+endfunction
+
 augroup SyandusIndents
   autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_ALIVE3/Metrics/*
@@ -46,17 +54,14 @@ augroup Platform
 augroup END
 " }}}
 " Hub {{{
-function! SetSettingsForHub()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_hub.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_ALIVE3/Hub/Source/tags
-endfunction
 augroup Hub
   autocmd!
   autocmd BufNewFile,BufRead,BufEnter
   \ C:/SVN/Syandus_ALIVE3/Hub/*
-  \ call SetSettingsForHub()
+  \ call SetSettingsForProject(
+    \ 4,
+	\ 'C:\Users\root\Desktop\Dropbox\make_hub.ahk',
+	\ 'C:/SVN/Syandus_ALIVE3/Hub/Source/tags')
 augroup END
 " }}}
 " Carbon {{{

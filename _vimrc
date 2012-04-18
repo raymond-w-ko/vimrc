@@ -187,7 +187,9 @@ set autoindent
 set nocindent
 set nosmartindent
 
-set expandtab
+" oh snap, I'm using pure tabs, burn the heretic!
+set noexpandtab
+
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
