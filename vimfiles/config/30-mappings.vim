@@ -75,13 +75,10 @@ function! MyDoubleBracesExpander()
         return
     endif
 
-	echom '#' . line[line_len - 2] . '#' . line[line_len - 1] . '#'
     if ( line[line_len - 2] != '{' ||
        \ line[line_len - 1] != '{' )
-		echom "miss"
         return
     endif
-	echom "hit"
 
 	call feedkeys("\<BS>\<BS>{\<CR>\<TAB>X\<CR>", 'n')
 	call feedkeys("\<BS>", 'n')
@@ -172,8 +169,7 @@ function! CreateCppMethodImplementation()
     execute "normal i\<C-r>=g:RefactorCppClassName\<CR>::\<ESC>G$s\<CR>\<ESC>xxxxxxxx"
 endfunction
 
-nmap <leader>rci :call CreateCppMethodImplementation()<CR>G$s<CR><BS>{
-nmap <leader>rci :call CreateCppMethodImplementation()<CR>i{
+nmap <leader>rci :call CreateCppMethodImplementation()<CR>i{{
 
 " lazy .. to ->
 function! MyLazyDotDotToArrow()
