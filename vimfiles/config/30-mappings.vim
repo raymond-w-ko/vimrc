@@ -528,8 +528,8 @@ endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
 inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
-inoremap <expr> <F13>       pumvisible() ? "\<C-y>" : ""
-inoremap <expr> <C-Space>   pumvisible() ? "\<C-y>" : " "
+inoremap <expr> <F13>       pumvisible() ? "\<C-n>\<C-y>" : ""
+inoremap <expr> <C-Space>   pumvisible() ? "\<C-n>\<C-y>" : " "
 inoremap <expr> (           MySuperLeftParenScratchAndPreview()
 inoremap <expr> )           MySuperRightParen()
 
