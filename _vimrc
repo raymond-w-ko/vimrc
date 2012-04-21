@@ -1,34 +1,23 @@
-" Preamble {{{
 set nocompatible
+if v:progname =~? "evim"
+    finish
+endif
 
 " paths so vim doesn't complain when opening ruby files
 if has("win32")
     let g:ruby_path='C:/Ruby193/bin'
 endif
 
-filetype off
-
+" pathogen {{{
 let g:pathogen_disabled = []
 call add(g:pathogen_disabled, "ctrlp")
-
 call add(g:pathogen_disabled, "tagbar")
-
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "neocomplcache")
-
 call add(g:pathogen_disabled, "camelcasemotion")
 call add(g:pathogen_disabled, "vim-easymotion")
-
-call add(g:pathogen_disabled, "snipmate")
-
-call add(g:pathogen_disabled, "vim-smartusline")
-
 call pathogen#infect()
 call pathogen#helptags()
-
-if v:progname =~? "evim"
-    finish
-endif
 " }}}
 
 " File options {{{
