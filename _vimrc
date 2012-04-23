@@ -1,11 +1,13 @@
-set nocompatible
+" when re-sourcing with this set, syntax highlighting changes!
+"set nocompatible
+" don't customize anything if we are running in evim mode
 if v:progname =~? "evim"
-    finish
+	finish
 endif
 
-" paths so vim doesn't complain when opening ruby files
+" paths so that the VIM Ruby interpreter can find its files
 if has("win32")
-    let g:ruby_path='C:/Ruby193/bin'
+	let g:ruby_path='C:/Ruby193/bin'
 endif
 
 " pathogen {{{
@@ -16,18 +18,20 @@ call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "neocomplcache")
 call add(g:pathogen_disabled, "camelcasemotion")
 call add(g:pathogen_disabled, "vim-easymotion")
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
 " }}}
 
-" File options {{{
+" File Options {{{
 filetype on                         " detect and set filetype
 filetype plugin on                  " load filetype plugin
 filetype indent off                 " as a control freak, don't enable automatic indenting
 " without a guard, re-sourcing this file breaks vim-easymotion
+" re-sourcing also breaks vim-powerline
 if !exists("g:already_syntax_on")
-    syntax on
-    let g:already_syntax_on=1
+	syntax on
+	let g:already_syntax_on=1
 endif
 set fileformats=unix,dos,mac        " order of support
 set noshellslash                    " unfortunately shellslash breaks netrw
@@ -47,7 +51,7 @@ set backspace=indent,eol,start
 set nonumber
 set norelativenumber
 set laststatus=2
-set history=8192
+set history=1024
 set lazyredraw
 set ttyfast
 set showmatch
@@ -73,10 +77,10 @@ set winwidth=80
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
 " }}}
-" AutoCommands {{{
+" Automatic Commands {{{
 augroup SaveAllBuffersWhenLosingFocus
-    au!
-    au FocusLost * silent! wall
+	au!
+	au FocusLost * silent! wall
 augroup END
 
 set cursorline
@@ -99,7 +103,7 @@ function! CursorMovedDecideCursorline()
         let g:last_buffer_set_cursorline = current_buffer
         set cursorline
     else
-        if exists("g:last_buffer_set_cursorline")
+        if exists('g:last_buffer_set_cursorline')
             unlet g:last_buffer_set_cursorline
         endif
     endif
@@ -116,11 +120,11 @@ augroup END
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
 augroup ReturnToSameLineWhenReopeningFile
-    au!
-    au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
+	au!
+	au BufReadPost *
+		\ if line("'\"") > 0 && line("'\"") <= line("$") |
+		\     execute 'normal! g`"zvzz' |
+		\ endif
 augroup END
 
 function! StripTrailingWhitespace()
@@ -130,15 +134,15 @@ function! StripTrailingWhitespace()
 endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-    au BufWritePre C:/SVN/* call StripTrailingWhitespace()
+    au BufWritePre C:\SVN\* call StripTrailingWhitespace()
 augroup END
 " }}}
-" Wildmenu completion {{{
+" wildmenu completion {{{
 set wildmenu
 set wildmode=longest,list
 set wildchar=<Tab>
 
-" binaries with a 99.9% of not being edited
+" binaries with a 99.9% chance of not being edited
 set wildignore+=*.exe,*.dll
 
 " media files in a binary format
@@ -199,13 +203,14 @@ endif
 set undodir=~/vimundo
 set undofile
 set undolevels=8192   "maximum number of changes that can be undone
-set undoreload=65536  "maximum number lines to save for undo on a buffer reload
+set undoreload=65535  "maximum number lines to save for undo on a buffer reload
 
 set directory=~/vimtmp//
 set viewdir=~/vimview
 set backup
 set backupdir=~/vimbackup//
 " }}}
+
 " Leader
 let mapleader = ","
 let maplocalleader = "\\"
@@ -248,8 +253,8 @@ nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 "nmap <Tab> %
 "vmap <Tab> %
 
-" make D behave
-nnoremap D d$
+" make Y like D and C
+nnoremap Y y$
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
@@ -282,7 +287,7 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
-" Directional keys -------------------------------------------------------- {{{
+" Directional keys {{{
 
 " It's 2011.
 nnoremap j gj
@@ -297,10 +302,10 @@ nnoremap <C-l>  <C-w>l
 " }}}
 
 " Highlight word {{{
-nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+"nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+"nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+"nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+"nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
 " }}}
 
 " Visual Mode */# from Scrooloose {{{

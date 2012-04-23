@@ -29,7 +29,7 @@ let g:LustyJugglerDefaultMappings=0
 " }}}
 " yankring {{{
 let g:yankring_min_element_length = 1
-" }}}k
+" }}}
 
 " tagbar {{{
 let g:tagbar_width = 40
@@ -46,10 +46,8 @@ let g:ctrlp_working_path_mode = 0
 " indent-guides {{{
 let g:indent_guides_enable_on_vim_startup=0
 " }}}
-
-
 " vim-powerline {{{
-let g:Powerline_symbols='compatible'
+let g:Powerline_symbols='fancy'
 let g:Powerline_stl_path_style='short'
 "let g:Powerline_theme='skwp'
 "let g:Powerline_colorscheme='skwp'
@@ -58,6 +56,13 @@ let g:Powerline_stl_path_style='short'
 let g:netrw_cygwin = 1
 "let g:netrw_scp_cmd = "\"C:\\Program Files (x86)\\PuTTY\\pscp.exe\" -q -agent"
 " }}}
+" UltiSnips {{{
+let g:UltiSnipsExpandTrigger = "<F13>"
+let g:UltiSnipsListSnippets = "<C-F13>"
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+" }}}
+
 
 " omegacomplete
 "let g:omegacomplete_loaded = 1

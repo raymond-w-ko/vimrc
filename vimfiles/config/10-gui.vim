@@ -13,8 +13,8 @@ if (has("gui_running"))
     " Font
     if has("win32")
         if !exists("g:already_set_font")
-            "set guifont=Dina_TTF:h8
-            set guifont=Consolas:h10
+			set guifont=Dina_TTF:h8
+            "set guifont=Consolas:h10
 
             set linespace=0
 

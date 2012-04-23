@@ -134,7 +134,7 @@ function! CreateCppMethodImplementation()
         let words = split(cur_line, '\W\+')
         
         if (len(words) >= 2)
-            if (words[0] == 'class')
+            if (words[0] == 'class' || words[0] == 'struct')
                 if (exists('g:RefactorCppClassName'))
                     unlet g:RefactorCppClassName
                 endif
@@ -527,9 +527,7 @@ function! MySuperRightParen()
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <CR>        " \<C-R>=acp#lock()\<CR>\<BS>\<BS>\<CR>\<C-R>=acp#unlock()\<CR>\<BS>"
-inoremap <expr> <F13>       pumvisible() ? "\<C-n>\<C-y>" : ""
-inoremap <expr> <C-Space>   pumvisible() ? "\<C-n>\<C-y>" : " "
+inoremap <expr> <Tab>       pumvisible() ? "\<C-n>\<C-y>" : "\<Tab>"
 inoremap <expr> (           MySuperLeftParenScratchAndPreview()
 inoremap <expr> )           MySuperRightParen()
 
@@ -572,7 +570,7 @@ function! MyChangeNextArg()
   let change_command .= "\<C-G>"
   return change_command
 endfunction
-inoremap <expr> <S-A-l> MyChangeNextArg()
+"inoremap <expr> <S-A-l> MyChangeNextArg()
 " }}}
 
 " Handle URL
