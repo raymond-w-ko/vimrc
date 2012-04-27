@@ -1,6 +1,6 @@
 #! /bin/bash
 
-TIME=15
+TIME=0
 
 if [ $1 ]
 then
