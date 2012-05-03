@@ -1,4 +1,4 @@
-set tags=./tags
+set tags=
 
 command! Dropbox cd C:/Users/root/Desktop/Dropbox
 command! Omegacomplete cd C:\Users\root\Desktop\Dropbox\vim\vimfiles\bundle\omegacomplete
@@ -25,206 +25,191 @@ command! GroundhogShared cd C:\SVN\Syandus_ALIVE3\Groundhog\Shared
 
 command! Mac cd S:/trunk/ALIVE Med/
 
-function! SetSettingsForProject(size_of_tab, autohotkey_file, tags)
-	execute 'setlocal tabstop=' . a:size_of_tab
-	execute 'setlocal shiftwidth=' . a:size_of_tab 
-	execute 'setlocal softtabstop=' . a:size_of_tab
-	nnoremap <buffer> <leader>m :call AutoHotkeyMake(a:autohotkey_file)<CR>
-	execute 'setlocal tags=' . a:tags
-endfunction
-
-augroup SyandusIndents
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Metrics/*
-  \ setlocal tabstop=2 shiftwidth=2 softtabstop=2
-augroup END
-
-" Platform {{{
-function! SetSettingsForPlatform()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_platform.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags
-endfunction
-augroup Platform
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Platform/Source/Code/*
-  \ call SetSettingsForPlatform()
-augroup END
-" }}}
-" Hub {{{
-augroup Hub
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Hub/*
-  \ call SetSettingsForProject(
-    \ 4,
-	\ 'C:\Users\root\Desktop\Dropbox\make_hub.ahk',
-	\ 'C:/SVN/Syandus_ALIVE3/Hub/Source/tags')
-augroup END
-" }}}
-" Carbon {{{
-function! SetSettingsForCarbon()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_carbon.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
-  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup Carbon
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/*
-  \ call SetSettingsForCarbon()
-augroup END
-" }}}
-" Oxygen {{{
-function! SetSettingsForOxygen()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_carbon.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/Source/Scripts/tags,
-  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup Oxygen
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/*
-  \ call SetSettingsForOxygen()
-augroup END
-" }}}
-" ImmunoSim {{{
-function! SetSettingsForImmunoSim()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_immunosim.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_Cores/C_ImmunoSim_01/Source/Scripts/Content/tags,
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/Source/Scripts/tags,
-  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup ImmunoSim
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_Cores/C_ImmunoSim_01/*
-  \ call SetSettingsForImmunoSim()
-augroup END
-" }}}
-" UnbrandedSpiriva {{{
-function! SetSettingsForUnbrandedSpiriva()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:/Users/root/Desktop/Dropbox/make_unbrandedcopd.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
-  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup UnbrandedSpiriva
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_Cores/C_Unb_COPD_01/*
-  \ call SetSettingsForUnbrandedSpiriva()
-
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_Cores/C_Spv_COPD_01/*
-  \ call SetSettingsForUnbrandedSpiriva()
-augroup END
-" }}}
-" Symlin {{{
-function! SetSettingsForSymlin()
-  setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  nnoremap <buffer> <leader>m :call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_symlin.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_Cores/C_Sym_DM_01/Source/Scripts/Content/tags,
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
-  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup Symlin
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_Cores/C_Sym_DM_01/*
-  \ call SetSettingsForSymlin()
-augroup END
-" }}}
-" Mac {{{
-function! SetSettingsForMac()
-  setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  nnoremap <buffer> <leader>m <nop>
-  setlocal tags=
-endfunction
-augroup Mac
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ S:/*
-  \ call SetSettingsForMac()
-augroup END
-" }}}
-" Sutent {{{
-function! SetSettingsForSutent()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_sutent.ahk')<CR>
-  setlocal tags=
-  \C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/tags,
-  \C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
-  \C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup Sutent
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_Cores/C_Sut_AE_01/*
-  \ call SetSettingsForSutent()
-augroup END
-" }}}
-" Shaders {{{
+" Shaders
 function! SetSettingsForShaders()
-  setlocal tabstop=4 shiftwidth=4 softtabstop=4
-  nnoremap <buffer> <leader>m :update<CR>:!start .\install.bat<CR>
-  setlocal tags=
+    setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    nnoremap <buffer> <leader>m :update<CR>:!start .\install.bat<CR>
+    setlocal tags=
 endfunction
 augroup Shaders
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter *.fx call SetSettingsForShaders()
 augroup END
-"}}}
-" SyLogParser {{{
-function! SetSettingsForSyLogParser()
-  setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_sylogparser.ahk')<CR>
-  setlocal tags=
+
+function! SetSettingsForProject(size_of_tab, autohotkey_file, tags)
+	execute 'setlocal tabstop=' . a:size_of_tab
+	execute 'setlocal shiftwidth=' . a:size_of_tab 
+	execute 'setlocal softtabstop=' . a:size_of_tab
+    if (len(a:autohotkey_file) == 0)
+        execute "nnoremap <buffer> <leader>m <nop>"
+    else
+        execute "nnoremap <buffer> <leader>m :call AutoHotkeyMake('" . a:autohotkey_file . "')\<CR>"
+    endif
+	execute 'setlocal tags=' . a:tags
 endfunction
-augroup SyLogParser
+
+" platform level
+" Groundhog {{{
+augroup Groundhog
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Groundhog/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_groundhog.ahk',
+        \ '')
+augroup END
+" }}}
+" Platform {{{
+augroup Platform
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Platform/Source/Code/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_platform.ahk',
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags')
+augroup END
+" }}}
+
+" backend, metrics, launcher, misc
+" Hub {{{
+augroup Hub
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Hub/*
+    \ call SetSettingsForProject(
+        \ 4,
+        \ 'C:/Users/root/Desktop/Dropbox/make_hub.ahk',
+        \ 'C:/SVN/Syandus_ALIVE3/Hub/Source/tags')
+augroup END
+" }}}
+" SyMetrics {{{
+augroup SyMetrics
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Metrics/SyMetrics/*
+    \ call SetSettingsForProject(
+        \ 2,
+        \ 'C:/Users/root/Desktop/Dropbox/make_symetrics.ahk',
+        \ '')
+augroup END
+" }}}
+" SyLogParser {{{
+augroup SyLoginParser
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter
     \ C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser/*
-    \ call SetSettingsForSyLogParser()
+    \ call SetSettingsForProject(
+        \ 2,
+        \ 'C:/Users/root/Desktop/Dropbox/make_sylogparser.ahk',
+        \ '')
 augroup END
 "}}}
 " SyHandleGen {{{
-function! SetSettingsForSyHandleGen()
-  setlocal tabstop=2 shiftwidth=2 softtabstop=2
-  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_syhandlegen.ahk')<CR>
-  setlocal tags=
-endfunction
-augroup SyLogParser
+augroup SyHandleGen
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter
     \ C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen/*
-    \ call SetSettingsForSyHandleGen()
+    \ call SetSettingsForProject(
+        \ 2,
+        \ 'C:/Users/root/Desktop/Dropbox/make_syhandlegen.ahk',
+        \ '')
 augroup END
 "}}}
-" Groundhog {{{
-function! SetSettingsForGroundhog()
-  setlocal tabstop=3 shiftwidth=3 softtabstop=3
-  nnoremap <buffer> <leader>m :update<CR>:call AutoHotkeyMake('C:\Users\root\Desktop\Dropbox\make_groundhog.ahk')<CR>
-  "setlocal tags=
-  "\C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/tags,
-  "\C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,
-  "\C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags
-endfunction
-augroup Groundhog
-  autocmd!
-  autocmd BufNewFile,BufRead,BufEnter
-  \ C:/SVN/Syandus_ALIVE3/Groundhog/*
-  \ call SetSettingsForGroundhog()
+" Mac {{{
+augroup Mac
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ S:/*
+    \ call SetSettingsForProject(
+        \ 2,
+        \ '',
+        \ '')
+augroup END
+" }}}
+
+" framework level
+" Carbon {{{
+augroup Carbon
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_carbon.ahk',
+        \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags')
+augroup END
+" }}}
+" Oxygen {{{
+augroup Oxygen
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_carbon.ahk',
+        \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/Source/Scripts/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags')
+augroup END
+" }}}
+
+" simulation cores
+" UnbrandedSpiriva {{{
+augroup UnbrandedSpiriva
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_Cores/C_Unb_COPD_01/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_unbrandedcopd.ahk',
+        \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags'
+        \ )
+augroup END
+" }}}
+" Symlin {{{
+augroup Symlin
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_Cores/C_Sym_DM_01/*
+    \ call SetSettingsForProject(
+        \ 2,
+        \ 'C:/Users/root/Desktop/Dropbox/make_symlin.ahk',
+        \ 'C:/SVN/Syandus_Cores/C_Sym_DM_01/Source/Scripts/Content/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags'
+        \ )
+augroup END
+" }}}
+" Sutent {{{
+augroup Sutent
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_Cores/C_Sut_AE_01/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_sutent.ahk',
+        \ 'C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags'
+        \ )
+augroup END
+" }}}
+
+" immunobiology
+" ImmunoSim {{{
+augroup ImmunoSim
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_Cores/C_ImmunoSim_01/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_immunosim.ahk',
+        \ 'C:/SVN/Syandus_Cores/C_ImmunoSim_01/Source/Scripts/Content/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen/Source/Scripts/tags,' .
+        \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags'
+        \ )
 augroup END
 " }}}
 " vim:fdm=marker:foldlevel=0
