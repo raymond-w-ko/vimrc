@@ -15,6 +15,8 @@ command! W :w
 " General {{{
 " Substitute
 nnoremap <leader>s :%s//c<left><left>
+nnoremap <leader>\ :s/\//\\/<CR>:nohlsearch<CR>
+nnoremap <leader>/ :s/\\/\//<CR>:nohlsearch<CR>
 
 " CTRL-V and are Paste
 inoremap <C-V> <C-r>=@+<CR>
@@ -152,6 +154,9 @@ function! CreateCppMethodImplementation()
     normal j
     normal VVG<
     
+    if (expand('<cword>') == "static")
+        normal dw
+    endif
     
     "check if have virtual keyword, if so delete it since function declarations 
     "don't have that, only in the function definition
@@ -271,6 +276,7 @@ function! CreateScratchAndPreview()
     wincmd l
     vertical resize 80
     set winfixwidth
+    edit __Scratch__
     wincmd h
 
     wincmd k
@@ -527,7 +533,7 @@ function! MySuperRightParen()
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <Tab>       pumvisible() ? "\<C-n>\<C-y>" : "\<Tab>"
+inoremap <expr> <Tab>       pumvisible() ? omegacomplete#UseFirstWordOfPmenu() : "\<Tab>"
 inoremap <expr> (           MySuperLeftParenScratchAndPreview()
 inoremap <expr> )           MySuperRightParen()
 
@@ -572,6 +578,20 @@ function! MyChangeNextArg()
 endfunction
 "inoremap <expr> <S-A-l> MyChangeNextArg()
 " }}}
+
+" Super Insert Mode Completion {{{
+inoremap <A-a> 0
+inoremap <A-s> 1
+inoremap <A-d> 2
+inoremap <A-f> 3
+inoremap <A-g> 4
+inoremap <A-h> 5
+inoremap <A-i> 6
+inoremap <A-j> 7
+inoremap <A-k> 8
+inoremap <A-l> 9
+inoremap <A-;> 10
+"}}}
 
 " Handle URL
 " Stolen from https://github.com/askedrelic/homedir/blob/master/.vimrc

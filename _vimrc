@@ -2,12 +2,12 @@
 "set nocompatible
 " don't customize anything if we are running in evim mode
 if v:progname =~? "evim"
-	finish
+    finish
 endif
 
 " paths so that the VIM Ruby interpreter can find its files
 if has("win32")
-	let g:ruby_path='C:/Ruby193/bin'
+    let g:ruby_path='C:/Ruby193/bin'
 endif
 
 " pathogen {{{
@@ -30,11 +30,11 @@ filetype indent off                 " as a control freak, don't enable automatic
 " without a guard, re-sourcing this file breaks vim-easymotion
 " re-sourcing also breaks vim-powerline
 if !exists("g:already_syntax_on")
-	syntax on
-	let g:already_syntax_on=1
+    syntax on
+    let g:already_syntax_on=1
 endif
 set fileformats=unix,dos,mac        " order of support
-set noshellslash                    " unfortunately shellslash breaks netrw
+set shellslash                      " unfortunately shellslash breaks netrw
 " }}}
 
 " General {{{
@@ -79,8 +79,8 @@ set t_ti= t_te=
 " }}}
 " Automatic Commands {{{
 augroup SaveAllBuffersWhenLosingFocus
-	au!
-	au FocusLost * silent! wall
+    au!
+    au FocusLost * silent! wall
 augroup END
 
 set cursorline
@@ -120,11 +120,11 @@ augroup END
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
 augroup ReturnToSameLineWhenReopeningFile
-	au!
-	au BufReadPost *
-		\ if line("'\"") > 0 && line("'\"") <= line("$") |
-		\     execute 'normal! g`"zvzz' |
-		\ endif
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
 augroup END
 
 function! StripTrailingWhitespace()
@@ -135,6 +135,8 @@ endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
     au BufWritePre C:\SVN\* call StripTrailingWhitespace()
+    au BufWritePre *.h,*.hpp,*.c,*.cc,*.cpp call StripTrailingWhitespace()
+    au BufWritePre *.py call StripTrailingWhitespace()
 augroup END
 " }}}
 " wildmenu completion {{{
@@ -180,9 +182,7 @@ set autoindent
 set nocindent
 set nosmartindent
 
-" oh snap, I'm using pure tabs, burn the heretic!
-set noexpandtab
-
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -246,15 +246,12 @@ set sidescrolloff=0
 
 set virtualedit+=block
 
-nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
+nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
 "nmap <Tab> %
 "vmap <Tab> %
-
-" make Y like D and C
-nnoremap Y y$
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
@@ -466,6 +463,6 @@ augroup ScratchWindowResizer
     "au WinEnter * call ResizeFixer()
 augroup END
 
-nmap <F2> :e C:\SVN\Syandus_ALIVE3\Hub\Source\Win32\Window.cpp<CR>
+nmap <F2> :e C:/SVN/Syandus_Cores/C_Sut_AE_01/Source/Scripts/Content/4.Management/SB_Management.cpp<CR>
 
 " vim:fdm=marker:foldlevel=0
