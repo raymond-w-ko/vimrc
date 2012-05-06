@@ -5,6 +5,7 @@ if (has("gui_running"))
         let g:lucius_style="dark_dim"
         colorscheme lucius
 
+        "let g:solarized_italic=0
         "colorscheme solarized
 
         let g:already_set_color_scheme=1
