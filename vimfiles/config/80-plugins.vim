@@ -1,4 +1,4 @@
-"let g:loaded_matchparen = 1
+let g:loaded_matchparen = 1
 " a.vim {{{
 let g:alternateNoDefaultAlternate=1
 "}}}

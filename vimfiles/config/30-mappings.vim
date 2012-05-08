@@ -281,6 +281,17 @@ function! CreateScratchAndPreview()
 
     wincmd k
 endfunction
+function! CreateScratch()
+    1split
+
+    " create preview window
+    set winfixheight
+    Scratch
+    setlocal nowrap
+    silent! exe "chdir " . current_directory
+    
+    wincmd k
+endfunction
 function! CreateAndSetupVsplits()
     let num_vsplits = (&columns / 80) - 1
 
@@ -298,7 +309,7 @@ function! CreateAndSetupVsplits()
         silent! exe "chdir " . current_directory
     endif
     
-    call CreateScratchAndPreview()
+    call CreateScratch()
 
     " create number of vsplits based off of argument passwd
     for ii in range(num_vsplits)
@@ -409,7 +420,8 @@ function! GetFunctionSignatures(keyword)
 endfunction
 
 function! GetFunctionSignatures2(keyword)
-    let results = taglist("^" . a:keyword . "$")
+    "let results = taglist("^" . a:keyword . "$")
+    let results = omegacomplete#taglist(a:keyword)
     let possible_function_signatures = []
     for item in results
       if (has_key(item, 'signature'))
@@ -493,7 +505,7 @@ function! WritePossibleFunctionCompletionsToScratch()
     call setline(line('.'), output)
     execute "resize " . new_scratch_window_size
     execute cur_win_nr . "wincmd w"
-    execute "silent! ptag ". last_word
+    "execute "silent! ptag ". last_word
     return
 endfunction
 

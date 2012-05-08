@@ -52,7 +52,7 @@ if (has("gui_running"))
     endif
 
     " Remove cursor blink
-    set guicursor+=a:blinkon0
+    set guicursor+=a:blinkon500,a:blinkoff500
 
     " pretty vertical Splits
     set fillchars+=vert:│
