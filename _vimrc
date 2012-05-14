@@ -200,15 +200,16 @@ elseif has("gui_running")
 endif
 " }}}
 " swap, undo, backup {{{
-set undodir=~/vimundo
+set undodir=~/vimundo//
+set directory=~/vimtmp//
+set viewdir=~/vimview//
+set backupdir=~/vimbackup//
+
 set undofile
 set undolevels=8192   "maximum number of changes that can be undone
 set undoreload=65535  "maximum number lines to save for undo on a buffer reload
 
-set directory=~/vimtmp//
-set viewdir=~/vimview
-set backup
-set backupdir=~/vimbackup//
+set nobackup          "computers are pretty reliable nowadays
 " }}}
 
 " Leader
