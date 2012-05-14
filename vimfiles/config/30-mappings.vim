@@ -432,7 +432,12 @@ function! GetFunctionSignatures2(keyword)
           let class = item['class']
         endif
 
-        let entry = class . '::' . signature
+        let return_type = ''
+        if (has_key(item, 'returntype'))
+            let return_type = item['returntype']
+        endif
+
+        let entry = return_type . ' ' . class . '::' . a:keyword . signature
         if (match(signature, '(\s*)') == -1)
             call add(possible_function_signatures, entry)
         endif
