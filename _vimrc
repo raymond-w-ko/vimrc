@@ -206,10 +206,12 @@ set viewdir=~/vimview//
 set backupdir=~/vimbackup//
 
 set undofile
-set undolevels=8192   "maximum number of changes that can be undone
-set undoreload=65535  "maximum number lines to save for undo on a buffer reload
+set undolevels=8192     " maximum number of changes that can be undone
+set undoreload=65535    " maximum number lines to save for undo on a buffer reload
 
-set nobackup          "computers are pretty reliable nowadays
+set backup              " might as well, it doesn't really hurt
+
+set noswapfile          " computers are pretty reliable nowadays
 " }}}
 
 " Leader
