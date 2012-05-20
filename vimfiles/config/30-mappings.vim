@@ -14,7 +14,7 @@ command! W :w
 
 " General {{{
 " Substitute
-nnoremap <leader>s :%s//c<left><left>
+nnoremap <leader>s :%s///c<left><left>
 nnoremap <leader>\ :s/\//\\/<CR>:nohlsearch<CR>
 nnoremap <leader>/ :s/\\/\//<CR>:nohlsearch<CR>
 
@@ -29,10 +29,31 @@ cnoremap <C-k> <Up>
 
 " Platform specific keybinds
 if has("unix")
-  nnoremap <leader>ev :e ~/Dropbox/vim/_vimrc<CR>
-  cmap w!! w !sudo tee % >/dev/null
+    nnoremap <leader>ev :e ~/Dropbox/vim/_vimrc<CR>
+    cmap w!! w !sudo tee % >/dev/null
+
+    let s:uname = system("uname")
+    if s:uname == "Darwin\n"
+        " Mac OS X
+        "imap <D-k> _
+        "imap <D-d> _
+        "imap <D-K> -
+        "imap <D-D> -
+    else
+        " regular UNIX
+    endif
 elseif has("win32")
-  nnoremap <leader>ev :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
+    nnoremap <leader>ev :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
+
+    "imap <A-k> _
+    "imap <A-d> _
+    "imap <A-K> -
+    "imap <A-D> -
+
+    "cmap <A-k> _
+    "cmap <A-d> _
+    "cmap <A-K> -
+    "cmap <A-D> -
 endif
 
 function! CommandTProject()
@@ -597,17 +618,17 @@ endfunction
 " }}}
 
 " Super Insert Mode Completion {{{
-inoremap <A-a> 0
-inoremap <A-s> 1
-inoremap <A-d> 2
-inoremap <A-f> 3
-inoremap <A-g> 4
-inoremap <A-h> 5
-inoremap <A-i> 6
-inoremap <A-j> 7
-inoremap <A-k> 8
-inoremap <A-l> 9
-inoremap <A-;> 10
+"inoremap <A-a> 0
+"inoremap <A-s> 1
+"inoremap <A-d> 2
+"inoremap <A-f> 3
+"inoremap <A-g> 4
+"inoremap <A-h> 5
+"inoremap <A-i> 6
+"inoremap <A-j> 7
+"inoremap <A-k> 8
+"inoremap <A-l> 9
+"inoremap <A-;> 10
 "}}}
 
 " Handle URL
