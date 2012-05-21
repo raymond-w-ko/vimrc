@@ -618,17 +618,39 @@ endfunction
 " }}}
 
 " Super Insert Mode Completion {{{
-"inoremap <A-a> 0
-"inoremap <A-s> 1
-"inoremap <A-d> 2
-"inoremap <A-f> 3
-"inoremap <A-g> 4
-"inoremap <A-h> 5
-"inoremap <A-i> 6
-"inoremap <A-j> 7
-"inoremap <A-k> 8
-"inoremap <A-l> 9
-"inoremap <A-;> 10
+function! ChooseWordFromPmenu(index)
+    if pumvisible() == 0
+        return ""
+    endif
+
+    let keys = ""
+    for ii in range(1, a:index)
+        let keys .= "\<C-N>"
+    endfor
+    let keys .= "\<C-Y>"
+    return keys
+endfunction
+inoremap <expr> <A-a> ChooseWordFromPmenu(1)
+inoremap <expr> <A-s> ChooseWordFromPmenu(2)
+inoremap <expr> <A-d> ChooseWordFromPmenu(3)
+inoremap <expr> <A-f> ChooseWordFromPmenu(4)
+inoremap <expr> <A-g> ChooseWordFromPmenu(5)
+inoremap <expr> <A-h> ChooseWordFromPmenu(6)
+inoremap <expr> <A-j> ChooseWordFromPmenu(7)
+inoremap <expr> <A-k> ChooseWordFromPmenu(8)
+inoremap <expr> <A-l> ChooseWordFromPmenu(9)
+inoremap <expr> <A-;> ChooseWordFromPmenu(10)
+
+inoremap <expr> <A-q> ChooseWordFromPmenu(11)
+inoremap <expr> <A-w> ChooseWordFromPmenu(12)
+inoremap <expr> <A-e> ChooseWordFromPmenu(13)
+inoremap <expr> <A-r> ChooseWordFromPmenu(14)
+inoremap <expr> <A-t> ChooseWordFromPmenu(15)
+inoremap <expr> <A-y> ChooseWordFromPmenu(16)
+inoremap <expr> <A-u> ChooseWordFromPmenu(17)
+inoremap <expr> <A-i> ChooseWordFromPmenu(18)
+inoremap <expr> <A-o> ChooseWordFromPmenu(19)
+inoremap <expr> <A-p> ChooseWordFromPmenu(20)
 "}}}
 
 " Handle URL

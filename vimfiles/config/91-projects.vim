@@ -48,6 +48,19 @@ function! SetSettingsForProject(size_of_tab, autohotkey_file, tags)
 	execute 'setlocal tags=' . a:tags
 endfunction
 
+" personal projects
+" OmegacompleteServer {{{
+augroup OmegacompleteServer
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/Users/root/Desktop/Dropbox/vim/vimfiles/bundle/omegacomplete/*
+    \ call SetSettingsForProject(
+        \ 4,
+        \ 'C:/Users/root/Desktop/Dropbox/make_omegacomplete_server.ahk',
+        \ '')
+augroup END
+" }}}
+
 " platform level
 " Groundhog {{{
 augroup Groundhog
