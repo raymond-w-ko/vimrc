@@ -242,7 +242,7 @@ set hlsearch
 set incsearch
 set gdefault            " inverts the meaning of the g-flag in s///g
 
-set scrolloff=0         " always try to center current line
+set scrolloff=9001      " always try to center current line
 "set scrolloff=4
 set sidescroll=0
 set sidescrolloff=0
@@ -260,8 +260,8 @@ nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap n nzv
+nnoremap N Nzv
 
 " Don't move on *
 nnoremap * *<c-o>
@@ -287,19 +287,15 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
-" Directional keys {{{
-
 " It's 2011.
-nnoremap <silent> j gjzz
-nnoremap <silent> k gkzz
+nnoremap <silent> j gj
+nnoremap <silent> k gk
 
 " Easy buffer navigation
 nnoremap <C-h>  <C-w>h
 nnoremap <C-j>  <C-w>j
 nnoremap <C-k>  <C-w>k
 nnoremap <C-l>  <C-w>l
-
-" }}}
 
 " Highlight word {{{
 "nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
@@ -466,6 +462,6 @@ augroup ScratchWindowResizer
     "au WinEnter * call ResizeFixer()
 augroup END
 
-nmap <F2> :e C:/SVN/Syandus_Cores/C_Sym_DM_01/Source/Scripts/Content/_shared/Graph.cpp<CR>
+nmap <F2> :e C:\SVN\Syandus_ALIVE3\Hub\Source\Win32\Window.cpp<CR>
 
 " vim:fdm=marker:foldlevel=0
