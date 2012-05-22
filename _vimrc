@@ -240,9 +240,9 @@ set ignorecase
 set smartcase
 set hlsearch
 set incsearch
-set gdefault    " inverts the meaning of the g-flag in s///g
+set gdefault            " inverts the meaning of the g-flag in s///g
 
-set scrolloff=9001        " always try to center current line
+set scrolloff=0         " always try to center current line
 "set scrolloff=4
 set sidescroll=0
 set sidescrolloff=0
@@ -260,8 +260,8 @@ nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-nnoremap n nzv
-nnoremap N Nzv
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 " Don't move on *
 nnoremap * *<c-o>
@@ -290,8 +290,8 @@ nnoremap VaB vaBV
 " Directional keys {{{
 
 " It's 2011.
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> j gjzz
+nnoremap <silent> k gkzz
 
 " Easy buffer navigation
 nnoremap <C-h>  <C-w>h

@@ -15,6 +15,8 @@ command! W :w
 " General {{{
 " Substitute
 nnoremap <leader>s :%s///c<left><left>
+vnoremap <leader>s :s///c<left><left>
+
 nnoremap <leader>\ :s/\//\\/<CR>:nohlsearch<CR>
 nnoremap <leader>/ :s/\\/\//<CR>:nohlsearch<CR>
 
