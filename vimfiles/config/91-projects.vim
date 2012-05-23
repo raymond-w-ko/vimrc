@@ -62,6 +62,17 @@ augroup END
 " }}}
 
 " platform level
+" OGRE {{{
+augroup Ogre
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/OgreSDK/*
+    \ call SetSettingsForProject(
+        \ 4,
+        \ '',
+        \ 'C:/OgreSDK/OgreSDK_vc9_v1-7-4/include/tags')
+augroup END
+"}}}
 " Groundhog {{{
 augroup Groundhog
     autocmd!
