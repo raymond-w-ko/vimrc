@@ -9,8 +9,8 @@ vnoremap <F1> <nop>
 " nobody uses EX mode, use Q for formatting instead
 map Q gq
 
-" in case I make this typo
-command! W :w
+nnoremap ' `
+nnoremap ` '
 
 " General {{{
 " Substitute
