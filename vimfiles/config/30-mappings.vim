@@ -573,9 +573,9 @@ function! MySuperRightParen()
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <Tab>       pumvisible() ? omegacomplete#UseFirstWordOfPmenu() : "\<Tab>"
-inoremap <expr> (           MySuperLeftParenScratchAndPreview()
-inoremap <expr> )           MySuperRightParen()
+inoremap <expr> <Tab>   pumvisible() ? omegacomplete#UseFirstWordOfPmenu() : "\<Tab>"
+inoremap <expr> (       MySuperLeftParenScratchAndPreview()
+inoremap <expr> )       MySuperRightParen()
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
