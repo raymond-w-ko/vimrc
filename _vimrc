@@ -17,7 +17,6 @@ call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "neocomplcache")
 call add(g:pathogen_disabled, "camelcasemotion")
-call add(g:pathogen_disabled, "vim-easymotion")
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
