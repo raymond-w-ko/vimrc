@@ -456,8 +456,8 @@ function! GetFunctionSignatures2(keyword)
         endif
 
         let return_type = ''
-        if (has_key(item, 'returntype'))
-            let return_type = item['returntype']
+        if (has_key(item, 'prefix'))
+            let return_type = item['prefix']
         endif
 
         let entry = return_type . ' ' . class . '::' . a:keyword . signature
