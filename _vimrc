@@ -250,6 +250,9 @@ set virtualedit+=block
 
 nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 
+" use aesthetic middle of screen for "zz"
+"nnoremap <silent> zz :exec "normal! zz" . float2nr(winheight(0)*0.1) . "\<Lt>C-E>"<CR>
+
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
 "nmap <Tab> %
@@ -266,8 +269,8 @@ nnoremap N Nzv
 nnoremap * *<c-o>
 
 " Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
+"nnoremap g; g;zz
+"nnoremap g, g,zz
 
 " Easier to type, and I never use the default behavior.
 nnoremap H ^
