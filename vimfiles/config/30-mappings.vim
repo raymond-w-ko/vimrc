@@ -346,6 +346,8 @@ function! CreateAndSetupVsplits()
     endfor
 
     wincmd =
+    
+    wincmd l
 
     let g:num_tabs = g:num_tabs + 1
     return
