@@ -216,13 +216,13 @@ function! MyLazyDotDotToArrow()
       \ line[line_len - 3] != '\' &&
       \ line[line_len - 2] == '.' &&
       \ line[line_len - 1] == '.')
-        call feedkeys("\<BS>\<BS>->", 't')
+        call feedkeys("\<BS>\<BS>->", 'n')
     endif
 
     if (line[line_len - 3] == '-' &&
       \ line[line_len - 2] == '>' &&
       \ line[line_len - 1] == '.')
-        call feedkeys("\<BS>\<BS>\<BS>...", 't')
+        call feedkeys("\<BS>\<BS>\<BS>...", 'n')
     endif
 endfunction
 augroup ConvertTwoDotsToArrow

@@ -63,14 +63,24 @@ augroup END
 
 " platform level
 " OGRE {{{
-augroup Ogre
+augroup OgreSDK
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter
     \ C:/OgreSDK/*
     \ call SetSettingsForProject(
         \ 4,
         \ '',
-        \ 'C:/OgreSDK/OgreSDK_vc9_v1-7-4/include/tags')
+        \ 'C:/OgreSDK/OgreSDK_vc9_v1-8-0/include/tags')
+augroup END
+
+augroup Ogre
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE4/Evaluations/OGRE/*
+    \ call SetSettingsForProject(
+        \ 4,
+        \ '',
+        \ 'C:/OgreSDK/OgreSDK_vc9_v1-8-0/include/tags')
 augroup END
 "}}}
 " Groundhog {{{
