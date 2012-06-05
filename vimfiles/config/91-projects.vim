@@ -123,7 +123,7 @@ augroup Hub
     autocmd BufNewFile,BufRead,BufEnter
     \ C:/SVN/Syandus_ALIVE3/Hub/*
     \ call SetSettingsForProject(
-        \ 4,
+        \ 3,
         \ 'C:/Users/root/Desktop/Dropbox/make_hub.ahk',
         \ 'C:/SVN/Syandus_ALIVE3/Hub/Source/tags')
 augroup END
