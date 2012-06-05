@@ -22,6 +22,7 @@ command! Groundhog cd C:\SVN\Syandus_ALIVE3\Groundhog
 command! GroundhogClient cd C:\SVN\Syandus_ALIVE3\Groundhog\Client
 command! GroundhogServer cd C:\SVN\Syandus_ALIVE3\Groundhog\Server
 command! GroundhogShared cd C:\SVN\Syandus_ALIVE3\Groundhog\Shared
+command! ConnectionTester cd C:\SVN\Syandus_ALIVE3\Groundhog\ConnectionTester
 
 command! Mac cd S:/trunk/ALIVE Med/
 
@@ -91,6 +92,15 @@ augroup Groundhog
     \ call SetSettingsForProject(
         \ 3,
         \ 'C:/Users/root/Desktop/Dropbox/make_groundhog.ahk',
+        \ '')
+augroup END
+augroup ConnectionTester
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Groundhog/ConnectionTester/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_connection_tester.ahk',
         \ '')
 augroup END
 " }}}
