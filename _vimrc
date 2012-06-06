@@ -190,6 +190,15 @@ set nosmarttab
 set textwidth=0           " no automatic text wrapping
 set colorcolumn=""
 set formatoptions=qn1
+function! ApplyMyFormatOptions()
+    set fo=
+    set fo+=t   " auto-wrap text using textwidth
+    set fo+=c   " auto-wrap comments using textwidth, insert comment leader
+    set fo+=q   " allow formatting comments with 'gq'
+    set fo+=l   " long lines are not broken in insert mode
+    set fo+=j   " remove comment leader when joining lines.
+endfunction
+call ApplyMyFormatOptions()
 set wrap
 set wrapscan
 if exists("&breakindent")
