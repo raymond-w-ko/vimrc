@@ -139,6 +139,17 @@ augroup SyMetrics
         \ '')
 augroup END
 " }}}
+" SyMetrics {{{
+augroup WebMetrics
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Metrics/web/*
+    \ call SetSettingsForProject(
+        \ 2,
+        \ 'C:/Users/root/Desktop/Dropbox/winscp_sync.ahk',
+        \ '')
+augroup END
+" }}}
 " SyLogParser {{{
 augroup SyLoginParser
     autocmd!
