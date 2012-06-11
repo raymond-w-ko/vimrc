@@ -105,14 +105,23 @@ augroup ConnectionTester
 augroup END
 " }}}
 " Platform {{{
-augroup Platform
+augroup Platform3
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter
     \ C:/SVN/Syandus_ALIVE3/Platform/Source/Code/*
     \ call SetSettingsForProject(
         \ 3,
-        \ 'C:/Users/root/Desktop/Dropbox/make_platform.ahk',
+        \ 'C:/Users/root/Desktop/Dropbox/make_platform3.ahk',
         \ 'C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags')
+augroup END
+augroup Platform4
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE4/Platform/Source/Code/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_platform4.ahk',
+        \ '')
 augroup END
 " }}}
 

@@ -82,39 +82,39 @@ augroup SaveAllBuffersWhenLosingFocus
     au FocusLost * silent! wall
 augroup END
 
-set cursorline
+"set cursorline
 " wow this whole thing is necessary because there is a bug in Command-T of VIM
 " which doesn't restore cursorline properly and if I always set cursorlines,
 " then it loses it nice hightling color when I open Command-T again
 
 " apparently setting cursorline also clears current cursor column
 " when you move between lines, so we need more hacks
-function! CursorMovedDecideCursorline()
-    let current_buffer = bufname('%') 
-    let result = match(current_buffer, '\(GoToFile\)\@!')
-    if (result == 0)
-        if exists("g:last_buffer_set_cursorline")
-            if g:last_buffer_set_cursorline == current_buffer
-                return
-            endif
-        endif
+"function! CursorMovedDecideCursorline()
+    "let current_buffer = bufname('%') 
+    "let result = match(current_buffer, '\(GoToFile\)\@!')
+    "if (result == 0)
+        "if exists("g:last_buffer_set_cursorline")
+            "if g:last_buffer_set_cursorline == current_buffer
+                "return
+            "endif
+        "endif
 
-        let g:last_buffer_set_cursorline = current_buffer
-        set cursorline
-    else
-        if exists('g:last_buffer_set_cursorline')
-            unlet g:last_buffer_set_cursorline
-        endif
-    endif
-endfunction
-augroup CursorLineOnlyOnCurrentSplit
-    au!
-    au WinLeave * set nocursorline
-    au WinEnter * set cursorline
-    au InsertEnter * set nocursorline
-    au InsertLeave * set cursorline
-    au CursorMoved * call CursorMovedDecideCursorline()
-augroup END
+        "let g:last_buffer_set_cursorline = current_buffer
+        "set cursorline
+    "else
+        "if exists('g:last_buffer_set_cursorline')
+            "unlet g:last_buffer_set_cursorline
+        "endif
+    "endif
+"endfunction
+"augroup CursorLineOnlyOnCurrentSplit
+    "au!
+    "au WinLeave * set nocursorline
+    "au WinEnter * set cursorline
+    "au InsertEnter * set nocursorline
+    "au InsertLeave * set cursorline
+    "au CursorMoved * call CursorMovedDecideCursorline()
+"augroup END
 
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
@@ -244,14 +244,14 @@ vnoremap / /\v
 nnoremap ? ?\v
 vnoremap ? ?\v
 
-set ignorecase
+set noignorecase
 set smartcase
 set hlsearch
 set incsearch
 set gdefault            " inverts the meaning of the g-flag in s///g
 
-set scrolloff=9001      " always try to center current line
-"set scrolloff=4
+"set scrolloff=9001      " always try to center current line
+set scrolloff=0
 set sidescroll=0
 set sidescrolloff=0
 
@@ -260,7 +260,7 @@ set virtualedit+=block
 nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 
 " use aesthetic middle of screen for "zz"
-"nnoremap <silent> zz :exec "normal! zz" . float2nr(winheight(0)*0.1) . "\<Lt>C-E>"<CR>
+nnoremap <silent> zz :exec "normal! zz" . float2nr(winheight(0)*0.1) . "\<Lt>C-E>"<CR>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
@@ -271,11 +271,12 @@ nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-nnoremap n nzv
-nnoremap N Nzv
+nmap n nzzzv
+nmap N Nzzzv
 
 " Don't move on *
-nnoremap * *<c-o>
+"nnoremap * *<c-o>
+nmap * *N
 
 " Same when jumping around
 "nnoremap g; g;zz
