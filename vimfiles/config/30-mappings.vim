@@ -12,6 +12,8 @@ map Q gq
 nnoremap ' `
 nnoremap ` '
 
+nnoremap <C-Del> :BD<CR>
+
 " General {{{
 " Substitute
 nnoremap <leader>s :%s///c<left><left>
@@ -345,10 +347,10 @@ function! CreateAndSetupVsplits()
         wincmd h
     endfor
 
-    wincmd =
-    
     wincmd l
 
+    wincmd =
+    
     let g:num_tabs = g:num_tabs + 1
     return
 endfunction

@@ -122,7 +122,8 @@ augroup ReturnToSameLineWhenReopeningFile
     au!
     au BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
+        \     execute 'normal! g`"zv' |
+        \     execute 'normal zz' |
         \ endif
 augroup END
 
@@ -244,7 +245,7 @@ vnoremap / /\v
 nnoremap ? ?\v
 vnoremap ? ?\v
 
-set noignorecase
+set ignorecase
 set smartcase
 set hlsearch
 set incsearch
@@ -260,7 +261,22 @@ set virtualedit+=block
 nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 
 " use aesthetic middle of screen for "zz"
-nnoremap <silent> zz :exec "normal! zz" . float2nr(winheight(0)*0.1) . "\<Lt>C-E>"<CR>
+function! AestheticCenterCursor()
+    let cursor_line_no = line('.')
+    let split_height = winheight(0)
+    let delta = float2nr(winheight(0)*0.1)
+    if ((cursor_line_no) <= (split_height / 2))
+        normal! zz
+        return
+    else
+        normal! zz
+        let command = delta . "\<C-E>"
+        exe 'normal ' . command
+        return
+    endif
+endfunction
+
+nnoremap <silent> zz :call AestheticCenterCursor()<CR>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
@@ -274,9 +290,12 @@ nnoremap <silent> zz :exec "normal! zz" . float2nr(winheight(0)*0.1) . "\<Lt>C-E
 nmap n nzzzv
 nmap N Nzzzv
 
+nmap gg ggzz
+nmap G Gzz
+
 " Don't move on *
 "nnoremap * *<c-o>
-nmap * *N
+nmap <silent> * *<c-o>:call AestheticCenterCursor()<CR>
 
 " Same when jumping around
 "nnoremap g; g;zz
@@ -367,8 +386,25 @@ autocmd InsertEnter * call MySaveOrigFoldmethod()
 "autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 " Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
+
+nnoremap zM a<ESC>:setlocal foldmethod=<C-R>=b:orig_foldmethod<CR><CR>zM:setlocal foldmethod=manual<CR>
+function! MyFoldToggle()
+    if !exists("b:my_fold_toggle")
+        let b:my_fold_toggle = 0
+    endif
+    if (b:my_fold_toggle == 0)
+        normal! zn
+        normal zz
+        let b:my_fold_toggle = 1
+    else
+        normal zM
+        normal! zz
+        let b:my_fold_toggle = 0
+    endif
+endfunction
+
+nmap <Space> :call MyFoldToggle()<CR>
+"vnoremap <Space> za
 
 " Make zO recursively open whatever top level fold we're in, no matter where the
 " cursor happens to be.
@@ -379,8 +415,6 @@ nnoremap zO zCzO
 
 " enable syntax folding for XML (caution, this can be slow)
 let g:xml_syntax_folding=1
-
-nnoremap zM a<ESC>:setlocal foldmethod=<C-R>=b:orig_foldmethod<CR><CR>zM:setlocal foldmethod=manual<CR>
 " }}}
 " Text objects {{{
 
