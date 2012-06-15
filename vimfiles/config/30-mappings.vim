@@ -60,13 +60,16 @@ elseif has("win32")
     "cmap <A-D> -
 endif
 
-function! CommandTProject()
-  execute ":CommandT " . EscapePathname(GetProjectDirectory())
+function! FindFileInProjectDirectory()
+  echom ':CtrlP ' . EscapePathname(MyGetProjectDirectory())
+  execute ':CtrlP ' . EscapePathname(MyGetProjectDirectory())
 endfunction
-nnoremap <leader>t :call CommandTProject()<CR>
-nnoremap <leader>b :CommandTBuffer<CR>
+nnoremap <leader>t :call FindFileInProjectDirectory()<CR>
+
+nnoremap <leader>b :CtrlPBuffer<CR>
+
 "nnoremap <leader>l :LustyJuggler<CR>
-nnoremap <leader>a :A<CR>
+nnoremap <leader>a :A<CR>:call AestheticCenterCursor()<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
 nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
@@ -365,7 +368,7 @@ function! ExtensionHelper(ext, dir)
     return partial
 endfunction
 function! GetRelevantExtensions()
-  let directory = GetProjectDirectory()
+  let directory = MyGetProjectDirectory()
 
   let extensions = ""
   let extensions .= ExtensionHelper('vim', directory)
@@ -386,11 +389,11 @@ function! FindCursorWordInBuffer()
 endfunction
 
 function! FindCursorWordInProject()
-  execute ':Ack! ' . expand("<cword>") . ' ' . GetProjectDirectory()
+  execute ':Ack! ' . expand("<cword>") . ' ' . MyGetProjectDirectory()
 endfunction
 
 function! FindThisKeywordInProject(keyword)
-  execute ':Ack! ' . a:keyword . ' ' . GetProjectDirectory()
+  execute ':Ack! ' . a:keyword . ' ' . MyGetProjectDirectory()
 endfunction
 
 nnoremap <leader>fwib :call FindCursorWordInBuffer()<CR>
