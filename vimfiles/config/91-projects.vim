@@ -4,6 +4,7 @@ command! Dropbox cd C:/Users/root/Desktop/Dropbox
 command! Omegacomplete cd C:\Users\root\Desktop\Dropbox\vim\vimfiles\bundle\omegacomplete
 
 command! Platform cd C:/SVN/Syandus_ALIVE3/Platform/Source
+command! Platform4 cd C:/SVN/Syandus_ALIVE4/Platform/Source
 
 command! Carbon cd C:/SVN/Syandus_ALIVE3/Frameworks/Carbon
 command! Oxygen cd C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen
@@ -135,6 +136,17 @@ augroup Hub
         \ 3,
         \ 'C:/Users/root/Desktop/Dropbox/make_hub.ahk',
         \ 'C:/SVN/Syandus_ALIVE3/Hub/Source/tags')
+augroup END
+" }}}
+" HubWeb {{{
+augroup Hub
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Hub/Web/*
+    \ call SetSettingsForProject(
+        \ 4,
+        \ '',
+        \ '')
 augroup END
 " }}}
 " SyMetrics {{{
