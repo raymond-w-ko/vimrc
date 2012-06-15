@@ -37,11 +37,10 @@ let g:tagbar_width = 40
 let g:tagbar_sort = 0
 " }}}
 " CtrlP {{{
-"let g:loaded_ctrlp = 1
-let g:ctrlp_map = '<leader>\'
+let g:ctrlp_map = '<leader>\'           " set to something that I will never use
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_max_height = 32
+let g:ctrlp_max_height = 16
 let g:ctrlp_working_path_mode = 0
 " }}}
 " indent-guides {{{
