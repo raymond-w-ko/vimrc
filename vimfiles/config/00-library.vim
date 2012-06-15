@@ -1,6 +1,6 @@
 " traverses up directories until it finds one what has 'root.dir'
 " it then returns that directory
-function! GetProjectDirectory()
+function! MyGetProjectDirectory()
   let directory = getcwd()
   let depth_max = 10
   let counter = 0
@@ -16,7 +16,8 @@ function! GetProjectDirectory()
     endif
   endwhile
 
-  if !failed
+  if (!failed)
+    let directory = simplify(directory)
     return directory
   else
     return getcwd()
