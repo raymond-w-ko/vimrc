@@ -12,7 +12,7 @@ endif
 
 " pathogen {{{
 let g:pathogen_disabled = []
-call add(g:pathogen_disabled, "ctrlp")
+call add(g:pathogen_disabled, "command-t")
 call add(g:pathogen_disabled, "tagbar")
 call add(g:pathogen_disabled, "cocoa")
 call add(g:pathogen_disabled, "neocomplcache")
