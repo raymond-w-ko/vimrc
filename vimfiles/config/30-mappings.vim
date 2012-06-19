@@ -580,7 +580,7 @@ function! MySuperRightParen()
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
-inoremap <expr> <Tab>   pumvisible() ? omegacomplete#UseFirstWordOfPmenu() : "\<Tab>"
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>\<C-y>" : "\<Tab>"
 inoremap <expr> (       MySuperLeftParenScratchAndPreview()
 inoremap <expr> )       MySuperRightParen()
 
