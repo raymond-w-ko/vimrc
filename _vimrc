@@ -48,7 +48,9 @@ set nocursorcolumn
 set ruler
 set backspace=indent,eol,start
 set nonumber
-set norelativenumber
+if exists('+relativenumber')
+    set norelativenumber
+endif
 set laststatus=2
 set history=1024
 set lazyredraw
@@ -189,7 +191,6 @@ set softtabstop=4
 set shiftround
 set nosmarttab
 set textwidth=0           " no automatic text wrapping
-set colorcolumn=""
 set formatoptions=qn1
 function! ApplyMyFormatOptions()
     set fo=
@@ -209,14 +210,16 @@ elseif has("gui_running")
 endif
 " }}}
 " swap, undo, backup {{{
-set undodir=~/vimundo//
 set directory=~/vimtmp//
 set viewdir=~/vimview//
 set backupdir=~/vimbackup//
 
-set undofile
-set undolevels=8192     " maximum number of changes that can be undone
-set undoreload=65535    " maximum number lines to save for undo on a buffer reload
+if exists('+undofile')
+    set undofile
+    set undodir=~/vimundo//
+    set undolevels=8192     " maximum number of changes that can be undone
+    set undoreload=65535    " maximum number lines to save for undo on a buffer reload
+endif
 
 set backup              " might as well, it doesn't really hurt
 
