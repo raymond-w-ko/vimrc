@@ -198,7 +198,9 @@ function! ApplyMyFormatOptions()
     set fo+=c   " auto-wrap comments using textwidth, insert comment leader
     set fo+=q   " allow formatting comments with 'gq'
     set fo+=l   " long lines are not broken in insert mode
-    set fo+=j   " remove comment leader when joining lines.
+    if v:version > 702 || (v:version == 702 && has('patch541')) 
+        set fo+=j   " remove comment leader when joining lines.
+    endif
 endfunction
 call ApplyMyFormatOptions()
 set wrap
