@@ -3,28 +3,46 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIR"
 
-cd command-t
-git remote set-url origin git://github.com/wincent/Command-T.git
-cd ..
+if [ -d "./command-t" ]; then
+    cd command-t
+    pwd
+    git remote set-url origin git://github.com/wincent/Command-T.git
+    cd ..
+fi
 
-cd bufkill
-git remote set-url origin git://github.com/vim-scripts/bufkill.vim.git
-cd ..
+if [ -d "./bufkill" ]; then
+    cd bufkill
+    pwd
+    git remote set-url origin git://github.com/vim-scripts/bufkill.vim.git
+    cd ..
+fi
 
-cd camelcasemotion
-git remote set-url origin git://github.com/vim-scripts/camelcasemotion.git
-cd ..
+if [ -d "./camelcasemotion" ]; then
+    cd camelcasemotion
+    pwd
+    git remote set-url origin git://github.com/vim-scripts/camelcasemotion.git
+    cd ..
+fi
 
-cd vim-surround
-git remote set-url origin git://github.com/tpope/vim-surround.git
-cd ..
+if [ -d "./vim-surround" ]; then
+    cd vim-surround
+    pwd
+    git remote set-url origin git://github.com/tpope/vim-surround.git
+    cd ..
+fi
 
-cd vim-powerline
-git remote set-url origin git://github.com/Lokaltog/vim-powerline.git
-git remote set-url --push origin git@github.com:raymond-w-ko/vim-powerline.git
-cd ..
+if [ -d "./vim-powerline" ]; then
+    cd vim-powerline
+    pwd
+    git remote set-url origin git://github.com/Lokaltog/vim-powerline.git
+    git remote set-url --push origin git@github.com:raymond-w-ko/vim-powerline.git
+    cd ..
+fi
 
-cd Lucius
-git remote set-url origin git://github.com/vim-scripts/Lucius.git
-git remote set-url --push origin git@github.com:raymond-w-ko/Lucius.git
-cd ..
+if [ -d "./Lucius" ]; then
+    cd Lucius
+    pwd
+    git remote set-url origin git://github.com/vim-scripts/Lucius.git
+    git remote set-url --push origin git@github.com:raymond-w-ko/Lucius.git
+    cd ..
+fi
