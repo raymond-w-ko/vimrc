@@ -25,5 +25,6 @@ git remote set-url --push origin git@github.com:raymond-w-ko/vim-powerline.git
 cd ..
 
 cd Lucius
+git remote set-url origin git://github.com/vim-scripts/Lucius.git
 git remote set-url --push origin git@github.com:raymond-w-ko/Lucius.git
 cd ..

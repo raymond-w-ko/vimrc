@@ -63,7 +63,7 @@
     url = git@github.com:raymond-w-ko/vim-powerline.git
 [submodule "vimfiles/bundle/Lucius"]
 	path = vimfiles/bundle/Lucius
-	url = https://github.com/vim-scripts/Lucius.git
+	url = git@github.com:raymond-w-ko/Lucius.git
 [submodule "vimfiles/bundle/vim-colors-solarized"]
 	path = vimfiles/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
