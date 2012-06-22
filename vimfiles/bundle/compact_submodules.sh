@@ -1,7 +1,8 @@
-#!/bin/sh
-find . -type d -name .git | while read dir
+#!/bin/bash
+
+for D in `find . -maxdepth 1 -type d`
 do
-    pushd "$dir"
+    pushd "$D"
 
     git fsck --full
 
