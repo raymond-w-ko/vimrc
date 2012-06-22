@@ -11,15 +11,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIR"
 cd vimfiles/bundle
 
-for D in `ls | grep -v set_upstreams.sh`
+for D in `find . -maxdepth 1 -type d`
 do
-    echo
     echo updating $D
+    pushd "$D"
 
-    cd $D
     git pull
     sleep "$TIME"
-    cd ..
+
+    popd
 done
 
 exit
