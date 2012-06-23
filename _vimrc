@@ -519,6 +519,6 @@ augroup ScratchWindowResizer
     "au WinEnter * call ResizeFixer()
 augroup END
 
-nmap <F2> :e C:\SVN\Syandus_ALIVE3\Hub\Source\Win32\Window.cpp<CR>
+nmap <F2> :e C:\SVN\Syandus_ALIVE4\Evaluations\OGRE\Templates\OgreApplication\TutorialApplication.cpp<CR>
 
 " vim:fdm=marker:foldlevel=0
