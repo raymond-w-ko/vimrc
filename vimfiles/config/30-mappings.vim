@@ -69,7 +69,15 @@ nnoremap <leader>t :call FindFileInProjectDirectory()<CR>
 nnoremap <leader>b :CtrlPBuffer<CR>
 
 "nnoremap <leader>l :LustyJuggler<CR>
-nnoremap <leader>a :A<CR>:call AestheticCenterCursor()<CR>
+function! MyAlternateFunction()
+    let old_buf_nr = bufnr('%')
+    A
+    let new_buf_nr = bufnr('%')
+    if (old_buf_nr != new_buf_nr)
+        call AestheticCenterCursor()
+    endif
+endfunction
+nnoremap <leader>a :call MyAlternateFunction()<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
 nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
