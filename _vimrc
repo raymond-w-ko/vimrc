@@ -110,8 +110,8 @@ augroup StripTrailingWhitespaceOnSave
 augroup END
 augroup SaveAndRestoreFolds
     au!
-    au BufWinLeave * silent! mkview
-    au BufWinEnter * silent! loadview
+    "au BufWinLeave * silent! mkview
+    "au BufWinEnter * silent! loadview
 augroup END
 " }}}
 " wildmenu completion {{{
@@ -189,7 +189,7 @@ set directory=~/vimtmp//
 set backupdir=~/vimbackup//
 
 set viewdir=~/vimview//
-set viewoptions=folds
+set viewoptions=cursor,folds,slash,unix
 
 if exists('+undofile')
     set undofile
