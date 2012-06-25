@@ -110,4 +110,3 @@ endfunction
 
 vnoremap * :<C-u>call <SID>VisualModeSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VisualModeSetSearch()<CR>??<CR><c-o>
-" }}}

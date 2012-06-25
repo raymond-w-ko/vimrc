@@ -86,49 +86,16 @@ augroup SaveAllBuffersWhenLosingFocus
     au FocusLost * silent! wall
 augroup END
 
-"set cursorline
-" wow this whole thing is necessary because there is a bug in Command-T of VIM
-" which doesn't restore cursorline properly and if I always set cursorlines,
-" then it loses it nice hightling color when I open Command-T again
-
-" apparently setting cursorline also clears current cursor column
-" when you move between lines, so we need more hacks
-"function! CursorMovedDecideCursorline()
-    "let current_buffer = bufname('%') 
-    "let result = match(current_buffer, '\(GoToFile\)\@!')
-    "if (result == 0)
-        "if exists("g:last_buffer_set_cursorline")
-            "if g:last_buffer_set_cursorline == current_buffer
-                "return
-            "endif
-        "endif
-
-        "let g:last_buffer_set_cursorline = current_buffer
-        "set cursorline
-    "else
-        "if exists('g:last_buffer_set_cursorline')
-            "unlet g:last_buffer_set_cursorline
-        "endif
-    "endif
-"endfunction
-"augroup CursorLineOnlyOnCurrentSplit
-    "au!
-    "au WinLeave * set nocursorline
-    "au WinEnter * set cursorline
-    "au InsertEnter * set nocursorline
-    "au InsertLeave * set cursorline
-    "au CursorMoved * call CursorMovedDecideCursorline()
-"augroup END
-
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
 augroup ReturnToSameLineWhenReopeningFile
     au!
     au BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zv' |
-        \     execute 'normal zz' |
+        \     execute 'normal! g`"zvzz' |
         \ endif
+    autocmd BufReadPost COMMIT_EDITMSG
+        \ exe 'normal! gg'
 augroup END
 
 function! StripTrailingWhitespace()
@@ -141,6 +108,11 @@ augroup StripTrailingWhitespaceOnSave
     au BufWritePre C:\SVN\* call StripTrailingWhitespace()
     au BufWritePre *.h,*.hpp,*.c,*.cc,*.cpp call StripTrailingWhitespace()
     au BufWritePre *.py call StripTrailingWhitespace()
+augroup END
+augroup SaveAndRestoreFolds
+    au!
+    au BufWinLeave * silent! mkview
+    au BufWinEnter * silent! loadview
 augroup END
 " }}}
 " wildmenu completion {{{
@@ -260,10 +232,10 @@ function! ResizeFixer()
         return
     endif
 endfunction
-augroup ScratchWindowResizer
-    au!
+"augroup ScratchWindowResizer
+    "au!
     "au WinEnter * call ResizeFixer()
-augroup END
+"augroup END
 
 nmap <F2> :e C:\SVN\Syandus_ALIVE4\Evaluations\OGRE\Templates\OgreApplication\TutorialApplication.cpp<CR>
 
