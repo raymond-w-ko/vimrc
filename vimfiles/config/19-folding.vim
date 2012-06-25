@@ -24,20 +24,23 @@ call SetFoldSettings()
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against
 " screwing up folding when switching between windows.
-function! MySaveOrigFoldmethod()
-    if exists("b:orig_foldmethod")
+function! MySaveOrigFoldMethod()
+    if exists("b:orig_fdm")
         return
     endif
 
-    let b:orig_foldmethod=&foldmethod
+    let b:orig_fdm=&foldmethod
     setlocal foldmethod=manual
 endfunction
-autocmd InsertEnter * call MySaveOrigFoldmethod()
+augroup SaveOriginalFoldMethod
+    au!
+    au InsertEnter * call MySaveOrigFoldMethod()
+augroup END
 "autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 " Space to toggle folds.
 
-nnoremap zM a<ESC>:setl foldmethod=<C-R>=b:orig_foldmethod<CR><CR>zM:setl foldmethod=manual<CR>
+nnoremap zM a<ESC>:setl foldmethod=<C-R>=b:orig_fdm<CR><CR>zM:setl fdm=manual<CR>
 function! MyFoldToggle()
     if !exists("b:my_fold_toggle")
         let b:my_fold_toggle = 0
