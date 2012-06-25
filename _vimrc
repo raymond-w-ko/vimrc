@@ -72,7 +72,6 @@ set pumheight=16
 set autochdir
 set nolist
 set listchars=tab:▸\ ,eol:¬
-set viewoptions=cursor,folds,options,slash,unix
 set winwidth=80
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
@@ -187,8 +186,10 @@ endif
 " }}}
 " swap, undo, backup {{{
 set directory=~/vimtmp//
-set viewdir=~/vimview//
 set backupdir=~/vimbackup//
+
+set viewdir=~/vimview//
+set viewoptions=folds
 
 if exists('+undofile')
     set undofile
