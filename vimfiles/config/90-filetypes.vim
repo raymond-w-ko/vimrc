@@ -86,6 +86,12 @@ augroup ft_autohotkey
   au FileType autohotkey setlocal foldlevel=0 foldnestmax=1 foldmethod=marker
 augroup END
 "}}}
+" DOS Batch Files {{{
+augroup ft_dosbatch
+  au!
+  au FileType dosbatch setlocal ff=dos
+augroup END
+"}}}
 
 " Hex Editing {{{
 " vim -b : edit binary using xxd-format!
