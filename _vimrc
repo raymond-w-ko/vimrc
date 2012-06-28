@@ -104,7 +104,7 @@ function! StripTrailingWhitespace()
 endfunction
 augroup StripTrailingWhitespaceOnSave
     au!
-    au BufWritePre C:\SVN\* call StripTrailingWhitespace()
+    au BufWritePre C:/SVN/* call StripTrailingWhitespace()
     au BufWritePre *.h,*.hpp,*.c,*.cc,*.cpp call StripTrailingWhitespace()
     au BufWritePre *.py call StripTrailingWhitespace()
 augroup END
