@@ -47,7 +47,7 @@ let g:ctrlp_working_path_mode = 0
 let g:indent_guides_enable_on_vim_startup=0
 " }}}
 " vim-powerline {{{
-let g:Powerline_symbols='fancy'
+let g:Powerline_symbols='compatible'
 let g:Powerline_stl_path_style='short'
 let g:Powerline_theme='default'
 let g:Powerline_colorscheme='default'
