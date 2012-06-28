@@ -139,7 +139,7 @@ augroup Hub
 augroup END
 " }}}
 " HubWeb {{{
-augroup Hub
+augroup HubWeb
     autocmd!
     autocmd BufNewFile,BufRead,BufEnter
     \ C:/SVN/Syandus_ALIVE3/Hub/Web/*
