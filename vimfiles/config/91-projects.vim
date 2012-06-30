@@ -122,7 +122,8 @@ augroup Platform4
     \ call SetSettingsForProject(
         \ 3,
         \ 'C:/Users/root/Desktop/Dropbox/make_platform4.ahk',
-        \ '')
+        \ 'C:/SVN/Syandus_ALIVE4/Platform/ThirdParty/OGRE/Include/tags'
+        \ )
 augroup END
 " }}}
 
