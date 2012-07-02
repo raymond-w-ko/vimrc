@@ -7,7 +7,7 @@ endif
 
 " paths so that the VIM Ruby interpreter can find its files
 if has("win32")
-    let g:ruby_path='C:/Ruby193/bin'
+    let g:ruby_path='C:/Ruby192/bin'
 endif
 
 " pathogen {{{
