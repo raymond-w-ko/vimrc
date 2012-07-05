@@ -77,7 +77,8 @@ function! MyAlternateFunction()
         call AestheticCenterCursor()
     endif
 endfunction
-nnoremap <leader>a :call MyAlternateFunction()<CR>
+"nnoremap <leader>a :call MyAlternateFunction()<CR>
+nnoremap <leader>a :A<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
 nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
