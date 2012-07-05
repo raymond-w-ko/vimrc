@@ -33,7 +33,8 @@ if !exists("g:already_syntax_on")
     let g:already_syntax_on=1
 endif
 set fileformats=unix,dos,mac        " order of support
-set shellslash                      " unfortunately shellslash breaks netrw
+" unfortunately shellslash breaks netrw
+set shellslash
 " }}}
 
 " General {{{
@@ -93,7 +94,7 @@ augroup ReturnToSameLineWhenReopeningFile
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \     execute 'normal! g`"zvzz' |
         \ endif
-    autocmd BufReadPost COMMIT_EDITMSG
+    au BufReadPost COMMIT_EDITMSG
         \ exe 'normal! gg'
 augroup END
 
