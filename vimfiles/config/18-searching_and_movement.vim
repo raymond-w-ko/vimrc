@@ -12,8 +12,7 @@ set hlsearch
 set incsearch
 set gdefault            " inverts the meaning of the g-flag in s///g
 
-"set scrolloff=9001      " always try to center current line
-set scrolloff=0
+set scrolloff=999
 set sidescroll=0
 set sidescrolloff=0
 
@@ -37,7 +36,7 @@ function! AestheticCenterCursor()
     endif
 endfunction
 
-nnoremap <silent> zz :call AestheticCenterCursor()<CR>
+"nnoremap <silent> zz :call AestheticCenterCursor()<CR>
 
 "I copied the default one to Dropbox vim plugin/ folder to make changes
 "runtime macros/matchit.vim
@@ -48,11 +47,13 @@ nnoremap <silent> zz :call AestheticCenterCursor()<CR>
 " to them.
 "nnoremap n nzzzv:call PulseCursorLine()<cr>
 "nnoremap N Nzzzv:call PulseCursorLine()<cr>
-nmap n nzzzv
-nmap N Nzzzv
+"nmap n nzzzv
+"nmap N Nzzzv
+nnoremap n nzv
+nnoremap N Nzv
 
-nmap gg ggzz
-nmap G Gzz
+"nmap gg ggzz
+"nmap G Gzz
 
 " Don't move on *
 nnoremap * *<c-o>
@@ -90,21 +91,32 @@ nnoremap <C-l>  <C-w>l
 
 " treat leading whitespace as though it was not there
 function! MyLeftBrace()
+    let orig_wrapscan=&wrapscan
     let temp=@/
     set nohls
+    set nowrapscan
     ?^\s*$
     let @/=temp
     set hls
+    if (orig_wrapscan)
+        set wrapscan
+    endif
 endfunction
-nnoremap <silent> { :call MyLeftBrace()<CR>
+nnoremap <silent> { :silent! call MyLeftBrace()<CR>
+
 function! MyRightBrace()
+    let orig_wrapscan=&wrapscan
     let temp=@/
     set nohls
+    set nowrapscan
     /^\s*$
     let @/=temp
     set hls
+    if (orig_wrapscan)
+        set wrapscan
+    endif
 endfunction
-nnoremap <silent> } :call MyRightBrace()<CR>
+nnoremap <silent> } :silent! call MyRightBrace()<CR>
 
 " Highlight word {{{
 "nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
