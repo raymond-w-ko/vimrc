@@ -1,10 +1,13 @@
 " disable crazy keys
-nnoremap K <nop>
-vnoremap K <nop>
+nnoremap K <Nop>
+vnoremap K <Nop>
 
-inoremap <F1> <nop>
-nnoremap <F1> <nop>
-vnoremap <F1> <nop>
+inoremap <F1> <Nop>
+nnoremap <F1> <Nop>
+vnoremap <F1> <Nop>
+
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
 
 " nobody uses EX mode, use Q for formatting instead
 map Q gq
@@ -77,8 +80,7 @@ function! MyAlternateFunction()
         call AestheticCenterCursor()
     endif
 endfunction
-"nnoremap <leader>a :call MyAlternateFunction()<CR>
-nnoremap <leader>a :A<CR>
+nnoremap <leader>a :call MyAlternateFunction()<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
 nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
