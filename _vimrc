@@ -1,5 +1,6 @@
 " when re-sourcing with this set, syntax highlighting changes!
 "set nocompatible
+
 " don't customize anything if we are running in evim mode
 if v:progname =~? "evim"
     finish
@@ -23,9 +24,9 @@ call pathogen#helptags()
 " }}}
 
 " File Options {{{
-filetype on                         " detect and set filetype
-filetype plugin on                  " load filetype plugin
-filetype indent off                 " as a control freak, don't enable automatic indenting
+filetype on             " detect and set filetype
+filetype plugin on      " load filetype plugin
+filetype indent off     " as a control freak, don't enable automatic indenting
 " without a guard, re-sourcing this file breaks vim-easymotion
 " re-sourcing also breaks vim-powerline
 if !exists("g:already_syntax_on")
@@ -92,7 +93,8 @@ augroup ReturnToSameLineWhenReopeningFile
     au!
     au BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
+        \     execute 'normal! g`"zv' |
+        \     call AestheticCenterCursor() |
         \ endif
     au BufReadPost COMMIT_EDITMSG
         \ exe 'normal! gg'
