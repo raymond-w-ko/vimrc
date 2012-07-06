@@ -1,3 +1,28 @@
+" use aesthetic middle of screen for "zz"
+function! AestheticCenterCursor()
+    normal! zz
+
+    let center = round(winheight(0) / 2.0)
+    let offset = winheight(0) * 0.1
+    let final = center - offset
+    let rounded_final = float2nr(final)
+    let rounded_offset = float2nr(offset)
+
+    " obviously don't need the offset
+    if (line('.') <= (winheight(0) / 2))
+        return
+    else
+        exe 'normal ' . rounded_offset . "\<C-e>"
+
+        " handle the case of folded lines which
+        " move it above the aesthetic center
+        if (winline() < rounded_final)
+            normal! zz
+        endif
+    endif
+endfunction
+nnoremap <silent> zz :call AestheticCenterCursor()<CR>
+
 " Searching and movement
 " Use sane regexes.
 nnoremap / /\v
@@ -12,7 +37,7 @@ set hlsearch
 set incsearch
 set gdefault            " inverts the meaning of the g-flag in s///g
 
-set scrolloff=999
+set scrolloff=0
 set sidescroll=0
 set sidescrolloff=0
 
@@ -20,40 +45,10 @@ set virtualedit+=block
 
 nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
 
-" use aesthetic middle of screen for "zz"
-function! AestheticCenterCursor()
-    let cursor_line_no = line('.')
-    let split_height = winheight(0)
-    let delta = float2nr(winheight(0)*0.1)
-    if ((cursor_line_no) <= (split_height / 2))
-        normal! zz
-        return
-    else
-        normal! zz
-        let command = delta . "\<C-E>"
-        exe 'normal ' . command
-        return
-    endif
-endfunction
+nmap n nzzzv
+nmap N Nzzzv
 
-"nnoremap <silent> zz :call AestheticCenterCursor()<CR>
-
-"I copied the default one to Dropbox vim plugin/ folder to make changes
-"runtime macros/matchit.vim
-"nmap <Tab> %
-"vmap <Tab> %
-
-" Keep search matches in the middle of the window and pulse the line when moving
-" to them.
-"nnoremap n nzzzv:call PulseCursorLine()<cr>
-"nnoremap N Nzzzv:call PulseCursorLine()<cr>
-"nmap n nzzzv
-"nmap N Nzzzv
-nnoremap n nzv
-nnoremap N Nzv
-
-"nmap gg ggzz
-"nmap G Gzz
+nmap G Gzz
 
 " Don't move on *
 nnoremap * *<c-o>
