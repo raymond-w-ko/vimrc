@@ -7,6 +7,8 @@ if (has("gui_running"))
 
         "let g:solarized_italic=0
         "colorscheme solarized
+        
+        "colorscheme nevfn
 
         let g:already_set_color_scheme=1
     endif
