@@ -19,11 +19,12 @@ command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 command! Sutent cd C:/SVN/Syandus_Cores/C_Sut_AE_01
 command! SyLogParser cd C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser
 command! SyHandleGen cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen
-command! Groundhog cd C:\SVN\Syandus_ALIVE3\Groundhog
-command! GroundhogClient cd C:\SVN\Syandus_ALIVE3\Groundhog\Client
-command! GroundhogServer cd C:\SVN\Syandus_ALIVE3\Groundhog\Server
-command! GroundhogShared cd C:\SVN\Syandus_ALIVE3\Groundhog\Shared
-command! ConnectionTester cd C:\SVN\Syandus_ALIVE3\Groundhog\ConnectionTester
+command! Groundhog cd C:/SVN/Syandus_ALIVE3/Groundhog
+command! GroundhogClient cd C:/SVN/Syandus_ALIVE3/Groundhog/Client
+command! GroundhogServer cd C:/SVN/Syandus_ALIVE3/Groundhog/Server
+command! GroundhogShared cd C:/SVN/Syandus_ALIVE3/Groundhog/Shared
+command! ConnectionTester cd C:/SVN/Syandus_ALIVE3/Groundhog/ConnectionTester
+command! SyRefresh cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyRefresh
 
 command! Mac cd S:/trunk/ALIVE Med/
 
@@ -191,6 +192,17 @@ augroup SyHandleGen
     \ call SetSettingsForProject(
         \ 2,
         \ 'C:/Users/root/Desktop/Dropbox/make_syhandlegen.ahk',
+        \ '')
+augroup END
+"}}}
+" SyRefresh {{{
+augroup SyRefresh
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE3/Tools/Source/SyRefresh/*
+    \ call SetSettingsForProject(
+        \ 4,
+        \ 'C:/Users/root/Desktop/Dropbox/make_syrefresh.ahk',
         \ '')
 augroup END
 "}}}
