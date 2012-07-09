@@ -8,18 +8,15 @@ function! AestheticCenterCursor()
     let rounded_final = float2nr(final)
     let rounded_offset = float2nr(offset)
 
-    " obviously don't need the offset
-    if (line('.') <= (winheight(0) / 2))
-        return
-    else
-        exe 'normal ' . rounded_offset . "\<C-e>"
+    let delta = winline() - (rounded_final + 1)
 
-        " handle the case of folded lines which
-        " move it above the aesthetic center
-        if (winline() < rounded_final)
-            normal! zz
-        endif
+    if (delta <= 0)
+        return
     endif
+
+    exe 'normal ' . delta . "\<C-e>"
+
+    return
 endfunction
 nnoremap <silent> zz :call AestheticCenterCursor()<CR>
 
