@@ -1,7 +1,7 @@
 set tags=
 
 command! Dropbox cd C:/Users/root/Desktop/Dropbox
-command! Omegacomplete cd C:\Users\root\Desktop\Dropbox\vim\vimfiles\bundle\omegacomplete
+command! OmegaComplete cd C:\Users\root\Desktop\Dropbox\vim\vimfiles\bundle\omegacomplete
 
 command! Platform cd C:/SVN/Syandus_ALIVE3/Platform/Source
 command! Platform4 cd C:/SVN/Syandus_ALIVE4/Platform/Source
