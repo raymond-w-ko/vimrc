@@ -1,6 +1,10 @@
 " when re-sourcing with this set, syntax highlighting changes!
 "set nocompatible
 
+" for profiling omegacomplete
+"profile start C:/Users/root/Desktop/oc_profile.txt
+"profile! file C:/Users/root/vimfiles/bundle/omegacomplete/plugin/omegacomplete.vim
+
 " don't customize anything if we are running in evim mode
 if v:progname =~? "evim"
     finish
