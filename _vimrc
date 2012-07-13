@@ -245,6 +245,6 @@ endfunction
     "au WinEnter * call ResizeFixer()
 "augroup END
 
-nmap <F2> :e C:\SVN\Syandus_ALIVE4\Evaluations\OGRE\Templates\OgreApplication\TutorialApplication.cpp<CR>
+nmap <F2> :e C:\SVN\Syandus_ALIVE4\Evaluations\OGRE\Alpha\Application.cpp<CR>
 
 " vim:fdm=marker:foldlevel=0
