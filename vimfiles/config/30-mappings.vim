@@ -539,8 +539,8 @@ function! WritePossibleFunctionCompletionsToScratch()
     endfor
 
     let new_scratch_window_size = len(possible_function_signatures)
-    if (new_scratch_window_size > 10)
-        let new_scratch_window_size = 10
+    if (new_scratch_window_size > 5)
+        let new_scratch_window_size = 5
     endif
 
     let cur_win_nr = winnr()
