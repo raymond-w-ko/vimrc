@@ -48,7 +48,8 @@ nmap N Nzzzv
 nmap G Gzz
 
 " Don't move on *
-nnoremap * *<c-o>
+"nnoremap * *<c-o>
+nnoremap <silent> * :set nohls<CR>:let @/='\<<C-R>=expand('<cword>')<CR>\>'<CR>:set hls<CR>
 
 " Same when jumping around
 "nnoremap g; g;zz
