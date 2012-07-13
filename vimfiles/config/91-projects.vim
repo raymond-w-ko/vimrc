@@ -82,7 +82,7 @@ augroup Ogre
     \ C:/SVN/Syandus_ALIVE4/Evaluations/OGRE/*
     \ call SetSettingsForProject(
         \ 4,
-        \ '',
+        \ 'C:/Users/root/Desktop/Dropbox/make_ogre_application.ahk',
         \ 'C:/OgreSDK/OgreSDK_vc9_v1-8-0/include/tags')
 augroup END
 "}}}
