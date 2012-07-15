@@ -29,7 +29,7 @@ let g:ackprg="C:/Perl/site/bin/ack.bat -H --nocolor --nogroup --column"
 let g:LustyJugglerDefaultMappings=0
 " }}}
 " yankring {{{
-let g:yankring_min_element_length = 1
+let g:yankring_min_element_length = 2
 " }}}
 
 " tagbar {{{
