@@ -188,7 +188,11 @@ function! CreateCppMethodImplementation()
     endwhile
 
     normal ,a
+    set fo-=r
+    set fo-=o
     execute "normal Go\<ESC>G"
+    set fo+=r
+    set fo+=o
     call append('$', g:RefactorCppFunctionDefinition)
     normal j
     normal VVG<
@@ -549,7 +553,7 @@ function! WritePossibleFunctionCompletionsToScratch()
     execute scratch_win_nr . "wincmd w"
     normal ggVGD
     call setline(line('.'), output)
-    execute "resize " . new_scratch_window_size
+    "execute "resize " . new_scratch_window_size
     execute cur_win_nr . "wincmd w"
     "execute "silent! ptag ". last_word
     return
