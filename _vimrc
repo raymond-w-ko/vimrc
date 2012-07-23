@@ -25,7 +25,6 @@ call add(g:pathogen_disabled, "command-t")
 call add(g:pathogen_disabled, "l9")
 call add(g:pathogen_disabled, "neocomplcache")
 call add(g:pathogen_disabled, "tagbar")
-call add(g:pathogen_disabled, "vim-easymotion")
 call add(g:pathogen_disabled, "yankring")
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
