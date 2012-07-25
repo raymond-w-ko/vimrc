@@ -40,7 +40,7 @@ set sidescrolloff=0
 
 set virtualedit+=block
 
-nnoremap <leader><Space> :nohlsearch<CR>:call clearmatches()<CR>
+nnoremap <silent> <leader><Space> :nohlsearch<CR>:let @/=''<CR>
 
 nmap n nzzzv
 nmap N Nzzzv
@@ -110,6 +110,26 @@ function! MyRightBrace()
     endif
 endfunction
 nnoremap <silent> } :silent! call MyRightBrace()<CR>
+
+function! PushBraceSettings()
+    if !exists("g:BraceSettingsOrigSearch")
+    endif
+    let g:BraceSettingsOrigWrapscan=&wrapscan
+    let g:BraceSettingsOrigSearch=@/
+    set nohls
+    set nowrapscan
+    return ''
+endfunction
+function! PopBraceSettings()
+    let @/=g:BraceSettingsOrigSearch
+    set hls
+    if (g:BraceSettingsOrigWrapscan)
+        set wrapscan
+    return ''
+endfunction
+
+vnoremap <silent> { ?<C-r>=PushBraceSettings()<CR>^\s*$<CR><ESC>:<C-r>=PopBraceSettings()<CR><ESC>gv
+vnoremap <silent> } /<C-r>=PushBraceSettings()<CR>^\s*$<CR><ESC>:<C-r>=PopBraceSettings()<CR><ESC>gv
 
 " Highlight word {{{
 "nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
