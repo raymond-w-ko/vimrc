@@ -10,7 +10,8 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
 " nobody uses EX mode, use Q for formatting instead
-map Q gq
+nnoremap Q gqip
+vnoremap Q gq
 
 nnoremap ' `
 nnoremap ` '
