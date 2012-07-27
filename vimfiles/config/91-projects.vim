@@ -285,6 +285,18 @@ augroup Sutent
         \ )
 augroup END
 " }}}
+" OgreLair {{{
+augroup OgreLair
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_Cores/C_Ogre_Lair_01/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ '',
+        \ ''
+        \ )
+augroup END
+" }}}
 
 " immunobiology
 " ImmunoSim {{{
