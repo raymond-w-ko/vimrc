@@ -1,14 +1,17 @@
+" MatchParen
 "let g:loaded_matchparen = 1
 
-" a.vim {{{
+" a.vim
 let g:alternateNoDefaultAlternate=1
-"}}}
-" NetRW {{{
+
+" NetRW
 let g:netrw_silent=1
 " apparently enabling this hijacks the mouse completely
 " so you can't use it to select stuff (WTF!)
 let g:netrw_mousemaps=0
-" }}}
+let g:netrw_cygwin = 1
+"let g:netrw_scp_cmd = "\"C:\\Program Files (x86)\\PuTTY\\pscp.exe\" -q -agent"
+
 " AutoComplPop {{{
 let g:acp_enableAtStartup = 0
 let g:acp_ignorecaseOption = 0
@@ -16,53 +19,50 @@ let g:acp_completeOption = '.,w,b,u,t'
 let g:acp_behaviorKeywordLength = 2
 let g:acp_completeoptPreview = 1
 let g:acp_behaviorKeywordIgnores = ['Sy', 'sy', 'get', 'set', 'Get', 'Set']
-"}}}
-" Command-T {{{
+
+" Command-T
 let g:CommandTMaxHeight=16
 let g:CommandTMatchWindowAtTop=1
 let g:CommandTMatchWindowReverse=0
-" }}}
-" ack.vim {{{
-let g:ackprg="C:/Perl/site/bin/ack.bat -H --nocolor --nogroup --column"
-" }}}
-" LustyJuggler {{{
-let g:LustyJugglerDefaultMappings=0
-" }}}
-" yankring {{{
-let g:yankring_min_element_length = 2
-" }}}
 
-" tagbar {{{
+" ack.vim
+let g:ackprg="C:/Perl/site/bin/ack.bat -H --nocolor --nogroup --column"
+
+" LustyJuggler
+let g:LustyJugglerDefaultMappings=0
+
+" yankring
+let g:yankring_min_element_length = 2
+
+" tagbar
 let g:tagbar_width = 40
 let g:tagbar_sort = 0
-" }}}
-" CtrlP {{{
+
+" CtrlP
 let g:ctrlp_map = '<leader>\'           " set to something that I will never use
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_max_height = 16
 let g:ctrlp_working_path_mode = 0
-" }}}
-" indent-guides {{{
+
+" indent-guides
 let g:indent_guides_enable_on_vim_startup=0
-" }}}
-" vim-powerline {{{
+
+" vim-powerline
 let g:Powerline_symbols='compatible'
 let g:Powerline_stl_path_style='short'
 let g:Powerline_theme='default'
 let g:Powerline_colorscheme='default'
-" }}}
-" netrw {{{
-let g:netrw_cygwin = 1
-"let g:netrw_scp_cmd = "\"C:\\Program Files (x86)\\PuTTY\\pscp.exe\" -q -agent"
-" }}}
-" UltiSnips {{{
+
+" UltiSnips
 let g:UltiSnipsExpandTrigger = "<F13>"
 let g:UltiSnipsListSnippets = "<C-F13>"
 let g:UltiSnipsJumpForwardTrigger = "<C-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-" }}}
 
+" Gundo
+nnoremap <F5> :GundoToggle<CR>
+let g:gundo_right=1
 
 " omegacomplete
 "let g:omegacomplete_loaded = 1
