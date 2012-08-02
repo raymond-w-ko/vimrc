@@ -22,9 +22,6 @@
 [submodule "vimfiles/bundle/cocoa"]
 	path = vimfiles/bundle/cocoa
 	url = git://github.com/msanders/cocoa.vim.git
-[submodule "vimfiles/bundle/neocomplcache"]
-	path = vimfiles/bundle/neocomplcache
-	url = git://github.com/Shougo/neocomplcache.git
 [submodule "vimfiles/bundle/ack.vim"]
 	path = vimfiles/bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
