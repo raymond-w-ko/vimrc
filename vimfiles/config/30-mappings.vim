@@ -52,6 +52,7 @@ if has("unix")
     endif
 elseif has("win32")
     nnoremap <leader>ev :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
+    nnoremap <leader>eh :e C:/Windows/system32/drivers/etc/hosts<CR>
 
     "imap <A-k> _
     "imap <A-d> _

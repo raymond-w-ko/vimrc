@@ -42,7 +42,7 @@ if (has("gui_running"))
         nnoremap <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)<CR>
         function! FullScreenVim()
             if !exists("g:already_fullscreen_vim")
-                "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
+                call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 "call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 1)
                 let g:already_fullscreen_vim=1
