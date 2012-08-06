@@ -74,7 +74,7 @@ set autoread
 set autowriteall
 set title
 set showtabline=2
-set cmdheight=2
+set cmdheight=1
 set complete=.,w,b,u,t
 set completeopt=menu,menuone,preview
 set pumheight=16
