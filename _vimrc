@@ -248,7 +248,7 @@ endfunction
     "au WinEnter * call ResizeFixer()
 "augroup END
 
-nmap <F2> :e C:\SVN\Syandus_ALIVE4\Evaluations\OGRE\Alpha\Application.cpp<CR>
+nmap <F2> :e C:\SVN\Syandus_ALIVE4\Platform\Source\Code\SyCore\FakeGamebryoStubs.cpp<CR>
 nnoremap <leader>1 :normal ciwRecursiveSetPaintZOrder<ESC>
 nnoremap <leader>2 :normal ci(SyZOrderVisitor& visitor<ESC>
 nnoremap <leader>3 :normal ci(visitor<ESC>
