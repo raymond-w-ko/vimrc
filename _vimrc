@@ -249,9 +249,9 @@ endfunction
 "augroup END
 
 nmap <F2> :e C:\SVN\Syandus_ALIVE4\Platform\Source\Code\SyCore\FakeGamebryoStubs.cpp<CR>
-nnoremap <leader>1 :normal ciwRecursiveSetPaintZOrder<ESC>
-nnoremap <leader>2 :normal ci(SyZOrderVisitor& visitor<ESC>
-nnoremap <leader>3 :normal ci(visitor<ESC>
+nmap <leader>1 HWs@param <ESC>elxx
+nmap <leader>2 HWs@r<ESC>ex
+xmap <leader>3 :s@// @/// @<CR>
 nnoremap <leader>4 :normal ciwSetPaintBoxOutlineZOrder<ESC>
 nnoremap <leader>5 :normal ciwSetPaintZOrder<ESC>
 
