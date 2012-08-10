@@ -51,6 +51,6 @@ if [ -d "./vim-hybrid" ]; then
     cd vim-hybrid
     pwd
     git remote set-url origin git://github.com/w0ng/vim-hybrid.git
-    git remote set-url --push origin git://github.com/raymond-w-ko/vim-hybrid.git
+    git remote set-url --push origin git@github.com:raymond-w-ko/vim-hybrid.git
     cd ..
 fi
