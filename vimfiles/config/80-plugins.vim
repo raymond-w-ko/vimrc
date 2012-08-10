@@ -65,6 +65,13 @@ nnoremap <F5> :GundoToggle<CR>
 let g:gundo_right=1
 
 " omegacomplete
-"let g:omegacomplete_loaded = 1
+let g:omegacomplete_normal_hi_cmds=[
+    \ "hi Pmenu guifg=#ffff00 guibg=#333300 gui=none",
+    \ "hi PmenuSel guifg=#333300 guibg=#ffff00 gui=none",
+    \ ]
+let g:omegacomplete_corrections_hi_cmds=[
+    \ "hi Pmenu guifg=#00ff00 guibg=#003300 gui=none",
+    \ "hi PmenuSel guifg=#003300 guibg=#00ff00 gui=none",
+    \ ]
 
 " vim:fdm=marker:foldlevel=9001
