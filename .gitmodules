@@ -73,3 +73,6 @@
 [submodule "vimfiles/bundle/jellybeans"]
 	path = vimfiles/bundle/jellybeans
 	url = https://github.com/nanotech/jellybeans.vim
+[submodule "vimfiles/bundle/vim-hybrid"]
+	path = vimfiles/bundle/vim-hybrid
+	url = git://github.com/w0ng/vim-hybrid.git
