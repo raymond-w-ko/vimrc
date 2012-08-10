@@ -1,17 +1,18 @@
 if (has("gui_running"))
     if !exists("g:already_set_color_scheme")
+        "set background=light
         set background=dark
-        let g:lucius_style="dark_dim"
-        colorscheme lucius
 
-        "set background=dark
+        colorscheme hybrid
+
+        "let g:lucius_style="dark_dim"
+        "colorscheme lucius
+
         "let g:solarized_italic=0
         "colorscheme solarized
         
-        "set background=dark
         "colorscheme nevfn
 
-        "set background=light
         "colorscheme pyte
 
         let g:already_set_color_scheme=1
