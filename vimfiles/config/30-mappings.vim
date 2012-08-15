@@ -517,7 +517,7 @@ function! GetFunctionSignatures3(keyword)
     return possible_function_signatures
 endfunction
 
-function! WritePossibleFunctionCompletionsToScratch()
+function! MySuperLeftParen()
     " get current line up to where cursor is located
     let line = strpart(getline('.'), 0, col('.'))
 
@@ -551,36 +551,20 @@ function! WritePossibleFunctionCompletionsToScratch()
 
     let cur_win_nr = winnr()
     let scratch_win_nr = bufwinnr('__Scratch__')
+    if (scratch_win_nr == -1)
+        return ''
+    endif
 
     execute scratch_win_nr . "wincmd w"
+    "execute 'resize ' . new_scratch_window_size
     normal ggVGD
     call setline(line('.'), output)
-    "execute "resize " . new_scratch_window_size
     execute cur_win_nr . "wincmd w"
-    "execute "silent! ptag ". last_word
-    return
+
+    return ''
 endfunction
 
-function! MySuperLeftParenScratchAndPreview()
-    return ";\<ESC>:silent! call WritePossibleFunctionCompletionsToScratch()\<CR>s("
-endfunction
-
-function! MySuperLeftParenPopupCompletion()
-    if (!empty( matchstr(&filetype, '\vc|cpp') ))
-        setlocal completefunc=MyCppCompleteFunc
-    else
-        setlocal completefunc=
-    endif
-    
-    let result = '('
-    if (!empty(&completefunc))
-        let result .= "\<C-X>\<C-U>"
-    endif
-
-    return result
-endfunction
-
-function! CollapseScratchAndPreview()
+function! MySuperRightParen()
     let cur_win_nr = winnr()
     let scratch_win_nr = bufwinnr('__Scratch__')
     if (scratch_win_nr == -1)
@@ -590,16 +574,14 @@ function! CollapseScratchAndPreview()
     execute scratch_win_nr . "wincmd w"
     resize 1
     execute cur_win_nr . "wincmd w"
-endfunction
 
-function! MySuperRightParen()
-    return ";\<ESC>:silent! call CollapseScratchAndPreview()\<CR>s)"
+    return ''
 endfunction
 
 " <CR> should not autoaccept what the popup menu has selected
 inoremap <expr> <Tab>   omegacomplete#UseFirstEntryOfPopup()
-inoremap <expr> (       MySuperLeftParenScratchAndPreview()
-inoremap <expr> )       MySuperRightParen()
+inoremap <silent> ( (<C-r>=MySuperLeftParen()<CR>
+inoremap <silent> ) )<C-r>=MySuperRightParen()<CR>
 
 function! MyChangeNextArg()
   " always start out with an ESC to get out of insert mode
