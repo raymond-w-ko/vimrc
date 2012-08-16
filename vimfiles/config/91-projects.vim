@@ -25,6 +25,7 @@ command! GroundhogServer cd C:/SVN/Syandus_ALIVE3/Groundhog/Server
 command! GroundhogShared cd C:/SVN/Syandus_ALIVE3/Groundhog/Shared
 command! ConnectionTester cd C:/SVN/Syandus_ALIVE3/Groundhog/ConnectionTester
 command! SyRefresh cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyRefresh
+command! SyProjectGenerator cd C:/SVN/Syandus_ALIVE4/Tools/Source/SyProjectGenerator
 
 command! Mac cd S:/trunk/ALIVE Med/
 
@@ -203,6 +204,17 @@ augroup SyRefresh
     \ call SetSettingsForProject(
         \ 4,
         \ 'C:/Users/root/Desktop/Dropbox/make_syrefresh.ahk',
+        \ '')
+augroup END
+"}}}
+" SyProjectGenerator {{{
+augroup SyProjectGenerator
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE4/Tools/Source/SyProjectGenerator/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'C:/Users/root/Desktop/Dropbox/make_syprojectgenerator.ahk',
         \ '')
 augroup END
 "}}}
