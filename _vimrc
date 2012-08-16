@@ -256,4 +256,10 @@ xmap <leader>3 :s@// @/// @<CR>
 nnoremap <leader>4 :normal ciwSetPaintBoxOutlineZOrder<ESC>
 nnoremap <leader>5 :normal ciwSetPaintZOrder<ESC>
 
+nnoremap <leader>8 ggVGD
+nnoremap <leader>9 ggVGY
+function! MakeSyDllFuncsH()
+endfunction
+nnoremap <leader>0 :call MakeSyDllFuncsH()<ESC>
+
 " vim:fdm=marker:foldlevel=0
