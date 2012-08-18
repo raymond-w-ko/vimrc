@@ -3,10 +3,10 @@ if (has("gui_running"))
         "set background=light
         set background=dark
 
-        colorscheme hybrid
+        "colorscheme hybrid
 
-        "let g:lucius_style="dark_dim"
-        "colorscheme lucius
+        let g:lucius_style="dark_dim"
+        colorscheme lucius
 
         "let g:solarized_italic=0
         "colorscheme solarized
