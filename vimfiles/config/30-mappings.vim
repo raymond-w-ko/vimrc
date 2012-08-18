@@ -575,7 +575,7 @@ function! MySuperRightParen()
     let cur_win_nr = winnr()
     let scratch_win_nr = bufwinnr('__Scratch__')
     if (scratch_win_nr == -1)
-        return
+        return ''
     endif
  
     execute scratch_win_nr . "wincmd w"
