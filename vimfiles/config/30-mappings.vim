@@ -151,6 +151,8 @@ function! CreateCppMethodImplementation()
     endwhile
     
     let begin_line_num = line_num
+    let begin_line = getline(begin_line_num)
+    let definition_whitespace = PrecedingWhitespaceCount(begin_line)
     
     " find the line with ')', this marks the end
     while (1)
@@ -178,11 +180,13 @@ function! CreateCppMethodImplementation()
         
         if (len(words) >= 2)
             if (words[0] == 'class' || words[0] == 'struct')
-                if (exists('g:RefactorCppClassName'))
-                    unlet g:RefactorCppClassName
+                if (PrecedingWhitespaceCount(cur_line) < definition_whitespace) 
+                    if (exists('g:RefactorCppClassName'))
+                        unlet g:RefactorCppClassName
+                    endif
+                    let g:RefactorCppClassName = words[1]
+                    break
                 endif
-                let g:RefactorCppClassName = words[1]
-                break
             endif
         endif
         
@@ -212,7 +216,10 @@ function! CreateCppMethodImplementation()
     " TODO check if we have a constructor or destructor, which has no return type
     
     "insert class name
-    if (expand('<cword>') != g:RefactorCppClassName)
+    let cur_line = getline(line('.'))
+    let words = split(cur_line, '\W\+')
+    "if (cword != g:RefactorCppClassName)
+    if (len(words) > 1)
         normal W
     endif
 
