@@ -92,4 +92,17 @@ function! ToggleHex()
   let &modifiable=l:oldmodifiable
 endfunction
 
+function! PrecedingWhitespaceCount(line)
+    let num_space = 0
+    for i in range(0, strlen(a:line))
+        if (match(a:line[i], '\v\W') != -1)
+            let num_space = num_space + 1
+        else
+            break
+        endif
+    endfor
+
+    return num_space
+endfunction
+
 " vim:fdm=marker:foldlevel=0
