@@ -61,18 +61,6 @@
 [submodule "vimfiles/bundle/Lucius"]
 	path = vimfiles/bundle/Lucius
 	url = git@github.com:raymond-w-ko/Lucius.git
-[submodule "vimfiles/bundle/vim-colors-solarized"]
-	path = vimfiles/bundle/vim-colors-solarized
-	url = git://github.com/altercation/vim-colors-solarized.git
-[submodule "vimfiles/bundle/molokai"]
-	path = vimfiles/bundle/molokai
-	url = git://github.com/tomasr/molokai.git
 [submodule "vimfiles/bundle/gundo"]
 	path = vimfiles/bundle/gundo
 	url = git://github.com/sjl/gundo.vim.git
-[submodule "vimfiles/bundle/jellybeans"]
-	path = vimfiles/bundle/jellybeans
-	url = https://github.com/nanotech/jellybeans.vim
-[submodule "vimfiles/bundle/vim-hybrid"]
-	path = vimfiles/bundle/vim-hybrid
-	url = git://github.com/raymond-w-ko/vim-hybrid.git
