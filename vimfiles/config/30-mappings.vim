@@ -1,11 +1,9 @@
 " disable crazy keys
 nnoremap K <Nop>
 vnoremap K <Nop>
-
 inoremap <F1> <Nop>
 nnoremap <F1> <Nop>
 vnoremap <F1> <Nop>
-
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
@@ -53,16 +51,6 @@ if has("unix")
 elseif has("win32")
     nnoremap <leader>ev :e $HOME/Desktop/Dropbox/vim/_vimrc<CR>
     nnoremap <leader>eh :e C:/Windows/system32/drivers/etc/hosts<CR>
-
-    "imap <A-k> _
-    "imap <A-d> _
-    "imap <A-K> -
-    "imap <A-D> -
-
-    "cmap <A-k> _
-    "cmap <A-d> _
-    "cmap <A-K> -
-    "cmap <A-D> -
 endif
 
 function! FindFileInProjectDirectory()
