@@ -60,7 +60,7 @@ augroup OmegacompleteServer
     \ C:/Users/root/Desktop/Dropbox/vim/vimfiles/bundle/omegacomplete/*
     \ call SetSettingsForProject(
         \ 4,
-        \ 'C:/Users/root/Desktop/Dropbox/make_omegacomplete_server.ahk',
+        \ 'OmegaCompletePythonModule',
         \ '')
 augroup END
 " }}}
@@ -114,7 +114,7 @@ augroup Platform3
     \ C:/SVN/Syandus_ALIVE3/Platform/Source/Code/*
     \ call SetSettingsForProject(
         \ 3,
-        \ 'C:/Users/root/Desktop/Dropbox/make_platform3.ahk',
+        \ 'SyPlatform3',
         \ 'C:/SVN/Syandus_ALIVE3/Platform/Source/Code/tags')
 augroup END
 augroup Platform4
@@ -123,7 +123,7 @@ augroup Platform4
     \ C:/SVN/Syandus_ALIVE4/Platform/Source/Code/*
     \ call SetSettingsForProject(
         \ 3,
-        \ 'C:/Users/root/Desktop/Dropbox/make_platform4.ahk',
+        \ 'SyPlatform4',
         \ 'C:/SVN/Syandus_ALIVE4/Platform/ThirdParty/OGRE/Include/tags'
         \ )
 augroup END

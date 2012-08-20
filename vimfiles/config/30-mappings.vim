@@ -73,8 +73,7 @@ endfunction
 nnoremap <leader>a :call MyAlternateFunction()<CR>
 nnoremap <leader>o :ToggleWord<CR>
 
-"nnoremap <leader>gc :CommandT C:/SVN/Syandus_ALIVE3/Frameworks/Carbon<CR>
-"nnoremap <leader>gp :CommandT C:/SVN/Syandus_ALIVE3/Platform/Source<CR>
+nnoremap <leader>gc :CtrlP C:/Users/root/Desktop/Dropbox/vim/vimfiles/config<CR>
 
 "nnoremap <leader>C<space> :botright cwindow<CR>
 "nnoremap <leader>Cc :cclose<CR>
@@ -517,12 +516,12 @@ function! MySuperLeftParen()
     let line = strpart(getline('.'), 0, col('.'))
 
     if (line[strlen(line) - 1] == ' ')
-        return ""
+        return ''
     endif
 
     let words = split(line, '\W\+')
     if (len(words) < 1)
-        return ""
+        return ''
     endif
 
     let last_word = words[-1]
@@ -530,7 +529,7 @@ function! MySuperLeftParen()
     let num_sig = len(possible_function_signatures)
 
     if (num_sig == 0)
-        return ""
+        return ''
     endif
 
     let output = []
