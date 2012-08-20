@@ -255,6 +255,7 @@ nmap <leader>2 HWs@r<ESC>exj
 xmap <leader>3 :s@// @/// @<CR>
 nnoremap <leader>4 :normal ciwSetPaintBoxOutlineZOrder<ESC>
 nnoremap <leader>5 :normal ciwSetPaintZOrder<ESC>
+nnoremap <leader>5 :s/if(/if (/e<CR>:s/( /(/e<CR>:s/ )/)/e<CR>:nohlsearch<CR>
 
 nnoremap <leader>8 ggVGD
 nnoremap <leader>9 ggVGY
