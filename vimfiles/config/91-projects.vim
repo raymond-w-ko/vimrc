@@ -7,6 +7,7 @@ command! Platform cd C:/SVN/Syandus_ALIVE3/Platform/Source/Code
 command! Platform4 cd C:/SVN/Syandus_ALIVE4/Platform/Source/Code
 
 command! Carbon cd C:/SVN/Syandus_ALIVE3/Frameworks/Carbon
+command! Carbon4 cd C:/SVN/Syandus_ALIVE4/Frameworks/Carbon
 command! Oxygen cd C:/SVN/Syandus_ALIVE3/Frameworks/Oxygen
 
 command! Hub cd C:/SVN/Syandus_ALIVE3/Hub/Source
@@ -19,6 +20,7 @@ command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 command! Sutent cd C:/SVN/Syandus_Cores/C_Sut_AE_01
 command! SyLogParser cd C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser
 command! SyHandleGen cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen
+command! SyHandleGen4 cd C:/SVN/Syandus_ALIVE4/Tools/Source/SyHandleGen
 command! Groundhog cd C:/SVN/Syandus_ALIVE3/Groundhog
 command! GroundhogClient cd C:/SVN/Syandus_ALIVE3/Groundhog/Client
 command! GroundhogServer cd C:/SVN/Syandus_ALIVE3/Groundhog/Server
@@ -195,6 +197,15 @@ augroup SyHandleGen
         \ 'C:/Users/root/Desktop/Dropbox/make_syhandlegen.ahk',
         \ '')
 augroup END
+augroup SyHandleGen4
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE4/Tools/Source/SyHandleGen/*
+    \ call SetSettingsForProject(
+        \ 2,
+        \ 'SyHandleGen',
+        \ '')
+augroup END
 "}}}
 " SyRefresh {{{
 augroup SyRefresh
@@ -241,6 +252,15 @@ augroup Carbon
         \ 'C:/Users/root/Desktop/Dropbox/make_carbon.ahk',
         \ 'C:/SVN/Syandus_ALIVE3/Frameworks/Carbon/Source/Scripts/tags,' .
         \ 'C:/SVN/Syandus_ALIVE3/Platform/SDK/Include/tags')
+augroup END
+augroup Carbon4
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_ALIVE4/Frameworks/Carbon/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'Carbon',
+        \ '')
 augroup END
 " }}}
 " Oxygen {{{
@@ -325,4 +345,15 @@ augroup ImmunoSim
         \ )
 augroup END
 " }}}
+
+augroup OgreLair
+    autocmd!
+    autocmd BufNewFile,BufRead,BufEnter
+    \ C:/SVN/Syandus_Cores/C_Ogre_Lair_01/*
+    \ call SetSettingsForProject(
+        \ 3,
+        \ 'OgreLair C:/SVN/Syandus_Cores/C_Ogre_Lair_01/Source/Scripts/Content/configure.bat',
+        \ ''
+        \ )
+augroup END
 " vim:fdm=marker:foldlevel=0
