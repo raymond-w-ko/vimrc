@@ -44,6 +44,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_max_height = 16
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_switch_buffer = 1
 
 " indent-guides
 let g:indent_guides_enable_on_vim_startup=0
