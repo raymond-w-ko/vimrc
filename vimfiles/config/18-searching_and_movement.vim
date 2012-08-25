@@ -112,19 +112,22 @@ endfunction
 nnoremap <silent> } :silent! call MyRightBrace()<CR>
 
 function! PushBraceSettings()
-    if !exists("g:BraceSettingsOrigSearch")
-    endif
     let g:BraceSettingsOrigWrapscan=&wrapscan
     let g:BraceSettingsOrigSearch=@/
+
     set nohls
     set nowrapscan
+
     return ''
 endfunction
 function! PopBraceSettings()
     let @/=g:BraceSettingsOrigSearch
     set hls
+
     if (g:BraceSettingsOrigWrapscan)
         set wrapscan
+    endif
+
     return ''
 endfunction
 
