@@ -18,6 +18,7 @@ command! Spiriva cd C:/SVN/Syandus_Cores/C_Spv_COPD_01
 command! Copd cd C:/SVN/Syandus_Cores/C_Unb_COPD_01
 command! Immunobiology cd C:/SVN/Syandus_Cores/C_ImmunoSim_01
 command! Sutent cd C:/SVN/Syandus_Cores/C_Sut_AE_01
+command! SyMetrics cd C:/SVN/Syandus_ALIVE3/Metrics/SyMetrics
 command! SyLogParser cd C:/SVN/Syandus_ALIVE3/Metrics/SyLoginParser
 command! SyHandleGen cd C:/SVN/Syandus_ALIVE3/Tools/Source/SyHandleGen
 command! SyHandleGen4 cd C:/SVN/Syandus_ALIVE4/Tools/Source/SyHandleGen
@@ -161,7 +162,7 @@ augroup SyMetrics
     \ C:/SVN/Syandus_ALIVE3/Metrics/SyMetrics/*
     \ call SetSettingsForProject(
         \ 2,
-        \ 'C:/Users/root/Desktop/Dropbox/make_symetrics.ahk',
+        \ 'SyMetrics',
         \ '')
 augroup END
 " }}}
@@ -172,7 +173,7 @@ augroup WebMetrics
     \ C:/SVN/Syandus_ALIVE3/Metrics/web/*
     \ call SetSettingsForProject(
         \ 4,
-        \ 'C:/Users/root/Desktop/Dropbox/winscp_sync.ahk',
+        \ 'UNUSED C:/Users/root/Desktop/Dropbox/winscp_sync.ahk',
         \ '')
 augroup END
 " }}}
