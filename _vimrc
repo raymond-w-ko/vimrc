@@ -13,6 +13,8 @@ endif
 " paths so that the VIM Ruby interpreter can find its files
 if has("win32")
     let g:ruby_path='C:/Ruby192/bin'
+else
+    set t_Co=256
 endif
 
 " pathogen {{{
