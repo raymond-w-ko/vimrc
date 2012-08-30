@@ -1,30 +1,16 @@
+if !exists("g:already_set_color_scheme")
+    set background=dark
+    let g:lucius_style="dark_dim"
+    colorscheme lucius
+
+    let g:already_set_color_scheme=1
+endif
+
 if (has("gui_running"))
-    if !exists("g:already_set_color_scheme")
-        "set background=light
-        set background=dark
-
-        "colorscheme hybrid
-
-        let g:lucius_style="dark_dim"
-        colorscheme lucius
-
-        "let g:solarized_italic=0
-        "colorscheme solarized
-        
-        "colorscheme nevfn
-
-        "colorscheme pyte
-
-        let g:already_set_color_scheme=1
-    endif
-
     " Font
     if has("win32")
         if !exists("g:already_set_font")
             set guifont=Dina_TTF:h8
-            "set guifont=Consolas:h10
-            "set guifont=DejaVu_Sans_Mono:h9
-
             set linespace=0
 
             let g:already_set_font=1
