@@ -19,6 +19,11 @@ else
         set t_Co=256
         set mouse=
     endif
+    for i in range(65,90) + range(97,122)
+        let c = nr2char(i)
+        exec "map \e" . c . " <M-" . c . ">"
+        exec "map! \e" . c . " <M-" . c . ">"
+    endfor
 endif
 
 " pathogen {{{
@@ -90,8 +95,8 @@ set listchars=tab:▸\ ,eol:¬
 set winwidth=80
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
-set t_ti= t_te=
-set noesckeys
+"set t_ti= t_te=
+"set noesckeys
 set maxmempattern=4096
 " }}}
 " Automatic Commands {{{

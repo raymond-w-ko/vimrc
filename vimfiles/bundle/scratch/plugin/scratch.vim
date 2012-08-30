@@ -100,7 +100,6 @@ function! s:ScratchMarkBuffer()
     setlocal noswapfile
     setlocal buflisted
     setlocal nonumber
-    setlocal norelativenumber
     setlocal nowrap
 endfunction
 
