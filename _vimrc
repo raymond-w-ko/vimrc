@@ -13,8 +13,12 @@ endif
 " paths so that the VIM Ruby interpreter can find its files
 if has("win32")
     let g:ruby_path='C:/Ruby192/bin'
+    set mouse=a
 else
-    set t_Co=256
+    if !has("gui_running")
+        set t_Co=256
+        set mouse=
+    endif
 endif
 
 " pathogen {{{
@@ -225,7 +229,6 @@ set selectmode=""           " never want SELECT mode
 set mousemodel=popup
 set keymodel=""
 set selection=inclusive
-set mouse=a
 set mousehide
 set nomousefocus
 

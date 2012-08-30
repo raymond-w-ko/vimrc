@@ -35,7 +35,7 @@ cnoremap <C-k> <Up>
 
 " Platform specific keybinds
 if has("unix")
-    nnoremap <leader>ev :e ~/Dropbox/vim/_vimrc<CR>
+    nnoremap <leader>ev :e ~/vimrc/_vimrc<CR>
     cmap w!! w !sudo tee % >/dev/null
 
     let s:uname = system("uname")
